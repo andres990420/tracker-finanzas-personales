@@ -1,0 +1,147 @@
+[
+    {
+        "id":1,
+        "type":"ingreso",
+        "category":"Comida",
+        "description": "Compra de comida",
+        "amount": 20,
+        "created_at": "2025-04-15"
+    },
+    {
+        "id":2,
+        "type":"gasto",
+        "category":"Transporte",
+        "description": "gasolina",
+        "amount": 5,
+        "created_at": "2025-04-15"
+    },
+    {
+        "id":3,
+        "type":"gasto",
+        "category":"Higiene personal",
+        "description": "Compra de afeitadora",
+        "amount": 12,
+        "created_at": "2025-04-15"
+    },
+     {
+        "id":1,
+        "type":"ingreso",
+        "category":"Comida",
+        "description": "Compra de comida",
+        "amount": 20,
+        "created_at": "2025-04-15"
+    },
+    {
+        "id":2,
+        "type":"gasto",
+        "category":"Transporte",
+        "description": "gasolina",
+        "amount": 5,
+        "created_at": "2025-04-15"
+    },
+    {
+        "id":3,
+        "type":"gasto",
+        "category":"Higiene personal",
+        "description": "Compra de afeitadora",
+        "amount": 12,
+        "created_at": "2025-04-15"
+    }
+    ,
+     {
+        "id":1,
+        "type":"ingreso",
+        "category":"Comida",
+        "description": "Compra de comida",
+        "amount": 20,
+        "created_at": "2025-04-15"
+    }
+    ,
+     {
+        "id":1,
+        "type":"ingreso",
+        "category":"Comida",
+        "description": "Compra de comida",
+        "amount": 20,
+        "created_at": "2025-04-15"
+    }
+    ,
+    {
+        "id":2,
+        "type":"gasto",
+        "category":"Transporte",
+        "description": "gasolina",
+        "amount": 5,
+        "created_at": "2025-04-15"
+    },
+    {
+        "id":3,
+        "type":"gasto",
+        "category":"Higiene personal",
+        "description": "Compra de afeitadora",
+        "amount": 12,
+        "created_at": "2025-04-15"
+    }
+    ,
+     {
+        "id":1,
+        "type":"ingreso",
+        "category":"Comida",
+        "description": "Compra de comida",
+        "amount": 20,
+        "created_at": "2025-04-15"
+    }
+    ,
+    {
+        "id":2,
+        "type":"gasto",
+        "category":"Transporte",
+        "description": "gasolina",
+        "amount": 5,
+        "created_at": "2025-04-15"
+    },
+    {
+        "id":3,
+        "type":"gasto",
+        "category":"Higiene personal",
+        "description": "Compra de afeitadora",
+        "amount": 12,
+        "created_at": "2025-04-15"
+    }
+    ,
+     {
+        "id":1,
+        "type":"ingreso",
+        "category":"Comida",
+        "description": "Compra de comida",
+        "amount": 20,
+        "created_at": "2025-04-15"
+    }
+    ,
+    {
+        "id":2,
+        "type":"gasto",
+        "category":"Transporte",
+        "description": "gasolina",
+        "amount": 5,
+        "created_at": "2025-04-15"
+    },
+    {
+        "id":3,
+        "type":"gasto",
+        "category":"Higiene personal",
+        "description": "Compra de afeitadora",
+        "amount": 12,
+        "created_at": "2025-04-15"
+    }
+    ,
+     {
+        "id":1,
+        "type":"ingreso",
+        "category":"Comida",
+        "description": "Compra de comida",
+        "amount": 20,
+        "created_at": "2025-04-15"
+    }
+
+]
