@@ -1,6 +1,7 @@
 import "./App.css";
-import Inicio from "./pages/Home";
+import Home from "./pages/Home";
 import SideMenu from "./components/SideMenu/SideMenu";
+import { createBrowserRouter, RouterProvider } from "react-router";
 
 function App() {
   return (
@@ -10,11 +11,26 @@ function App() {
           <SideMenu />
         </div>
         <div className="h-screen w-screen bg-gray-100 overflow-x-hidden">
-          <Inicio />
+          <RouterProvider router={router} />
         </div>
       </div>
     </>
   );
 }
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    Component: Home,
+  },
+  {
+    path: "/budget",
+    // Component: Budgets
+  },
+  {
+    path: "goals",
+    // Component: Goals
+  },
+]);
 
 export default App;

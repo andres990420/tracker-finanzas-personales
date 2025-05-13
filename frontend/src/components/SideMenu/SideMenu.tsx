@@ -15,7 +15,7 @@ export default function SideMenu() {
           <p className="mt-4">Usuario</p>
         </div>
         <ul className="py-[10px] text-center text-white font-bold">
-          <SideMenuItem text="Inicio" icon={<FaHome />} />
+          <SideMenuItem text="Inicio" icon={<FaHome />} href="/"/>
           <SideMenuItem text="Presupuesto" icon={<FaMoneyBill />} />
           <SideMenuItem text="Metas Financieras" icon={<FaFlagCheckered />} />
         </ul>
