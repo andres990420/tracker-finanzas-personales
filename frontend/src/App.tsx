@@ -1,6 +1,7 @@
 import "./App.css";
 import Home from "./pages/Home";
 import SideMenu from "./components/SideMenu/SideMenu";
+import Budgets from "./pages/Budgets";
 import { createBrowserRouter, RouterProvider } from "react-router";
 
 function App() {
@@ -24,8 +25,8 @@ const router = createBrowserRouter([
     Component: Home,
   },
   {
-    path: "/budget",
-    // Component: Budgets
+    path: "/budgets",
+    Component: Budgets
   },
   {
     path: "goals",

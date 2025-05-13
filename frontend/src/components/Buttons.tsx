@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 interface Props {
-  text: string;
+  text?: string;
   color: string;
   icon?: ReactNode;
 }
@@ -24,11 +24,11 @@ export default function Buttons(props: Props) {
       break;
   }
 
-  const style = `flex border border-zinc-800 p-2 rounded shadow-2xs font-bold text-white m-2 ${fondo} ${hover}`;
+  const style = `flex border border-zinc-800  rounded shadow-2xs font-bold text-white m-2 ${fondo} ${hover}`;
   return (
     <button className={style}>
-      <span className="p-1 h-[12px]">{icon && icon}</span>
-      {text}
+      <span className="m-2 h-3 w-4">{icon && icon}</span>
+      {text && <span className="m-1">{text}</span>}
     </button>
   );
 }
