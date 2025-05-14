@@ -1,19 +1,28 @@
-import { FaPlus } from "react-icons/fa";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import Buttons from "../Buttons";
 import BudgetsTableItems from "./BudgetTableItems";
+import { useState } from "react";
 
 interface Promps {
   limitValue: number;
   currentValue: number;
   percentage: number;
   budgetName: string;
-  childrentables?: Object[];
+  childrensTables?: Object[];
 }
 
 export default function BudgetsTable(promps: Promps) {
-  const { limitValue, currentValue, percentage, budgetName, childrentables } =
+  const { limitValue, currentValue, percentage, budgetName, childrensTables } =
     promps;
 
+  const [hidden, setHidden] = useState(true);
+  const [buttonIcon, setButtonIcon] = useState(<FaPlus className="h-4 w-4" />);
+  function handleClick() {
+    hidden
+      ? setButtonIcon(<FaMinus className="h-4 w-4" />)
+      : setButtonIcon(<FaPlus className="h-4 w-4" />);
+    setHidden(!hidden);
+  }
   return (
     <div className="border border-gray-200 rounded-2xl p-2 font-bold bg-gray-300/60 m-5">
       <div className="flex  border-gray-300 justify-between p-5 rounded-xl border bg-gray-800 shadow-xl">
@@ -31,17 +40,21 @@ export default function BudgetsTable(promps: Promps) {
         </div>
         <div>
           <p className="text-2xl mt-1 text-white">{percentage}%</p>
-          <Buttons color="blue" icon={<FaPlus className="h-4 w-4" />} />
+          {childrensTables && (
+            <Buttons color="blue" onclick={handleClick} icon={buttonIcon} />
+          )}
         </div>
       </div>
-      {childrentables?.map((table) => (
-        <BudgetsTableItems
-          color="indigo"
-          categoryName="Nombre de la categoria"
-          currentValue={7000}
-          limitValue={10000}
-        />
-      ))}
+      <div className={hidden ? "hidden" : ""}>
+        {childrensTables?.map((table) => (
+          <BudgetsTableItems
+            color="indigo"
+            categoryName="Nombre de la categoria"
+            currentValue={7000}
+            limitValue={10000}
+          />
+        ))}
+      </div>
     </div>
   );
 }

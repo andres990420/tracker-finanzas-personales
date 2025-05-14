@@ -15,9 +15,17 @@ export default function SideMenu() {
           <p className="mt-4">Usuario</p>
         </div>
         <ul className="py-[10px] text-center text-white font-bold">
-          <SideMenuItem text="Inicio" icon={<FaHome />} href="/"/>
-          <SideMenuItem text="Presupuesto" icon={<FaMoneyBill/>} href="/budgets"/>
-          <SideMenuItem text="Metas Financieras" icon={<FaFlagCheckered/>} href="/goals"/>
+          <SideMenuItem text="Inicio" icon={<FaHome />} href="/" />
+          <SideMenuItem
+            text="Presupuesto"
+            icon={<FaMoneyBill />}
+            href="/budgets"
+          />
+          <SideMenuItem
+            text="Metas Financieras"
+            icon={<FaFlagCheckered />}
+            href="/goals"
+          />
         </ul>
         <div className="grid h-20">
           <Buttons text="Configuraciones" color="violet" icon={<FaGear />} />
