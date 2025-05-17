@@ -1,12 +1,13 @@
-import BudgetsTable from "../components/BudgetsTable/BudgetsTable";
+import BudgetForm from "../components/Budgets/BudgetForm/BudgetForm";
+import BudgetsTable from "../components/Budgets/BudgetsTable/BudgetsTable";
 
 export default function Budgets() {
   return (
-    <div className="m-3">
-      <div className="justify-items-center font-bold">
+    <main className="m-3">
+      <header className="justify-items-center font-bold">
         <h1 className="text-4xl text-gray-800 p-4">Presupuestos</h1>
-      </div>
-      <div>
+      </header>
+      <section>
         <BudgetsTable
           limitValue={20000}
           currentValue={10000}
@@ -20,7 +21,10 @@ export default function Budgets() {
           percentage={50}
           budgetName="Nombre del presupuesto"
         />
-      </div>
-    </div>
+      </section>
+      <section>
+        <BudgetForm />
+      </section>
+    </main>
   );
 }

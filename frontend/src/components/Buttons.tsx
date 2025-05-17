@@ -4,11 +4,12 @@ interface Props {
   text?: string;
   color: string;
   icon?: ReactNode;
-  onclick?: () => void;
+  type?: any
+  onclick?: (event: any) => void;
 }
 
 export default function Buttons(props: Props) {
-  const { text, color, icon, onclick } = props;
+  const { text, color, icon, onclick, type } = props;
   let fondo, hover;
   switch (color) {
     case "red":
@@ -27,7 +28,7 @@ export default function Buttons(props: Props) {
 
   const style = `flex border border-zinc-800  rounded shadow-2xs font-bold text-white m-2 ${fondo} ${hover}`;
   return (
-    <button className={style} onClick={onclick}>
+    <button className={style}  type={type?type:"button"} onClick={onclick}>
       <span className="m-2 h-3 w-4">{icon && icon}</span>
       {text && <span className="m-1">{text}</span>}
     </button>

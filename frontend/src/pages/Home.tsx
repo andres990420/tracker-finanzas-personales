@@ -1,5 +1,5 @@
 import { FaPlus } from "react-icons/fa";
-import TableMovements from "../components/TableMovements";
+import TableMovements from "../components/Home/TableMovements";
 import Buttons from "../components/Buttons";
 import FilterBar from "../components/FiltersBar";
 

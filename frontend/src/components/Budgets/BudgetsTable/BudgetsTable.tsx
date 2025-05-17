@@ -1,5 +1,5 @@
 import { FaMinus, FaPlus } from "react-icons/fa";
-import Buttons from "../Buttons";
+import Buttons from "../../Buttons";
 import BudgetsTableItems from "./BudgetTableItems";
 import { useState } from "react";
 
@@ -45,8 +45,8 @@ export default function BudgetsTable(promps: Promps) {
           )}
         </div>
       </div>
-      <div className={hidden ? "hidden" : ""}>
-        {childrensTables?.map((table) => (
+      <div className={`${hidden ? "hidden" : ""}`}>
+        {childrensTables?.map(() => (
           <BudgetsTableItems
             color="indigo"
             categoryName="Nombre de la categoria"
