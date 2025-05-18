@@ -1,5 +1,7 @@
 import type { Application, Request, Response } from "express";
 import BudgetService from "../service/BudgetService.ts";
+import { formToEntity } from "../utils/budgetMapper.ts";
+import data from "../utils/budget.json" with { type: "json"}
 
 export default class BudgetsController {
   private ROUTE_BASE: string = "/budgets";
@@ -13,10 +15,21 @@ export default class BudgetsController {
     const ROUTE = this.ROUTE_BASE;
 
     app.get(`${ROUTE}`, this.index.bind(this));
+    app.post(`${ROUTE}`, this.saveBudget.bind(this));
   }
 
   async index(req: Request, res: Response) {
     const allBudgets = await this.budgetService.getAll();
+    allBudgets.map(element=>console.log(element.id))
     res.send(allBudgets);
+    // const newBudget = formToEntity(data)
+    // await this.budgetService.save(newBudget)
+    // res.send(newBudget)
+  }
+
+  async saveBudget(req: Request, res: Response) {
+    // const newBudget = formToEntity(data)
+    // await this.budgetService.save(newBudget)
+    // res.send(newBudget)
   }
 }

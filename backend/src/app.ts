@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import configureDI from "./config/diContainer.ts";
-import initBudgetModule  from "./modules/Budgets/BudgetModule.ts";
+import initBudgetModule from "./modules/Budgets/budgetModule.ts";
 import connect from "./db/db_connection.ts";
 
 dotenv.config();
@@ -9,7 +9,6 @@ dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

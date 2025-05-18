@@ -1,0 +1,7 @@
+{
+  "budget-name": "COMIDA",
+  "category-type": ["food", "food"],
+  "category-limit": ["131231", "400000"],
+  "category-color": ["orange", "rose"],
+  "category-description": ["cualquier cosa", "cualquier cosa"]
+}

@@ -1,14 +1,13 @@
 import { Document, Model, model, Schema } from "mongoose";
 
+
 export interface IBudget extends Document {
   user: String ;
   name: String ;
   currentAmount: Number ;
-  limitAmount: Number ;
+  maxAmount: Number ;
   categories: [] ;
 }
-
-
 
 class BudgetSchema extends Schema<IBudget> {
   constructor() {
@@ -17,7 +16,7 @@ class BudgetSchema extends Schema<IBudget> {
         user: { type: String },
         name: { type: String },
         currentAmount: { type: Number },
-        limitAmount: { type: Number },
+        maxAmount: { type: Number },
         categories: { type: [] },
       },
       { timestamps: true }
@@ -30,4 +29,4 @@ const budgetSchema = new BudgetSchema();
 const BudgetModel: Model<IBudget> = model<IBudget>("Budget", budgetSchema);
 
 
-export default BudgetModel
+export default BudgetModel;

@@ -3,7 +3,7 @@ import BudgetsController from "./controller/budgetController.ts";
 import BudgetRepository from "./repository/budgetRepository.ts";
 import BudgetService from "./service/BudgetService.ts";
 import type { Application } from "express";
-import BudgetModel from "./model/BudgetModel.ts";
+import BudgetModel from "./model/budgetModel.ts";
 
 export type AppDiContainer = ReturnType<typeof budgetsContainer>;
 
