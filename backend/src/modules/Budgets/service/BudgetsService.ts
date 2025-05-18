@@ -6,7 +6,7 @@ export default class BudgetsService {
   constructor(budgetRepository: BudgetsRepository) {
     this.budgetRepository = budgetRepository;
   }
-  getAll() {
-    return this.budgetRepository.getAll();
+  public async getAll() {
+    return await this.budgetRepository.getAll();
   }
 }

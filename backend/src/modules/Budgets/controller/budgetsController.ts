@@ -1,5 +1,6 @@
 import type { Application, Request, Response } from "express";
 import BudgetsService from "../service/BudgetsService.ts";
+import BudgetModel from "../model/BudgetsModel.ts";
 
 export default class BudgetsController {
   private ROUTE_BASE: string = "/budgets";
@@ -15,8 +16,8 @@ export default class BudgetsController {
     app.get(`${ROUTE}`, this.index.bind(this));
   }
 
-  index(req: Request, res: Response) {
-    const x = this.budgetService.getAll();
-    res.send(x);
+  async index(req: Request, res: Response) {
+    const allBudgets = await this.budgetService.getAll();
+    res.send(allBudgets);
   }
 }

@@ -3,12 +3,14 @@ import BudgetsController from "./controller/budgetsController.ts";
 import BudgetsRepository from "./repository/budgetsRepository.ts";
 import BudgetsService from "./service/BudgetsService.ts";
 import type { Application } from "express";
+import BudgetModel from "./model/BudgetsModel.ts";
 
 export type AppDiContainer = ReturnType<typeof budgetsContainer>;
 
 export function budgetsContainer() {
   return new DIContainer()
-    .add("budgetsRepository", () => new BudgetsRepository())
+    .add("budgetModel", ()=>(BudgetModel))
+    .add("budgetsRepository", ({budgetModel}) => new BudgetsRepository(budgetModel))
     .add(
       "budgetService",
       ({ budgetsRepository }) => new BudgetsService(budgetsRepository)
