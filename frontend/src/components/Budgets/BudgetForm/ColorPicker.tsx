@@ -15,7 +15,7 @@ export default function ColorPicker(promps: Promps) {
       <select
         value={colorSelected}
         onChange={onChange}
-        name={"categorie-color"}
+        name={"category-color"}
         className={"w-[50%] text-center  border-white text-black rounded-2xl border z-10"}
       >
         <option unselectable="on">Selecciona un color</option>

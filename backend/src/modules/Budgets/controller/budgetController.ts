@@ -15,12 +15,13 @@ export default class BudgetsController {
     const ROUTE = this.ROUTE_BASE;
 
     app.get(`${ROUTE}`, this.index.bind(this));
-    app.post(`${ROUTE}`, this.saveBudget.bind(this));
+    // app.post(`${ROUTE}`, this.saveBudget.bind(this));
   }
 
   async index(req: Request, res: Response){
     const allBudgets = await this.budgetService.getAll();
-    allBudgets.map(budget=>console.log(budget.categories))
+    // allBudgets.map(budget=>console.log(budget.categories))
+    console.log(allBudgets)
     res.send(allBudgets);
   }
 

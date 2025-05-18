@@ -8,7 +8,7 @@ interface Promps {
   currentValue: number;
   percentage: number;
   budgetName: string;
-  childrensTables?: Object[];
+  childrensTables?: [{ type: string; color: string; description: string , currentAmount: number, maxAmount: number}];
 }
 
 export default function BudgetsTable(promps: Promps) {
@@ -46,12 +46,13 @@ export default function BudgetsTable(promps: Promps) {
         </div>
       </div>
       <div className={`${hidden ? "hidden" : ""}`}>
-        {childrensTables?.map(() => (
+        {childrensTables?.map((category) => (
           <BudgetsTableItems
-            color="indigo"
-            categoryName="Nombre de la categoria"
-            currentValue={7000}
-            limitValue={10000}
+            color={category.color}
+            categoryName={category.type}
+            currentValue={category.currentAmount}
+            limitValue={category.maxAmount}
+            categoryDescription={category.description}
           />
         ))}
       </div>

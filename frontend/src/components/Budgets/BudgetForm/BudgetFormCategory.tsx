@@ -39,7 +39,7 @@ export default function BudgetFormCategory(promps: Promps) {
         <label className="text-bold">Descripcion de la categoria</label>
         <input
           type="text"
-          name="category-descripcion"
+          name="category-description"
           className="border rounded-md"
         ></input>
       </div>
