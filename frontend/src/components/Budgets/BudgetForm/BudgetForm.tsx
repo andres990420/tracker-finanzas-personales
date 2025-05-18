@@ -21,7 +21,7 @@ export default function BudgetForm() {
 
 
   return (
-    <form className="border rounded-3xl bg-gray-400/30 border-gray-400/40 shadow-xl">
+    <form className="border rounded-3xl bg-gray-400/30 border-gray-400/40 shadow-xl" action={"http://localhost:3000/budgets"} method="POST">
       <h1 className="text-center text-gray-800 text-3xl font-bold m-2">
         Nuevo Presupuesto
       </h1>
