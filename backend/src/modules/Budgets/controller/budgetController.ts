@@ -1,12 +1,11 @@
 import type { Application, Request, Response } from "express";
-import BudgetsService from "../service/BudgetsService.ts";
-import BudgetModel from "../model/BudgetsModel.ts";
+import BudgetService from "../service/BudgetService.ts";
 
 export default class BudgetsController {
   private ROUTE_BASE: string = "/budgets";
-  private budgetService: BudgetsService;
+  private budgetService: BudgetService;
 
-  constructor(budgetService: BudgetsService) {
+  constructor(budgetService: BudgetService) {
     this.budgetService = budgetService;
   }
 
