@@ -11,25 +11,22 @@ export default class BudgetsController {
     this.budgetService = budgetService;
   }
 
-  configureRoutes(app: Application) {
+  configureRoutes(app: Application) : void{
     const ROUTE = this.ROUTE_BASE;
 
     app.get(`${ROUTE}`, this.index.bind(this));
     app.post(`${ROUTE}`, this.saveBudget.bind(this));
   }
 
-  async index(req: Request, res: Response) {
+  async index(req: Request, res: Response){
     const allBudgets = await this.budgetService.getAll();
-    allBudgets.map(element=>console.log(element.id))
+    allBudgets.map(budget=>console.log(budget.categories))
     res.send(allBudgets);
-    // const newBudget = formToEntity(data)
-    // await this.budgetService.save(newBudget)
-    // res.send(newBudget)
   }
 
-  async saveBudget(req: Request, res: Response) {
-    // const newBudget = formToEntity(data)
+  async saveBudget(req: Request, res: Response){
+    const newBudget = formToEntity(req.body)
     // await this.budgetService.save(newBudget)
-    // res.send(newBudget)
+    res.send(newBudget)
   }
 }

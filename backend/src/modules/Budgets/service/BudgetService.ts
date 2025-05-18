@@ -11,7 +11,7 @@ export default class BudgetService {
     return await this.budgetRepository.getAll();
   }
 
-  public async save(budget: Budget){
-    return await this.budgetRepository.save(budget)
+  public async save(budget: Budget) {
+    return await this.budgetRepository.save(budget);
   }
 }

@@ -1,12 +1,14 @@
 import { Document, Model, model, Schema } from "mongoose";
-
+import type { ICategory } from "../entity/budgetEntity.ts";
 
 export interface IBudget extends Document {
-  user: String ;
-  name: String ;
-  currentAmount: Number ;
-  maxAmount: Number ;
-  categories: [] ;
+  user: string;
+  name: string;
+  currentAmount: Number;
+  maxAmount: Number;
+  categories: Array<ICategory>;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 class BudgetSchema extends Schema<IBudget> {
@@ -14,10 +16,21 @@ class BudgetSchema extends Schema<IBudget> {
     super(
       {
         user: { type: String },
-        name: { type: String },
-        currentAmount: { type: Number },
-        maxAmount: { type: Number },
-        categories: { type: [] },
+        name: { 
+          type: String, 
+          required: true },
+        currentAmount: { 
+          type: Number,
+          required: true
+         },
+        maxAmount: { 
+          type: Number,
+          required: true 
+        },
+        categories: { 
+          type: [],
+          required: true
+        },
       },
       { timestamps: true }
     );
@@ -27,6 +40,5 @@ class BudgetSchema extends Schema<IBudget> {
 const budgetSchema = new BudgetSchema();
 
 const BudgetModel: Model<IBudget> = model<IBudget>("Budget", budgetSchema);
-
 
 export default BudgetModel;
