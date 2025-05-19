@@ -23,6 +23,7 @@ export default function BudgetsTable(promps: Promps) {
       : setButtonIcon(<FaPlus className="h-4 w-4" />);
     setHidden(!hidden);
   }
+  const progressBar = `w-[${percentage}%]`
   return (
     <div className="border border-gray-200 rounded-2xl p-2 font-bold bg-gray-300/60 m-5">
       <div className="flex  border-gray-300 justify-between p-5 rounded-xl border bg-gray-800 shadow-xl">
@@ -32,7 +33,7 @@ export default function BudgetsTable(promps: Promps) {
 
         <div className="relative w-[55%] p-2  text-white text-center">
           <div className="relative w-[100%] h-6 bg-gray-200 border border-gray-400 rounded-2xl overflow-hidden">
-            <div className="absolute w-[70%] h-[100%] bg-amber-500/80 shadow-2xl  rounded-2xl overflow-hidden text-start text-black"></div>
+            <div className={`absolute ${progressBar} h-[100%] bg-amber-500/80 shadow-2xl  rounded-2xl overflow-hidden text-start text-black`}></div>
           </div>
           <p className="text-xl p-1">
             {currentValue}$/ {limitValue}$

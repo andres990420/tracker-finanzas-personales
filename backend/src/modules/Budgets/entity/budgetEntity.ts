@@ -1,10 +1,4 @@
-export interface ICategory {
-  type: string;
-  maxAmount: Number;
-  currentAmount: Number;
-  color: string;
-  description: string;
-}
+import { ObjectId } from "mongoose";
 
 export default class Budget {
   public id: string | undefined;
@@ -12,7 +6,7 @@ export default class Budget {
   public name: string;
   public currentAmount: Number;
   public maxAmount: Number;
-  public categories: Array<ICategory>;
+  public categories: Array<ObjectId> | undefined[];
   public createdAt: Date | undefined;
   public updatedAt: Date | undefined;
 
@@ -20,7 +14,7 @@ export default class Budget {
     name: string,
     currentAmount: Number,
     maxAmount: Number,
-    categories: Array<ICategory>,
+    categories: Array<ObjectId> | undefined[],
     createAt?: Date,
     updatedAt?: Date,
     id?: string,
