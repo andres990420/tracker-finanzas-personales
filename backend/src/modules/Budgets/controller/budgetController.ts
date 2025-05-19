@@ -24,7 +24,7 @@ export default class BudgetsController {
 
   async index(req: Request, res: Response){
     const allBudgets = await this.budgetService.getAll();
-    // allBudgets.map(budget=>console.log(budget.categories))
+    console.log(allBudgets)
     res.send(allBudgets);
   }
 

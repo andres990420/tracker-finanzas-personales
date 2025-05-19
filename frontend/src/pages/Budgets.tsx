@@ -24,6 +24,7 @@ export default function Budgets() {
     fetchApiBudgets()
   }, []);
   let percentage;
+  
   return (
     <main className="m-3">
       <header className="justify-items-center font-bold">

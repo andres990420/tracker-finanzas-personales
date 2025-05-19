@@ -5,6 +5,7 @@ export interface ICategoryModel extends Document {
   type: string;
   currentAMount: number;
   maxAmount: number;
+  color: string;
   description: string;
   createdAt: Date;
   updatedAt: Date;
@@ -26,6 +27,9 @@ class CategorySchema extends Schema {
         maxAmount: {
           type: Number,
           required: true,
+        },
+        color:{
+          type: String,
         },
         description: {
           type: String,

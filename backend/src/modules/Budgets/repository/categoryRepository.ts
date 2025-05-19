@@ -14,6 +14,7 @@ export default class CategoryRepository {
   }
 
   public async save(categories: Array<ICategory>) {
+    console.log(categories)
     const categoriesSaved = await this.CategoryModel.insertMany(categories);
     const categoriesIDs = categoriesSaved.map((category) => category.id);
     return categoriesIDs;
