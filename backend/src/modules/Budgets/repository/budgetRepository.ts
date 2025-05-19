@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import type { IBudgetModel } from "../model/budgetModel.ts";
+import type { IBudgetModel, IBudgetModelPopulated } from "../model/budgetModel.ts";
 import Budget from "../entity/budgetEntity.ts";
 import { modelToEntityBudget } from "../utils/budgetMapper.ts";
 
@@ -11,7 +11,7 @@ export default class BudgetRepository {
   }
 
   public async getAll(){
-    const allBudgets = await this.BudgetModel.find().populate("categories").exec();
+    const allBudgets = await this.BudgetModel.find().populate("categories").exec() as unknown as IBudgetModelPopulated[];
     return allBudgets.map((budget) => modelToEntityBudget(budget));
   }
 
@@ -25,7 +25,6 @@ export default class BudgetRepository {
         currentAmount: budget.currentAmount,
         maxAmount: budget.maxAmount,
       });
-      // console.log(model)
       await model.save();
     }
   }

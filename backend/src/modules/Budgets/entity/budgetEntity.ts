@@ -1,4 +1,5 @@
 import { ObjectId } from "mongoose";
+import Category from "./categoryEntity.ts";
 
 export default class Budget {
   public id: string | undefined;
@@ -6,7 +7,7 @@ export default class Budget {
   public name: string;
   public currentAmount: Number;
   public maxAmount: Number;
-  public categories: Array<ObjectId> | undefined[];
+  public categories: Array<ObjectId> | Array<Category>;
   public createdAt: Date | undefined;
   public updatedAt: Date | undefined;
 
@@ -14,7 +15,7 @@ export default class Budget {
     name: string,
     currentAmount: Number,
     maxAmount: Number,
-    categories: Array<ObjectId> | undefined[],
+    categories: Array<ObjectId> | Array<Category>,
     createAt?: Date,
     updatedAt?: Date,
     id?: string,

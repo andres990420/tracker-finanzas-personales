@@ -1,6 +1,6 @@
 import type { ICategory } from "../entity/categoryEntity.ts";
 import Budget from "../entity/budgetEntity.ts";
-import type { IBudgetModel } from "../model/budgetModel.ts";
+import type { IBudgetModel, IBudgetModelPopulated } from "../model/budgetModel.ts";
 import { ObjectId } from "mongoose";
 import Category from "../entity/categoryEntity.ts";
 
@@ -28,12 +28,26 @@ export function extractingCategoriesToBeSave(
   return categories;
 }
 
-export function modelToEntityBudget(data: IBudgetModel): Budget {
+export function modelToEntityBudget(data: IBudgetModelPopulated): Budget {
+  let categories = data.categories.map(category=>
+    new Category(
+      category.type,
+      category.maxAmount,
+      category.currentAmount,
+      category.color,
+      category.description,
+      category.id,
+      category.createdAt,
+      category.updatedAt,
+      category.user
+    )
+  );
+  console.log(categories);
   return new Budget(
     data.name,
     data.currentAmount,
     data.maxAmount,
-    data.categories,
+    categories,
     data.createdAt,
     data.updatedAt,
     data.id,
@@ -55,35 +69,28 @@ export function formToEntityBudget(
   return new Budget(data["budget-name"], 0, budgetLimit, categories);
 }
 
-function convertingOneCategory(data: IBudgetForm) {
-  const category: ICategory = {
-    type: "",
-    currentAmount: 0,
-    maxAmount: 0,
-    color: "",
-    description: "",
-  };
-
-  category.type = data["category-type"] as string;
-  category.currentAmount = 0;
-  category.maxAmount = Number(data["category-limit"]);
-  category.color = data["category-color"] as string;
-  category.description = data["category-description"] as string;
-
-  return category;
+function convertingOneCategory(data: IBudgetForm) : Category{
+  return new Category(
+    data["category-type"] as string,
+    Number(data["category-limit"]),
+    0,
+    data["category-color"] as string,
+    data["category-description"] as string
+  );
 }
 
-function convertingMultiCategories(data: IBudgetForm) {
-  const categories: Array<Category> = [];
+function convertingMultiCategories(data: IBudgetForm) : Array<Category> {
+  const categories: Array<ICategory> = [];
 
   for (let i = 0; i < data["category-type"].length; i++) {
     const category = new Category(
       data["category-type"][i],
-      0,
       Number(data["category-limit"][i]),
+      0,
       data["category-color"][i],
       data["category-description"][i]
-    )
+    );
+
     categories.push(category);
   }
   return categories;

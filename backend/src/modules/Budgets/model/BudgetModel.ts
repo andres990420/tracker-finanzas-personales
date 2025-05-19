@@ -1,5 +1,6 @@
 import { Document, Model, model, Schema } from "mongoose";
 import type { ICategory } from "../entity/categoryEntity.ts";
+import Category from "../entity/categoryEntity.ts";
 
 
 export interface IBudgetModel extends Document {
@@ -8,6 +9,16 @@ export interface IBudgetModel extends Document {
   currentAmount: Number;
   maxAmount: Number;
   categories: Schema.Types.ObjectId[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IBudgetModelPopulated extends Document {
+  user: string;
+  name: string;
+  currentAmount: Number;
+  maxAmount: Number;
+  categories: Category[];
   createdAt?: Date;
   updatedAt?: Date;
 }
