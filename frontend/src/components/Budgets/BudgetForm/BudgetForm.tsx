@@ -1,10 +1,9 @@
 import { FaCheckCircle, FaPlus } from "react-icons/fa";
-import Buttons from "../../Buttons";
+import Button from "../../UI/Button";
 import BudgetFormCategory from "./BudgetFormCategory";
 import { useState } from "react";
 
 export default function BudgetForm() {
-
   const [categoriesList, setCategoriesList] = useState<{ id: number }[]>([
     { id: 0 },
   ]);
@@ -14,17 +13,15 @@ export default function BudgetForm() {
   }
 
   function handleNewCategorie() {
-    const newId = categoriesList.length > 0 ? categoriesList[categoriesList.length - 1].id + 1 : 0;
+    const newId =
+      categoriesList.length > 0
+        ? categoriesList[categoriesList.length - 1].id + 1
+        : 0;
     setCategoriesList([...categoriesList, { id: newId }]);
   }
 
-
-
   return (
-    <form className="border rounded-3xl bg-gray-400/30 border-gray-400/40 shadow-xl" action={"http://localhost:4000/budgets"} method="POST">
-      <h1 className="text-center text-gray-800 text-3xl font-bold m-2">
-        Nuevo Presupuesto
-      </h1>
+    <form className="" action={"http://localhost:4000/budgets"} method="POST">
       <div className="text-center text-gray-800 p-1">
         <label className="mx-2">Nombre del Presupuesto</label>
         <input
@@ -40,13 +37,16 @@ export default function BudgetForm() {
             onClick={() => handleDeleteCategorie(category.id)}
           />
         ))}
-
       </div>
       <div className="justify-items-center">
-        <Buttons color="blue" text="Agregar categoria" icon={<FaPlus />} onclick={handleNewCategorie}/>
+        <Button color="blue" icon={<FaPlus />} onClick={handleNewCategorie}>
+          Agregar Categoria
+        </Button>
       </div>
       <div className="justify-items-center">
-        <Buttons color="violet" text="Crear Presupuesto" type={"submit"} icon={<FaCheckCircle />}/>
+        <Button color="violet" type={"submit"} icon={<FaCheckCircle />}>
+          Crear Presupuesto
+        </Button>
       </div>
     </form>
   );

@@ -1,5 +1,5 @@
 import { FaMinus, FaPlus } from "react-icons/fa";
-import Buttons from "../../Buttons";
+import Button from "../../UI/Button";
 import BudgetsTableItems from "./BudgetTableItems";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ interface Promps {
   budgetName: string;
   childrensTables?: [
     {
-      id: string
+      id: string;
       type: string;
       color: string;
       description: string;
@@ -53,7 +53,7 @@ export default function BudgetsTable(promps: Promps) {
         <div>
           <p className="text-2xl mt-1 text-white">{percentage}%</p>
           {childrensTables && (
-            <Buttons color="blue" onclick={handleClick} icon={buttonIcon} />
+            <Button color="blue" onClick={handleClick} icon={buttonIcon} />
           )}
         </div>
       </div>

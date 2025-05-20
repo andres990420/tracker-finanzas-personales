@@ -1,24 +1,26 @@
 import { FaBan } from "react-icons/fa";
-import Buttons from "../../Buttons";
+import Button from "../../UI/Button";
 import ColorPicker from "./ColorPicker";
 import CategorySelector from "./CategorySelector";
 import { useState } from "react";
 import { ColorSelector } from "../../../utils/utils";
 
-interface Promps{
-    onClick: (event: any) => void
+interface Promps {
+  onClick: (event: any) => void;
 }
 
 export default function BudgetFormCategory(promps: Promps) {
-    const { onClick } = promps;
-    const [bgColor, setBgColor] = useState('white')
-    let colors = ColorSelector(bgColor)
-    function handleOnSelect(event : any){
-        setBgColor(event.target.value);
-        console.log(event.target.value)
-    }
-    return (
-    <div className={`border m-5 p-3 justify-items-center gap-4 rounded-2xl ${colors.colorContainer} ${colors.colorBorder} shadow-xl backdrop-blur-md`}>
+  const { onClick } = promps;
+  const [bgColor, setBgColor] = useState("white");
+  let colors = ColorSelector(bgColor);
+  function handleOnSelect(event: any) {
+    setBgColor(event.target.value);
+    console.log(event.target.value);
+  }
+  return (
+    <div
+      className={`border m-5 p-3 justify-items-center gap-4 rounded-2xl ${colors.colorContainer} ${colors.colorBorder} shadow-xl backdrop-blur-md`}
+    >
       <h2 className="text-2xl text-gray-800 text-bold">Nueva Categoria</h2>
       <div className={"flex gap-3 m-2 text-center text-gray-800 "}>
         <CategorySelector />
@@ -33,7 +35,7 @@ export default function BudgetFormCategory(promps: Promps) {
         </div>
       </div>
       <div className="text-gray-800 text-center">
-        <ColorPicker colorSelected={bgColor} onChange={handleOnSelect}/>
+        <ColorPicker colorSelected={bgColor} onChange={handleOnSelect} />
       </div>
       <div className="grid w-100 text-gray-800">
         <label className="text-bold">Descripcion de la categoria</label>
@@ -43,7 +45,7 @@ export default function BudgetFormCategory(promps: Promps) {
           className="border rounded-md"
         ></input>
       </div>
-      <Buttons color="red" text="Eliminar" icon={<FaBan />} onclick={onClick}/>
+      <Button color="red" text="Eliminar" icon={<FaBan />} onclick={onClick} />
     </div>
   );
 }

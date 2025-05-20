@@ -1,9 +1,13 @@
 import { FaPlus } from "react-icons/fa";
 import TableMovements from "../components/Home/TableMovements";
-import Buttons from "../components/Buttons";
-import FilterBar from "../components/FiltersBar";
+import Button from "../components/UI/Button";
+import FilterBar from "../components/UI/FiltersBar";
+import Modal from "../components/Modal/Modal";
+import Login from "../components/Login/Login";
+import { useState } from "react";
 
 export default function Home() {
+  const [isModalActive, setIsModalActive] = useState(true);
   return (
     <>
       <div className=" m-3">
@@ -14,11 +18,20 @@ export default function Home() {
         </div>
         <div className="justify-items-center">
           <div className="flex justify-between m-4">
-            <Buttons color="blue" text="Nuevo Movimiento" icon={<FaPlus />} />
+            <Button color="blue" icon={<FaPlus />}>
+              Nuevo Movimiento
+            </Button>
             <FilterBar />
           </div>
           <TableMovements />
         </div>
+        <Modal
+          isActive={isModalActive}
+          setIsActive={setIsModalActive}
+          title="Inicio de sesion"
+        >
+          <Login registration={false} />
+        </Modal>
         {/* TODO DASHBOARD AREA */}
       </div>
     </>

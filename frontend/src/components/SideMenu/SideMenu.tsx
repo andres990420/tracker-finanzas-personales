@@ -1,5 +1,5 @@
 import { FaArrowAltCircleLeft, FaFlagCheckered, FaHome } from "react-icons/fa";
-import Buttons from "../Buttons";
+import Button from "../UI/Button";
 import SideMenuItem from "./SideMenuItem";
 import { FaGear, FaMoneyBill } from "react-icons/fa6";
 
@@ -28,12 +28,13 @@ export default function SideMenu() {
           />
         </ul>
         <div className="grid h-20">
-          <Buttons text="Configuraciones" color="violet" icon={<FaGear />} />
-          <Buttons
-            text="Cerrar Sesion"
-            color="red"
-            icon={<FaArrowAltCircleLeft />}
-          />
+          <Button color="violet" icon={<FaGear />}>
+            {" "}
+            Configuraciones
+          </Button>
+          <Button color="red" icon={<FaArrowAltCircleLeft />}>
+            Cerrar Sesion
+          </Button>
         </div>
       </div>
     </>
