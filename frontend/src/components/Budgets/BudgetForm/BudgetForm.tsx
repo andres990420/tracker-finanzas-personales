@@ -39,12 +39,12 @@ export default function BudgetForm() {
         ))}
       </div>
       <div className="justify-items-center">
-        <Button color="blue" icon={<FaPlus />} onClick={handleNewCategorie}>
+        <Button color="blue" type="button" icon={<FaPlus />} onClick={handleNewCategorie}>
           Agregar Categoria
         </Button>
       </div>
       <div className="justify-items-center">
-        <Button color="violet" type={"submit"} icon={<FaCheckCircle />}>
+        <Button color="violet" type="submit" icon={<FaCheckCircle />}>
           Crear Presupuesto
         </Button>
       </div>

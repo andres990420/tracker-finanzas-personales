@@ -45,7 +45,7 @@ export default function BudgetFormCategory(promps: Promps) {
           className="border rounded-md"
         ></input>
       </div>
-      <Button color="red" text="Eliminar" icon={<FaBan />} onclick={onClick} />
+      <Button color="red"icon={<FaBan />} type="button" onClick={onClick} >Eliminar</Button>
     </div>
   );
 }
