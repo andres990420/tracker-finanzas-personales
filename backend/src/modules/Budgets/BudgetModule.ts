@@ -1,4 +1,3 @@
-import { DIContainer } from "rsdi";
 import BudgetsController from "./controller/budgetController.ts";
 import BudgetRepository from "./repository/budgetRepository.ts";
 import BudgetService from "./service/BudgetService.ts";
@@ -7,11 +6,11 @@ import BudgetModel from "./model/budgetModel.ts";
 import CategoryModel from "./model/categoryModel.ts";
 import CategoryRepository from "./repository/categoryRepository.ts";
 import CategoryService from "./service/categoryService.ts";
+import { type AppContainer } from "../../config/diContainer.ts";
 
-export type AppDiContainer = ReturnType<typeof budgetsContainer>;
 
-export function budgetsContainer() {
-  return new DIContainer()
+export function budgetsContainer(container: AppContainer) {
+  return container
     .add("budgetModel", () => BudgetModel)
     .add("categoryModel", () => CategoryModel)
     .add(
@@ -39,7 +38,7 @@ export function budgetsContainer() {
 
 export default function initBudgetModule(
   app: Application,
-  container: AppDiContainer
+  container: Object & { get(key: "budgetsController"): BudgetsController }
 ) {
   const controller = container.get("budgetsController");
   controller.configureRoutes(app);

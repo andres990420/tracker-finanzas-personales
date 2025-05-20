@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import configureDI from "./config/diContainer.ts";
 import initBudgetModule from "./modules/Budgets/budgetModule.ts";
 import connect from "./db/db_connection.ts";
+import initUserModule from "./modules/User/userModule.ts";
 
 dotenv.config();
 
@@ -30,5 +31,6 @@ await connect();
 const container = configureDI();
 
 initBudgetModule(app, container);
+initUserModule(app, container);
 
 app.listen(PORT, () => console.log("listening port:", PORT));
