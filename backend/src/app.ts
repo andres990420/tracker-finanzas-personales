@@ -4,6 +4,9 @@ import configureDI from "./config/diContainer.ts";
 import initBudgetModule from "./modules/Budgets/budgetModule.ts";
 import connect from "./db/db_connection.ts";
 import initUserModule from "./modules/User/userModule.ts";
+import passport from "passport";
+import session from "express-session"
+import "./config/passport.ts"
 
 dotenv.config();
 
@@ -25,6 +28,19 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.use(session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true
+
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use((req, res, next)=>{
+  res.locals.user = req.user || null
+  next()
+})
 
 await connect();
 

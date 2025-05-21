@@ -1,11 +1,12 @@
 import mongoose, { Schema, Document, Model, model } from "mongoose";
+import bcrypt from "bcrypt";
 
 export interface IUserModel extends Document {
   email: string;
   password: string;
 }
 
-class UserSchema extends Schema {
+export class UserSchema extends Schema {
   constructor() {
     super(
       {
@@ -18,7 +19,19 @@ class UserSchema extends Schema {
   }
 }
 
-const userSchema = new UserSchema();
+
+
+export const userSchema = new UserSchema();
+
+userSchema.methods.encryptPassword = async (password: string): Promise<string> => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
+};
+
+userSchema.methods.matchPassword = async (password : string, passwordInDB: string) : Promise<boolean> =>{
+  const isMatch = await bcrypt.compare(password, passwordInDB)
+  return isMatch
+}
 
 const UserModel: Model<IUserModel> = model<IUserModel>("User", userSchema);
 

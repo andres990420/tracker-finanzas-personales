@@ -1,4 +1,4 @@
-import UserModel from "./model/userModel.ts";
+import UserModel, { userSchema } from "./model/userModel.ts";
 import UserRepository from "./repository/userRepository.ts";
 import UserService from "./service/userService.ts";
 import UserController from "./controller/userController.ts";
@@ -9,7 +9,8 @@ import {type AppContainer } from "../../config/diContainer.ts";
 export function userContainer(container: AppContainer) {
   return container
     .add("userModel", () => UserModel)
-    .add("userRepository", ({ userModel }) => new UserRepository(userModel))
+    .add("userSchema", ()=> userSchema)
+    .add("userRepository", ({ userModel, userSchema }) => new UserRepository(userModel, userSchema))
     .add("userService", ({ userRepository }) => new UserService(userRepository))
     .add(
       "userController",

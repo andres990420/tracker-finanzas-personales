@@ -14,23 +14,13 @@ export default function Login(promps: Promps) {
   const [isRegistration, setIsRegistration] = useState(registration);
 
   const action = isRegistration
-    ? "http//localhost:4000/signup"
-    : "http//localhost:4000/signin";
+    ? "http://localhost:4000/user/signup"
+    : "http://localhost:4000/user/signin";
+
 
   return (
     <form className="grid gap-1" method="POST" action={action}>
       <LoginImage />
-      {isRegistration && (
-        <>
-          <Label htmlFor="username">Nombre de usuario</Label>
-          <Input
-            type="text"
-            required
-            placeholder="Ingrese un nombre de usuario"
-            name="username"
-          />
-        </>
-      )}
       <Label htmlFor="username">Email</Label>
       <Input
         type="email"
@@ -47,12 +37,11 @@ export default function Login(promps: Promps) {
       />
       {isRegistration && (
         <>
-          <Label htmlFor="confirm-password">Confirma la Contraseña</Label>
+          <Label>Confirma la Contraseña</Label>
           <Input
             type="password"
             placeholder="Repita la contraseña"
             required
-            name="confirm-password"
           />
         </>
       )}
@@ -72,7 +61,7 @@ export default function Login(promps: Promps) {
       </a>
       <div className="justify-items-center justify-self-center h-15 py-2 w-100 relative">
         <Button type="submit" color="blue" icon={<FaCheckCircle />}>
-          {registration ? "Registrar" : "Iniciar sesion"}
+          {isRegistration ? "Registrar" : "Iniciar sesion"}
         </Button>
       </div>
     </form>

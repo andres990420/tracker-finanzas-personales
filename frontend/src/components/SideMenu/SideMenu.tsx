@@ -33,7 +33,7 @@ export default function SideMenu() {
             Configuraciones
           </Button>
           <Button color="red" icon={<FaArrowAltCircleLeft />}>
-            Cerrar Sesion
+            <a href="http://localhost:4000/user/logout">Cerrar Sesion</a>
           </Button>
         </div>
       </div>
