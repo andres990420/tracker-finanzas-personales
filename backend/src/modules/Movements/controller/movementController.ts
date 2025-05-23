@@ -1,4 +1,4 @@
-import { Application } from "express";
+import type { Application } from "express";
 import MovementService from "../service/movementService.ts";
 
 export default class MovementController{

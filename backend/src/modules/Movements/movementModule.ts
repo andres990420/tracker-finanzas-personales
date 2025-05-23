@@ -1,10 +1,9 @@
-import { IDIContainer } from "rsdi";
 import MovementModel from "./model/movementModel.ts";
 import MovementRepository from "./repository/movementRepository.ts";
 import MovementService from "./service/movementService.ts";
 import MovementController from "./controller/movementController.ts";
-import { Application } from "express";
-import { AppContainer } from "../../config/diContainer.ts";
+import type { Application } from "express";
+import type { AppContainer } from "../../config/diContainer.ts";
 
 export function movementContainer(container: AppContainer) {
   return container
