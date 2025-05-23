@@ -7,10 +7,10 @@ import initUserModule from "./modules/User/userModule.ts";
 import passport from "passport";
 import session from "express-session";
 import "./modules/User/auth/passportConfig.ts";
-import cors from "cors"
+import cors from "cors";
 import { validateUser } from "./modules/User/auth/userAuth.ts";
-import initMovementModule from "./modules/Movements/movementModule.ts";
-import "./common/mediator.ts"
+import initTransactionModule from "./modules/Movements/transactionModule.ts";
+import "./common/mediator.ts";
 import { initCategoryModule } from "./modules/Category/categoryModule.ts";
 
 dotenv.config();
@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 app.use(
   session({
     secret: "secret",
@@ -57,13 +57,10 @@ app.use(
 //     )(req, res, next);
 // })
 
-
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
 });
-
-
 
 await connect();
 
@@ -72,8 +69,6 @@ const container = configureDI();
 initBudgetModule(app, container);
 initCategoryModule(container);
 initUserModule(app, container);
-initMovementModule(app, container);
-
-
+initTransactionModule(app, container);
 
 app.listen(PORT, () => console.log("listening port:", PORT));
