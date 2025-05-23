@@ -1,7 +1,6 @@
 import { Document, Model, model, Schema } from "mongoose";
-import type { ICategory } from "../entity/categoryEntity.ts";
-import Category from "../entity/categoryEntity.ts";
-
+import type { ICategory } from "../../Category/entity/categoryEntity.ts";
+import Category from "../../Category/entity/categoryEntity.ts";
 
 export interface IBudgetModel extends Document {
   user: string;
@@ -40,11 +39,13 @@ class BudgetSchema extends Schema<IBudgetModel> {
           type: Number,
           required: true,
         },
-        categories: [{
-          type: Schema.Types.ObjectId,
-          ref: "Category",
-          required: true,
-        }],
+        categories: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "Category",
+            required: true,
+          },
+        ],
       },
       { timestamps: true }
     );

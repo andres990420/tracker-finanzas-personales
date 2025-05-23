@@ -1,8 +1,11 @@
-import type { ICategory } from "../entity/categoryEntity.ts";
+import type { ICategory } from "../../Category/entity/categoryEntity.ts";
 import Budget from "../entity/budgetEntity.ts";
-import type { IBudgetModel, IBudgetModelPopulated } from "../model/budgetModel.ts";
+import type {
+  IBudgetModel,
+  IBudgetModelPopulated,
+} from "../model/budgetModel.ts";
 import { ObjectId } from "mongoose";
-import Category from "../entity/categoryEntity.ts";
+import Category from "../../Category/entity/categoryEntity.ts";
 
 interface IBudgetForm {
   "budget-name": string;
@@ -29,18 +32,19 @@ export function extractingCategoriesToBeSave(
 }
 
 export function modelToEntityBudget(data: IBudgetModelPopulated): Budget {
-  let categories = data.categories.map(category=>
-    new Category(
-      category.type,
-      category.maxAmount,
-      category.currentAmount,
-      category.color,
-      category.description,
-      category.id,
-      category.createdAt,
-      category.updatedAt,
-      category.user
-    )
+  let categories = data.categories.map(
+    (category) =>
+      new Category(
+        category.type,
+        category.maxAmount,
+        category.currentAmount,
+        category.color,
+        category.description,
+        category.id,
+        category.createdAt,
+        category.updatedAt,
+        category.user
+      )
   );
   console.log(categories);
   return new Budget(
@@ -69,7 +73,7 @@ export function formToEntityBudget(
   return new Budget(data["budget-name"], 0, budgetLimit, categories);
 }
 
-function convertingOneCategory(data: IBudgetForm) : Category{
+function convertingOneCategory(data: IBudgetForm): Category {
   return new Category(
     data["category-type"] as string,
     Number(data["category-limit"]),
@@ -79,7 +83,7 @@ function convertingOneCategory(data: IBudgetForm) : Category{
   );
 }
 
-function convertingMultiCategories(data: IBudgetForm) : Array<Category> {
+function convertingMultiCategories(data: IBudgetForm): Array<Category> {
   const categories: Array<ICategory> = [];
 
   for (let i = 0; i < data["category-type"].length; i++) {

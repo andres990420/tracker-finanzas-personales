@@ -3,11 +3,10 @@ import BudgetRepository from "./repository/budgetRepository.ts";
 import BudgetService from "./service/BudgetService.ts";
 import type { Application } from "express";
 import BudgetModel from "./model/budgetModel.ts";
-import CategoryModel from "./model/categoryModel.ts";
+import CategoryModel from "../Category/model/categoryModel.ts";
 import CategoryRepository from "./repository/categoryRepository.ts";
-import CategoryService from "./service/categoryService.ts";
+import CategoryService from "../Category/service/categoryService.ts";
 import { type AppContainer } from "../../config/diContainer.ts";
-
 
 export function budgetsContainer(container: AppContainer) {
   return container

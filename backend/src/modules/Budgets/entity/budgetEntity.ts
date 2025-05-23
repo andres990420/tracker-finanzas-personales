@@ -1,5 +1,5 @@
 import { ObjectId } from "mongoose";
-import Category from "./categoryEntity.ts";
+import Category from "../../Category/entity/categoryEntity.ts";
 
 export default class Budget {
   public id: string | undefined;

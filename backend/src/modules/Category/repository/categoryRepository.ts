@@ -1,5 +1,5 @@
 import Category, { type ICategory } from "../entity/categoryEntity.ts";
-import type { ICategoryModel } from "../model/categoryModel.ts";
+import type { ICategoryModel } from "../../Category/model/categoryModel.ts";
 import { Model } from "mongoose";
 
 export default class CategoryRepository {
