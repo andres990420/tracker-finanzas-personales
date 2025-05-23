@@ -8,11 +8,9 @@ import { ObjectId } from "mongoose";
 export default class BudgetsController {
   private ROUTE_BASE: string = "/budgets";
   private budgetService: BudgetService;
-  private categoryService: CategoryService
 
-  constructor(budgetService: BudgetService, categoryService: CategoryService) {
+  constructor(budgetService: BudgetService) {
     this.budgetService = budgetService;
-    this.categoryService = categoryService
   }
 
   configureRoutes(app: Application) : void{
@@ -29,10 +27,10 @@ export default class BudgetsController {
 
   async saveBudget(req: Request, res: Response){
     const categories = extractingCategoriesToBeSave(req.body)
-    const categoriesIDs = await this.categoryService.save(categories);
-    const filteredCategoryIDs = categoriesIDs.filter((id): id is ObjectId => id !== undefined);
-    const newBudget = formToEntityBudget(req.body, filteredCategoryIDs)
-    await this.budgetService.save(newBudget)
+    // const categoriesIDs = await this.categoryService.save(categories);
+    // const filteredCategoryIDs = categoriesIDs.filter((id): id is ObjectId => id !== undefined);
+    // const newBudget = formToEntityBudget(req.body, filteredCategoryIDs)
+    // await this.budgetService.save(newBudget)
     res.redirect('http://localhost:5173/budgets')
   }
 }
