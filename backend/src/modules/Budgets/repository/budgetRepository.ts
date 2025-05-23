@@ -11,7 +11,8 @@ export default class BudgetRepository {
   }
 
   public async getAll(){
-    const allBudgets = await this.BudgetModel.find().populate("categories").exec() as unknown as IBudgetModelPopulated[];
+    const allBudgets = await this.BudgetModel.find()
+    .populate("categories").exec() as unknown as IBudgetModelPopulated[];
     return allBudgets.map((budget) => modelToEntityBudget(budget));
   }
 

@@ -1,4 +1,4 @@
-import { AppContainer } from "../../config/diContainer.ts";
+import type { AppContainer } from "../../config/diContainer.ts";
 import CategoryModel from "./model/categoryModel.ts";
 import CategoryRepository from "./repository/categoryRepository.ts";
 import CategoryService from "./service/categoryService.ts";
@@ -8,4 +8,8 @@ export function categoryContainer(container: AppContainer){
         .add("categoryModel", ()=> CategoryModel)
         .add("categoryRepository", ({categoryModel})=> new CategoryRepository(categoryModel))
         .add("categoryService", ({categoryRepository})=> new CategoryService(categoryRepository))
+}
+
+export function initCategoryModule(container: Object & {get(key:"categoryService"): CategoryService}){
+    container.get("categoryService")
 }

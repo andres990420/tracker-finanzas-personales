@@ -10,6 +10,8 @@ import "./modules/User/auth/passportConfig.ts";
 import cors from "cors"
 import { validateUser } from "./modules/User/auth/userAuth.ts";
 import initMovementModule from "./modules/Movements/movementModule.ts";
+import "./common/mediator.ts"
+import { initCategoryModule } from "./modules/Category/categoryModule.ts";
 
 dotenv.config();
 
@@ -27,33 +29,33 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
-app.use((req, res, next)=>{
-   passport.authenticate(
-      "local",
-      async (err: unknown, user: any, info: any) => {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          // Si la autenticación falla, responde con error
-          return res
-            .status(401)
-            .json({ message: info?.message ||  "Credenciales inválidas" });
-        }
-        req.logIn(user, (err: unknown) => {
-          if (err) {
-            return next(err);
-          }
-          // Si la autenticación es exitosa, responde con el usuario o un mensaje de éxito
-          return res
-            .status(200)
-            .json({ message: "Inicio de sesión exitoso", user });
-        });
-      }
-    )(req, res, next);
-})
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use((req, res, next)=>{
+//    passport.authenticate(
+//       "local",
+//       async (err: unknown, user: any, info: any) => {
+//         if (err) {
+//           return next(err);
+//         }
+//         if (!user) {
+//           // Si la autenticación falla, responde con error
+//           return res
+//             .status(401)
+//             .json({ message: info?.message ||  "Credenciales inválidas" });
+//         }
+//         req.logIn(user, (err: unknown) => {
+//           if (err) {
+//             return next(err);
+//           }
+//           // Si la autenticación es exitosa, responde con el usuario o un mensaje de éxito
+//           return res
+//             .status(200)
+//             .json({ message: "Inicio de sesión exitoso", user });
+//         });
+//       }
+//     )(req, res, next);
+// })
 
 
 app.use((req, res, next) => {
@@ -68,6 +70,7 @@ await connect();
 const container = configureDI();
 
 initBudgetModule(app, container);
+initCategoryModule(container);
 initUserModule(app, container);
 initMovementModule(app, container);
 

@@ -2,11 +2,11 @@ import type { Application, Request, Response } from "express";
 import BudgetService from "../service/BudgetService.ts";
 import { extractingCategoriesToBeSave, formToEntityBudget, modelToEntityBudget } from "../utils/budgetMapper.ts";
 import data from "../utils/budget.json" with { type: "json"}
-import CategoryService from "../../Category/service/categoryService.ts";
 import { ObjectId } from "mongoose";
 
+
 export default class BudgetsController {
-  private ROUTE_BASE: string = "/budgets";
+  private readonly ROUTE_BASE: string = "/budgets";
   private budgetService: BudgetService;
 
   constructor(budgetService: BudgetService) {
