@@ -5,8 +5,11 @@ import initBudgetModule from "./modules/Budgets/budgetModule.ts";
 import connect from "./db/db_connection.ts";
 import initUserModule from "./modules/User/userModule.ts";
 import passport from "passport";
-import session from "express-session"
-import "./config/passport.ts"
+import session from "express-session";
+import "./modules/User/auth/passportConfig.ts";
+import cors from "cors"
+import { validateUser } from "./modules/User/auth/userAuth.ts";
+import initMovementModule from "./modules/Movements/movementModule.ts";
 
 dotenv.config();
 
@@ -16,31 +19,49 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  next();
-});
-app.use(session({
+app.use(cors())
+app.use(
+  session({
     secret: "secret",
     resave: true,
-    saveUninitialized: true
-
-}))
-app.use(passport.initialize())
-app.use(passport.session())
-
+    saveUninitialized: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use((req, res, next)=>{
-  res.locals.user = req.user || null
-  next()
+   passport.authenticate(
+      "local",
+      async (err: unknown, user: any, info: any) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          // Si la autenticación falla, responde con error
+          return res
+            .status(401)
+            .json({ message: info?.message ||  "Credenciales inválidas" });
+        }
+        req.logIn(user, (err: unknown) => {
+          if (err) {
+            return next(err);
+          }
+          // Si la autenticación es exitosa, responde con el usuario o un mensaje de éxito
+          return res
+            .status(200)
+            .json({ message: "Inicio de sesión exitoso", user });
+        });
+      }
+    )(req, res, next);
 })
+
+
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
+
+
 
 await connect();
 
@@ -48,5 +69,6 @@ const container = configureDI();
 
 initBudgetModule(app, container);
 initUserModule(app, container);
+initMovementModule(app, container);
 
 app.listen(PORT, () => console.log("listening port:", PORT));
