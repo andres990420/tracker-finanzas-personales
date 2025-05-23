@@ -13,17 +13,20 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "mongoose": "^8.15.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "rsdi": "^3.0.4"
+    "rsdi": "^3.0.4",
+    "zod": "^3.25.20"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.18",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.1",
     "@types/express-session": "^1.18.1",

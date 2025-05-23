@@ -19,20 +19,23 @@ export class UserSchema extends Schema {
   }
 }
 
+export const userSchemaDB = new UserSchema();
 
-
-export const userSchema = new UserSchema();
-
-userSchema.methods.encryptPassword = async (password: string): Promise<string> => {
+userSchemaDB.methods.encryptPassword = async (
+  password: string
+): Promise<string> => {
   const salt = await bcrypt.genSalt(10);
   return await bcrypt.hash(password, salt);
 };
 
-userSchema.methods.matchPassword = async (password : string, passwordInDB: string) : Promise<boolean> =>{
-  const isMatch = await bcrypt.compare(password, passwordInDB)
-  return isMatch
-}
+userSchemaDB.methods.matchPassword = async (
+  password: string,
+  passwordInDB: string
+): Promise<boolean> => {
+  const isMatch = await bcrypt.compare(password, passwordInDB);
+  return isMatch;
+};
 
-const UserModel: Model<IUserModel> = model<IUserModel>("User", userSchema);
+const UserModel: Model<IUserModel> = model<IUserModel>("User", userSchemaDB);
 
 export default UserModel;
