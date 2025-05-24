@@ -21,7 +21,7 @@ export default function BudgetForm() {
   }
 
   return (
-    <form className="" action={"http://localhost:4000/budgets"} method="POST">
+    <form className="" action={"http://localhost:4000/budgets/create"} method="POST">
       <div className="text-center text-gray-800 p-1">
         <label className="mx-2">Nombre del Presupuesto</label>
         <input

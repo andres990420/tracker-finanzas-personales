@@ -1,4 +1,4 @@
-import { EventPayloadMaps } from "./eventPayloads.ts";
+import type { EventPayloadMaps } from "./eventPayloads.ts";
 import mediator from "./mediator.ts";
 
 export default class EventBus {

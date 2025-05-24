@@ -1,6 +1,8 @@
 import Category, { type ICategory } from "../entity/categoryEntity.ts";
 import type { ICategoryModel } from "../../Category/model/categoryModel.ts";
-import { Model } from "mongoose";
+import { Model, ObjectId } from "mongoose";
+import type { AddMovementIntoCategoryPayloads } from "../../../common/eventPayloads.ts";
+import { number } from "zod/v4";
 
 export default class CategoryRepository {
   private CategoryModel: Model<ICategoryModel>;
@@ -16,6 +18,18 @@ export default class CategoryRepository {
   public async save(categories: Array<ICategory>) {
     const categoriesSaved = await this.CategoryModel.insertMany(categories);
     const categoriesIDs = categoriesSaved.map((category) => category.id);
-    return categoriesIDs;
+    return categoriesIDs as ObjectId[];
+  }
+
+  public async updateCategoryTransaction(
+    data: AddMovementIntoCategoryPayloads
+  ) {
+    const category = await this.CategoryModel.findById(data.categoryId);
+    if (!category) {
+      throw new Error(`Category with id ${data.categoryId} not found`);
+    }
+    const newCurrentAmount = data.amount + (category.currentAmount as number);
+    await this.CategoryModel.findByIdAndUpdate(category.id, { currentAmount: newCurrentAmount });
+
   }
 }

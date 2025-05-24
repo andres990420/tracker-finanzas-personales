@@ -1,12 +1,14 @@
 import { Schema, Document, model, Model } from "mongoose";
+import type { ITransaccionModel } from "../../Movements/model/transactionModel.ts";
 
 export interface ICategoryModel extends Document {
   user: string;
   type: string;
-  currentAMount: number;
+  currentAmount: number;
   maxAmount: number;
   color: string;
   description: string;
+  transactions: ITransaccionModel[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,12 +30,18 @@ class CategorySchema extends Schema {
           type: Number,
           required: true,
         },
-        color:{
+        color: {
           type: String,
         },
         description: {
           type: String,
         },
+        transactions: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "Transaction",
+          },
+        ],
       },
       { timestamps: true }
     );

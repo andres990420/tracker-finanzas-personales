@@ -1,6 +1,5 @@
 import type { Application, Request, Response } from "express";
 import BudgetService from "../service/BudgetService.ts";
-import { extractingCategoriesToBeSave, formToEntityBudget, modelToEntityBudget } from "../utils/budgetMapper.ts";
 import data from "../utils/budget.json" with { type: "json"}
 import { ObjectId } from "mongoose";
 
@@ -17,7 +16,7 @@ export default class BudgetsController {
     const ROUTE = this.ROUTE_BASE;
 
     app.get(`${ROUTE}`, this.index.bind(this));
-    app.post(`${ROUTE}`, this.saveBudget.bind(this));
+    app.post(`${ROUTE}/create`, this.saveBudget.bind(this));
   }
 
   async index(req: Request, res: Response){
@@ -26,11 +25,7 @@ export default class BudgetsController {
   }
 
   async saveBudget(req: Request, res: Response){
-    const categories = extractingCategoriesToBeSave(req.body)
-    // const categoriesIDs = await this.categoryService.save(categories);
-    // const filteredCategoryIDs = categoriesIDs.filter((id): id is ObjectId => id !== undefined);
-    // const newBudget = formToEntityBudget(req.body, filteredCategoryIDs)
-    // await this.budgetService.save(newBudget)
+    await this.budgetService.save(req.body)
     res.redirect('http://localhost:5173/budgets')
   }
 }

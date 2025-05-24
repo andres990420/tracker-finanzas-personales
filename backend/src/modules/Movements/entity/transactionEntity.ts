@@ -5,7 +5,7 @@ export interface ITransaction {
   amount: number;
   category: string;
   description: string;
-  user?: string;
+  // user?: string;
   id?: ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
@@ -16,7 +16,7 @@ export default class Transaction {
   public amount: number;
   public category: string;
   public description: string;
-  public user?: string;
+  // public user?: string;
   public id?: ObjectId;
   public createdAt?: Date;
   public updatedAt?: Date;
@@ -26,7 +26,7 @@ export default class Transaction {
     amount: number,
     category: string,
     description: string,
-    user?: string,
+    // user?: string,
     id?: ObjectId,
     createdAt?: Date,
     updatedAt?: Date
@@ -35,7 +35,7 @@ export default class Transaction {
     this.amount = amount;
     this.category = category;
     this.description = description;
-    this.user = user;
+    // this.user = user;
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;

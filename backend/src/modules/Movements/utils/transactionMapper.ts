@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import Transaction from "../entity/transactionEntity.ts";
 import type { ITransaccionModel } from "../model/transactionModel.ts";
 
@@ -20,11 +21,12 @@ export function formToEntityTransaction(
   return newTransaction;
 }
 
-export function modelToEntity(data: ITransaccionModel){
-    return new Transaction(
-        data.type,
-        data.amount,
-        data.category,
-        data.description
-    )
+export function modelToEntity(data: ITransaccionModel) {
+  return new Transaction(
+    data.type,
+    data.amount,
+    data.category,
+    data.description,
+    data.id
+  );
 }

@@ -25,7 +25,15 @@ export default class TransactionController {
 
   public async saveTransaction(req: Request, res: Response) {
     res.json({ message: "transaccion completada" });
-    const newTransaction = formToEntityTransaction(req.body);
-    await this.transactionService.save(newTransaction);
+    if (req.body.categoryId) {
+      const newTransaction = formToEntityTransaction(req.body);
+      await this.transactionService.saveTransactionIntoCategory(
+        newTransaction,
+        req.body.categoryId
+      );
+    } else {
+      const newTransaction = formToEntityTransaction(req.body);
+      await this.transactionService.save(newTransaction);
+    }
   }
 }
