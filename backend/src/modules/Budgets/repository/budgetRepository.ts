@@ -6,6 +6,7 @@ import type {
 import Budget from "../entity/budgetEntity.ts";
 import { modelToEntityBudget } from "../utils/budgetMapper.ts";
 import { error } from "zod/v4/locales/ar.js";
+import { type UpdatedBusgetPayloads } from "../../../common/eventPayloads.ts";
 
 export default class BudgetRepository {
   private BudgetModel: Model<IBudgetModel>;
@@ -37,12 +38,15 @@ export default class BudgetRepository {
     await this.BudgetModel.findByIdAndUpdate(data.budgetId, categories);
   }
 
-  public async updateBudgetProgress(data: any){
-    const budget = await this.BudgetModel.findOne(data.categoryId)
+  public async updateBudgetProgress(data: UpdatedBusgetPayloads){
+    const budget = await this.BudgetModel.findOne({categories: data.categoryId})
     if(!budget){
       throw new Error(`Budget with id ${data.categoryId} not found`);
     }
-    const newCurrentAmount = budget?.currentAmount + data.amount
+    console.log(budget.currentAmount)
+    console.log(data.currentAmount)
+    const newCurrentAmount = budget?.currentAmount + data.currentAmount
+    console.log(newCurrentAmount)
     await this.BudgetModel.findByIdAndUpdate(budget?.id, {currentAmount: newCurrentAmount});
   }
 }

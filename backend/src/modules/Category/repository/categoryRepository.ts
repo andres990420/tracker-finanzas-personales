@@ -3,6 +3,7 @@ import type { ICategoryModel } from "../../Category/model/categoryModel.ts";
 import { Model, ObjectId } from "mongoose";
 import type { AddMovementIntoCategoryPayloads } from "../../../common/eventPayloads.ts";
 import { number } from "zod/v4";
+import { categoryContainer } from "../categoryModule.ts";
 
 export default class CategoryRepository {
   private CategoryModel: Model<ICategoryModel>;
@@ -29,7 +30,8 @@ export default class CategoryRepository {
       throw new Error(`Category with id ${data.categoryId} not found`);
     }
     const newCurrentAmount = data.amount + (category.currentAmount as number);
-    await this.CategoryModel.findByIdAndUpdate(category.id, { currentAmount: newCurrentAmount });
+    const totalTransactions = [...category.transactions, data.transactionId]
+    await this.CategoryModel.findByIdAndUpdate(category.id, { currentAmount: newCurrentAmount, transactions: totalTransactions});
 
   }
 }

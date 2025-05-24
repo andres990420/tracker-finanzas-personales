@@ -9,8 +9,10 @@ export default class CategoryService {
   constructor(categoryRepository: CategoryRepository) {
     this.categoryRepository = categoryRepository;
 
-    EventBus.on(EventTypes.ADD_TRANSACTION_INTO_CATEGORY, (data) => {
-      console.log(data);
+    EventBus.on(EventTypes.ADD_TRANSACTION_INTO_CATEGORY, async (data) => {
+      await this.categoryRepository.updateCategoryTransaction(data)
+      const dataToBudget = {categoryId: data.categoryId, currentAmount: data.amount}
+      EventBus.emit(EventTypes.UPDATED_BUDGET, dataToBudget)
     });
 
     EventBus.on(EventTypes.CREATE_CATEGORY, async (data) => {

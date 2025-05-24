@@ -10,7 +10,7 @@ export interface AddMovementIntoCategoryPayloads {
 export interface UpdatedBusgetPayloads {
   categoryId: ObjectId;
   currentAmount: number;
-  budgetId: ObjectId;
+  // budgetId: ObjectId;
 }
 
 export interface CreateCategoryPayloads {

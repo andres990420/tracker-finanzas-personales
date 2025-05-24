@@ -5,8 +5,8 @@ import Category from "../../Category/entity/categoryEntity.ts";
 export interface IBudgetModel extends Document {
   user: string;
   name: string;
-  currentAmount: Number;
-  maxAmount: Number;
+  currentAmount: number;
+  maxAmount: number;
   categories: Schema.Types.ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;

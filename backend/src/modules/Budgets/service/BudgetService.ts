@@ -13,7 +13,9 @@ export default class BudgetService {
     EventBus.on(EventTypes.CREATE_BUDGET, async (data) => {
       await this.budgetRepository.updateAfterCreate(data);
     });
-    EventBus.on(EventTypes.UPDATED_BUDGET, async (data) => {});
+    EventBus.on(EventTypes.UPDATED_BUDGET, async (data) => {
+      await this.budgetRepository.updateBudgetProgress(data)
+    });
   }
   public async getAll() {
     return await this.budgetRepository.getAll();

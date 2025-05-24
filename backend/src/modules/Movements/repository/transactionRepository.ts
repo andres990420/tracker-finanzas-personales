@@ -22,7 +22,7 @@ export default class TransactionRepository {
       amount: transaction.amount,
       description: transaction.description,
     });
-    // newTransaction.save();
+    newTransaction.save();
     return modelToEntity(newTransaction)
   }
 }
