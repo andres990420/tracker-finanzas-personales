@@ -18,8 +18,8 @@ export default class BudgetService {
       await this.budgetRepository.updateBudgetProgress(data)
     });
   }
-  public async getAll() {
-    return await this.budgetRepository.getAll();
+  public async getAll(userId: ObjectId) {
+    return await this.budgetRepository.getAll(userId);
   }
 
   public async save(formData: IBudgetForm, userId: ObjectId) {

@@ -16,15 +16,15 @@ export default class BudgetsController {
     const ROUTE = this.ROUTE_BASE;
 
     app.get(`${ROUTE}`,
-      // validateUser,
+      validateUser,
       this.index.bind(this));
     app.post(`${ROUTE}/create`,
-      // validateUser,
+      validateUser,
       this.saveBudget.bind(this));
   }
 
   async index(req: Request, res: Response){  
-    const allBudgets = await this.budgetService.getAll();
+    const allBudgets = await this.budgetService.getAll(req.user as ObjectId);
     res.send(allBudgets);
   }
 
@@ -32,10 +32,9 @@ export default class BudgetsController {
     console.log(typeof req.user)
     try{
       await this.budgetService.save(req.body, req.user as ObjectId)
+      res.status(204).json('Presupuesto creado con exito')
     } catch(err){
       res.status(400)
     }
-    
-    res.redirect('http://localhost:5173/budgets')
   }
 }

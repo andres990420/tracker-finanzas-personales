@@ -5,7 +5,6 @@ import type {
 } from "../model/budgetModel.ts";
 import Budget from "../entity/budgetEntity.ts";
 import { modelToEntityBudget } from "../utils/budgetMapper.ts";
-import { error } from "zod/v4/locales/ar.js";
 import { type UpdatedBusgetPayloads } from "../../../common/eventPayloads.ts";
 
 export default class BudgetRepository {
@@ -15,8 +14,8 @@ export default class BudgetRepository {
     this.BudgetModel = budgetModel;
   }
 
-  public async getAll() {
-    const allBudgets = (await this.BudgetModel.find()
+  public async getAll(userId: ObjectId) {
+    const allBudgets = (await this.BudgetModel.find({user: userId})
       .populate("categories")
       .exec()) as unknown as IBudgetModelPopulated[];
     return allBudgets.map((budget) => modelToEntityBudget(budget));
@@ -40,11 +39,15 @@ export default class BudgetRepository {
   }
 
   public async updateBudgetProgress(data: UpdatedBusgetPayloads){
-    const budget = await this.BudgetModel.findOne({categories: data.categoryId})
+    const budget = await this.BudgetModel.findOne({categories: data.categoryId}).populate('categories').exec() as unknown as IBudgetModelPopulated
     if(!budget){
       throw new Error(`Budget with id ${data.categoryId} not found`);
     }
-    const newCurrentAmount = budget?.currentAmount + data.currentAmount
-    await this.BudgetModel.findByIdAndUpdate(budget?.id, {currentAmount: newCurrentAmount});
+    let newCurrenteAmount: number = 0
+    budget.categories.map(category=>{
+     newCurrenteAmount += category.currentAmount
+    }
+    )
+    await this.BudgetModel.findByIdAndUpdate(budget?.id, {currentAmount: newCurrenteAmount});
   }
 }

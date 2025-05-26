@@ -46,7 +46,7 @@ export default class UserController {
           // Si la autenticación es exitosa, responde con el usuario o un mensaje de éxito
           return res
             .status(200)
-            .redirect('http://localhost:5173/')
+            .json('Sesion iniciada con exito')
             // .json({ message: "Inicio de sesión exitoso" , userId: user.id});
         });
     })(req, res);

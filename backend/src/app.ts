@@ -31,31 +31,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use((req, res, next)=>{
-//    passport.authenticate(
-//       "local",
-//       async (err: unknown, user: any, info: any) => {
-//         if (err) {
-//           return next(err);
-//         }
-//         if (!user) {
-//           // Si la autenticación falla, responde con error
-//           return res
-//             .status(401)
-//             .json({ message: info?.message ||  "Credenciales inválidas" });
-//         }
-//         req.logIn(user, (err: unknown) => {
-//           if (err) {
-//             return next(err);
-//           }
-//           // Si la autenticación es exitosa, responde con el usuario o un mensaje de éxito
-//           return res
-//             .status(200)
-//             .json({ message: "Inicio de sesión exitoso" });
-//         });
-//       }
-//     )(req, res, next);
-// })
 
 app.use((req, res, next) => {
   res.locals.user = req.user || null;

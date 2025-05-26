@@ -10,8 +10,6 @@ export interface AddMovementIntoCategoryPayloads {
 
 export interface UpdatedBusgetPayloads {
   categoryId: ObjectId;
-  currentAmount: number;
-  // budgetId: ObjectId;
 }
 
 export interface CreateCategoryPayloads {
@@ -25,9 +23,20 @@ export interface CreateCategoryPayloads {
   };
 }
 
+export interface UpdateCategoryPayloads {
+  transactionAmount: number;
+  transactionId: ObjectId | undefined;
+  userId: ObjectId;
+}
+
 export interface UpdatedAfterCreateBudgetPayloads {
   categoriesId: ObjectId[];
   budgetId: ObjectId;
+}
+
+export interface DeleteTransactionFromCategory {
+  transactionId: ObjectId;
+  amount: number
 }
 
 export interface EventPayloadMaps {
@@ -35,4 +44,6 @@ export interface EventPayloadMaps {
   [EventTypes.UPDATED_BUDGET]: UpdatedBusgetPayloads;
   [EventTypes.CREATE_CATEGORY]: CreateCategoryPayloads;
   [EventTypes.UPDATE_AFTER_CREATE_BUDGET]: UpdatedAfterCreateBudgetPayloads;
+  [EventTypes.UPDATE_CATEGORY]: UpdateCategoryPayloads;
+  [EventTypes.DELETE_TRANSACTION_FROM_CATEGORY]: DeleteTransactionFromCategory;
 }

@@ -10,12 +10,19 @@ export default class TransactionService {
     this.transactionRepository = transactionRepository;
   }
 
-  public async getAll() {
-    return await this.transactionRepository.getAll();
+  public async getAll(userId: ObjectId) {
+    return await this.transactionRepository.getAll(userId);
+  }
+
+  public async getTransactionById(transactionId: ObjectId) {
+    return await this.transactionRepository.getTransactionById(transactionId);
   }
 
   public async save(transaction: Transaction, userId: ObjectId) {
-    return await this.transactionRepository.saveTransaction(transaction, userId);
+    return await this.transactionRepository.saveTransaction(
+      transaction,
+      userId
+    );
   }
 
   public async saveTransactionIntoCategory(
@@ -24,7 +31,8 @@ export default class TransactionService {
     userId: ObjectId
   ) {
     const newTransaction = await this.transactionRepository.saveTransaction(
-      transaction, userId
+      transaction,
+      userId
     );
     const data = {
       categoryId: categoryId,
@@ -33,5 +41,37 @@ export default class TransactionService {
       transactionId: newTransaction.id,
     };
     EventBus.emit(EventTypes.ADD_TRANSACTION_INTO_CATEGORY, data);
+  }
+
+  public async updateTransaction(transaction: Transaction) {
+    const updatedTransaction =
+      await this.transactionRepository.updateTransaction(transaction);
+    const data = {
+      transactionAmount: updatedTransaction.amount,
+      transactionId: updatedTransaction.id,
+      userId: transaction.user,
+    };
+
+    EventBus.emit(EventTypes.UPDATE_CATEGORY, data);
+  }
+
+  public async deleteTransaction(
+    transactionId: ObjectId,
+    categoryId?: ObjectId
+  ) {
+    try {
+      const transaction = await this.transactionRepository.getTransactionById(
+        transactionId
+      );
+      await this.transactionRepository.deleteTransaction(transactionId);
+      if (categoryId) {
+        EventBus.emit(EventTypes.DELETE_TRANSACTION_FROM_CATEGORY, {
+          transactionId: transactionId,
+          amount: transaction.amount,
+        });
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 }

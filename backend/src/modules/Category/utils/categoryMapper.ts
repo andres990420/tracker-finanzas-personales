@@ -1,11 +1,28 @@
-import { ObjectId } from "mongoose";
+import { ObjectId , Model} from "mongoose";
 import Category, { type ICategory } from "../entity/categoryEntity.ts";
+import type { ICategoryModel } from "../model/categoryModel.ts";
+import { categoryContainer } from "../categoryModule.ts";
+import type { ITransaccionModel } from "../../Movements/model/transactionModel.ts";
+import Transaction from "../../Movements/entity/transactionEntity.ts";
 
 interface ICategoryForm {
   categoryTypes: Array<string> | string;
   categoryLimits: Array<number>;
   categoryColor: Array<string> | string;
   categoryDescription: Array<string> | string;
+}
+
+export interface ICategoryPopulated{
+  id: ObjectId
+  user: ObjectId;
+  type: string;
+  currentAmount: number;
+  maxAmount: number;
+  color: string;
+  description: string;
+  transactions: ITransaccionModel[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export function formToEntityCategory(data: ICategoryForm, userId: ObjectId): Array<ICategory> {
@@ -49,4 +66,36 @@ function convertingMultiCategories(data: ICategoryForm, userId: ObjectId): Array
     categories.push(category);
   }
   return categories;
+}
+
+export function modelToEntityCategory(data: ICategoryModel){
+  const category = new Category(
+    data.type,
+    data.maxAmount,
+    data.currentAmount,
+    data.color,
+    data.description,
+    data.user,
+    data.id,
+    data.createdAt,
+    data.updatedAt,
+    data.transactions
+  )
+  return category
+}
+
+export function modelToEntityCategoryPopulated(data: ICategoryPopulated){
+  const category = new Category(
+    data.type,
+    data.maxAmount,
+    data.currentAmount,
+    data.color,
+    data.description,
+    data.user,
+    data.id,
+    data.createdAt,
+    data.updatedAt,
+    data.transactions
+  )
+  return category
 }
