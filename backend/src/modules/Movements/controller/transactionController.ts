@@ -1,6 +1,8 @@
 import type { Application, Request, Response } from "express";
 import TransactionService from "../service/transactionService.ts";
 import { formToEntityTransaction } from "../utils/transactionMapper.ts";
+import { validateUser } from "../../User/auth/userAuth.ts";
+import { ObjectId } from "mongoose";
 
 export default class TransactionController {
   private transactionService: TransactionService;
@@ -11,10 +13,8 @@ export default class TransactionController {
   }
 
   public configureRoutes(app: Application) {
-    app.get(`${this.TRANSACTION_ROUTE}`, this.getAllTransactions.bind(this));
-    app.post(
-      `${this.TRANSACTION_ROUTE}/create`,
-      this.saveTransaction.bind(this)
+    app.get(`${this.TRANSACTION_ROUTE}`,validateUser ,this.getAllTransactions.bind(this));
+    app.post( `${this.TRANSACTION_ROUTE}/create`,validateUser ,this.saveTransaction.bind(this)
     );
   }
 
@@ -24,16 +24,17 @@ export default class TransactionController {
   }
 
   public async saveTransaction(req: Request, res: Response) {
-    res.json({ message: "transaccion completada" });
     if (req.body.categoryId) {
-      const newTransaction = formToEntityTransaction(req.body);
+      const newTransaction = formToEntityTransaction(req.body, req.user as ObjectId);
       await this.transactionService.saveTransactionIntoCategory(
         newTransaction,
-        req.body.categoryId
+        req.body.categoryId,
+        req.user as ObjectId
       );
     } else {
-      const newTransaction = formToEntityTransaction(req.body);
-      await this.transactionService.save(newTransaction);
+      const newTransaction = formToEntityTransaction(req.body, req.user as ObjectId);
+      await this.transactionService.save(newTransaction, req.user as ObjectId);
     }
+    res.status(200)
   }
 }

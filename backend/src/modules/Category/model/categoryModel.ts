@@ -1,8 +1,8 @@
-import { Schema, Document, model, Model } from "mongoose";
+import { Schema, Document, model, Model, ObjectId } from "mongoose";
 import type { ITransaccionModel } from "../../Movements/model/transactionModel.ts";
 
 export interface ICategoryModel extends Document {
-  user: string;
+  user: ObjectId;
   type: string;
   currentAmount: number;
   maxAmount: number;
@@ -17,7 +17,7 @@ class CategorySchema extends Schema {
   constructor() {
     super(
       {
-        user: { type: String },
+        user: { type: Schema.Types.ObjectId, require: true, ref: "User" },
         type: {
           type: String,
           required: true,

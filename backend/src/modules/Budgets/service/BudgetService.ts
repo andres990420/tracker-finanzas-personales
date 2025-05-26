@@ -10,9 +10,10 @@ export default class BudgetService {
 
   constructor(budgetRepository: BudgetRepository) {
     this.budgetRepository = budgetRepository;
-    EventBus.on(EventTypes.CREATE_BUDGET, async (data) => {
+    EventBus.on(EventTypes.UPDATE_AFTER_CREATE_BUDGET, async (data) => {
       await this.budgetRepository.updateAfterCreate(data);
     });
+    
     EventBus.on(EventTypes.UPDATED_BUDGET, async (data) => {
       await this.budgetRepository.updateBudgetProgress(data)
     });
@@ -21,11 +22,12 @@ export default class BudgetService {
     return await this.budgetRepository.getAll();
   }
 
-  public async save(formData: IBudgetForm) {
-    const newbudget = formToEntityBudget(formData);
+  public async save(formData: IBudgetForm, userId: ObjectId) {
+    const newbudget = formToEntityBudget(formData, userId);
     const budgetId = await this.budgetRepository.save(newbudget);
     const data = {
       budgetId: budgetId,
+      userId: userId,
       categoriesData: {
         categoriesLimits: formData["category-limit"],
         categoriesDescriptions: formData["category-description"],

@@ -2,8 +2,6 @@ import Category, { type ICategory } from "../entity/categoryEntity.ts";
 import type { ICategoryModel } from "../../Category/model/categoryModel.ts";
 import { Model, ObjectId } from "mongoose";
 import type { AddMovementIntoCategoryPayloads } from "../../../common/eventPayloads.ts";
-import { number } from "zod/v4";
-import { categoryContainer } from "../categoryModule.ts";
 
 export default class CategoryRepository {
   private CategoryModel: Model<ICategoryModel>;

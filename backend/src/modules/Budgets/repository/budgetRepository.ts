@@ -28,6 +28,7 @@ export default class BudgetRepository {
       categories: budget.categories,
       currentAmount: budget.currentAmount,
       maxAmount: budget.maxAmount,
+      user: budget.user
     });
     await model.save();
     return model.id as ObjectId;
@@ -43,10 +44,7 @@ export default class BudgetRepository {
     if(!budget){
       throw new Error(`Budget with id ${data.categoryId} not found`);
     }
-    console.log(budget.currentAmount)
-    console.log(data.currentAmount)
     const newCurrentAmount = budget?.currentAmount + data.currentAmount
-    console.log(newCurrentAmount)
     await this.BudgetModel.findByIdAndUpdate(budget?.id, {currentAmount: newCurrentAmount});
   }
 }

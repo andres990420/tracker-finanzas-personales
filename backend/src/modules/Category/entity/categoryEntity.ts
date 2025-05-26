@@ -1,9 +1,9 @@
 import { ObjectId } from "mongoose";
-import { type ITransaction } from "../../Movements/entity/transactionEntity.ts";
+
 
 export interface ICategory {
   id?: ObjectId;
-  user?: string | undefined;
+  user: ObjectId
   type: string;
   maxAmount: Number;
   currentAmount: Number;
@@ -16,7 +16,7 @@ export interface ICategory {
 
 export default class Category {
   public id?: ObjectId;
-  public user?: string | undefined;
+  public user: ObjectId;
   public type: string;
   public maxAmount: Number;
   public currentAmount: Number;
@@ -32,11 +32,11 @@ export default class Category {
     currenteAmount: Number,
     color: string,
     description: string,
+    user: ObjectId,
     id?: ObjectId,
     createdAt?: Date,
     updatedAt?: Date,
     transactions?: ObjectId[] | undefined,
-    user?: string
   ) {
     this.type = type;
     this.maxAmount = maxAmount;

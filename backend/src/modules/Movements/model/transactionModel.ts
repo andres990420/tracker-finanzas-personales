@@ -2,7 +2,7 @@ import { Schema, Document, Model, ObjectId, model } from "mongoose";
 
 
 export interface ITransaccionModel extends Document {
-  // user: ObjectId;
+  user: ObjectId;
   type: string;
   amount: number;
   category: string;
@@ -13,7 +13,7 @@ class TransaccionSchema extends Schema {
   constructor() {
     super(
       {
-        // user: { type: Schema.Types.ObjectId, require: true, ref: "User" },
+        user: { type: Schema.Types.ObjectId, require: true, ref: "User" },
         type: { type: String, require: true },
         amount: { type: Number, require: true },
         category: { type: String, require: true },

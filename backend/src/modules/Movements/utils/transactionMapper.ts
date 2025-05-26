@@ -10,13 +10,15 @@ export interface dataFormTransaction {
 }
 
 export function formToEntityTransaction(
-  data: dataFormTransaction
+  data: dataFormTransaction,
+  userId: ObjectId
 ): Transaction {
   const newTransaction = new Transaction(
     data.type,
     data.amount,
     data.category,
-    data.description
+    data.description,
+    userId
   );
   return newTransaction;
 }
@@ -27,6 +29,8 @@ export function modelToEntity(data: ITransaccionModel) {
     data.amount,
     data.category,
     data.description,
-    data.id
+    data.user,
+    data.id,
+    
   );
 }

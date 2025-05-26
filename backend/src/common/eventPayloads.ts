@@ -3,6 +3,7 @@ import { EventTypes } from "./eventTypes.ts";
 
 export interface AddMovementIntoCategoryPayloads {
   transactionId: ObjectId | undefined;
+  userId: ObjectId;
   amount: number;
   categoryId: ObjectId;
 }
@@ -14,7 +15,8 @@ export interface UpdatedBusgetPayloads {
 }
 
 export interface CreateCategoryPayloads {
-  budgetId: ObjectId
+  budgetId: ObjectId;
+  userId: ObjectId;
   categoriesData: {
     categoriesLimits: number[];
     categoriesDescriptions: string[] | string;
@@ -23,14 +25,14 @@ export interface CreateCategoryPayloads {
   };
 }
 
-export interface CreateBudgetPayloads {
+export interface UpdatedAfterCreateBudgetPayloads {
   categoriesId: ObjectId[];
-  budgetId: ObjectId
+  budgetId: ObjectId;
 }
 
 export interface EventPayloadMaps {
   [EventTypes.ADD_TRANSACTION_INTO_CATEGORY]: AddMovementIntoCategoryPayloads;
   [EventTypes.UPDATED_BUDGET]: UpdatedBusgetPayloads;
   [EventTypes.CREATE_CATEGORY]: CreateCategoryPayloads;
-  [EventTypes.CREATE_BUDGET]: CreateBudgetPayloads;
+  [EventTypes.UPDATE_AFTER_CREATE_BUDGET]: UpdatedAfterCreateBudgetPayloads;
 }

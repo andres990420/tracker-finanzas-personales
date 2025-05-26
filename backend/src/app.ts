@@ -29,8 +29,8 @@ app.use(
     saveUninitialized: true,
   })
 );
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 // app.use((req, res, next)=>{
 //    passport.authenticate(
 //       "local",
@@ -51,7 +51,7 @@ app.use(
 //           // Si la autenticación es exitosa, responde con el usuario o un mensaje de éxito
 //           return res
 //             .status(200)
-//             .json({ message: "Inicio de sesión exitoso", user });
+//             .json({ message: "Inicio de sesión exitoso" });
 //         });
 //       }
 //     )(req, res, next);

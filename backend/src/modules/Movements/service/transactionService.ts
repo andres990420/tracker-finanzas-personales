@@ -1,4 +1,3 @@
-import { Schema } from "zod";
 import EventBus from "../../../common/eventBus.ts";
 import { EventTypes } from "../../../common/eventTypes.ts";
 import Transaction from "../entity/transactionEntity.ts";
@@ -15,19 +14,21 @@ export default class TransactionService {
     return await this.transactionRepository.getAll();
   }
 
-  public async save(transaction: Transaction) {
-    return await this.transactionRepository.saveTransaction(transaction);
+  public async save(transaction: Transaction, userId: ObjectId) {
+    return await this.transactionRepository.saveTransaction(transaction, userId);
   }
 
   public async saveTransactionIntoCategory(
     transaction: Transaction,
-    categoryId: ObjectId
+    categoryId: ObjectId,
+    userId: ObjectId
   ) {
     const newTransaction = await this.transactionRepository.saveTransaction(
-      transaction
+      transaction, userId
     );
     const data = {
       categoryId: categoryId,
+      userId: userId,
       amount: newTransaction.amount,
       transactionId: newTransaction.id,
     };

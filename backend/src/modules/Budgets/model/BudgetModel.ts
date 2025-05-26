@@ -1,9 +1,9 @@
-import { Document, Model, model, Schema } from "mongoose";
+import { Document, Model, model, ObjectId, Schema } from "mongoose";
 import type { ICategory } from "../../Category/entity/categoryEntity.ts";
 import Category from "../../Category/entity/categoryEntity.ts";
 
 export interface IBudgetModel extends Document {
-  user: string;
+  user: ObjectId;
   name: string;
   currentAmount: number;
   maxAmount: number;
@@ -13,7 +13,7 @@ export interface IBudgetModel extends Document {
 }
 
 export interface IBudgetModelPopulated extends Document {
-  user: string;
+  user: ObjectId;
   name: string;
   currentAmount: Number;
   maxAmount: Number;
@@ -26,7 +26,7 @@ class BudgetSchema extends Schema<IBudgetModel> {
   constructor() {
     super(
       {
-        user: { type: String },
+        user: { type: Schema.Types.ObjectId, require: true, ref: "User"},
         name: {
           type: String,
           required: true,

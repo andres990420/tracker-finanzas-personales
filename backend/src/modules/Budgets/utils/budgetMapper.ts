@@ -24,27 +24,29 @@ export function modelToEntityBudget(data: IBudgetModelPopulated): Budget {
         category.currentAmount,
         category.color,
         category.description,
+        category.user,
         category.id,
         category.createdAt,
         category.updatedAt,
         category.transactions,
-        category.user
       )
   );
   return new Budget(
     data.name,
     data.currentAmount,
     data.maxAmount,
+    data.user,
     categories,
     data.createdAt,
     data.updatedAt,
     data.id,
-    data.user
+    
   );
 }
 
 export function formToEntityBudget(
   data: IBudgetForm,
+  userId: ObjectId
 ): Budget {
   let budgetLimit: number = 0;
   if (typeof data["category-limit"] === "object") {
@@ -53,12 +55,13 @@ export function formToEntityBudget(
     budgetLimit += data["category-limit"];
   }
 
-  return new Budget(data["budget-name"], 0, budgetLimit);
+  return new Budget(data["budget-name"], 0, budgetLimit, userId);
 }
 
 export function EntityBudget(
   data: IBudgetForm,
-  categories: Array<ObjectId>
+  categories: Array<ObjectId>,
+  userId: ObjectId
 ): Budget {
   let budgetLimit: number = 0;
   if (typeof data["category-limit"] === "object") {
@@ -67,7 +70,7 @@ export function EntityBudget(
     budgetLimit += data["category-limit"];
   }
 
-  return new Budget(data["budget-name"], 0, budgetLimit, categories);
+  return new Budget(data["budget-name"], 0, budgetLimit,userId ,categories);
 }
 
 

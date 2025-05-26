@@ -11,37 +11,38 @@ passport.use(
       usernameField: "email",
       passwordField: "password",
     },
-    async function authUser(
-      email: string,
-      password: string,
-      done: CallableFunction
-    ) {
-      console.log(email);
-      if (!(await UserModel.findOne({ email }))) {
-        return done(null, false, { message: "Usuario no econtrado" });
-      }
-
+    async function (email: string, password: string, done: CallableFunction) {
       const user = await UserModel.findOne({ email });
 
+      if (!user) {
+        return done(null, false, { message: "Usuario o Contraseña no econtrado" });
+      }
+
       const isMatch = await userSchemaDB.methods.matchPassword(
-        password,
+        String(password),
         user?.password
       );
       if (isMatch) {
         return done(null, user);
       } else {
-        return done(null, false, { message: "Contraseña incocorrecta" });
+        return done(null, false, { message: "Usuario o Contraseña no econtrado" });
       }
     }
   )
 );
 
-passport.serializeUser((user: Express.User, done: CallableFunction) => {
-  done(null, user);
+passport.serializeUser((user: any, done: CallableFunction) => {
+  done(null, user.id);
 });
 
-passport.deserializeUser((user: Express.User, done: CallableFunction) => {
-  process.nextTick(() => {
-    return done(null, user);
-  });
+passport.deserializeUser(async function (id, done) {
+  try {
+    const user = await UserModel.findById(id);
+    if(!user){
+      return (done(new Error('User not found')))
+    }
+    done(null, user.id)
+  } catch (error) {
+    done(error);
+  }
 });
