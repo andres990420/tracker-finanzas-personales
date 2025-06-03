@@ -1,7 +1,6 @@
 import { ObjectId } from "mongoose";
 import EventBus from "../../../common/eventBus.ts";
 import { EventTypes } from "../../../common/eventTypes.ts";
-import Budget from "../entity/budgetEntity.ts";
 import BudgetRepository from "../repository/budgetRepository.ts";
 import { formToEntityBudget, type IBudgetForm } from "../utils/budgetMapper.ts";
 
@@ -11,31 +10,54 @@ export default class BudgetService {
   constructor(budgetRepository: BudgetRepository) {
     this.budgetRepository = budgetRepository;
     EventBus.on(EventTypes.UPDATE_AFTER_CREATE_BUDGET, async (data) => {
-      await this.budgetRepository.updateAfterCreate(data);
+      try {
+        await this.budgetRepository.updateAfterCreate(data);
+      } catch (error) {
+        console.error(
+          "Error en EventBus UPDATE_AFTER_CREATE_BUDGET listener:",
+          error
+        );
+        throw new Error("Ha ocurrido un error al actualizar el presupuesto");
+      }
     });
-    
+
     EventBus.on(EventTypes.UPDATED_BUDGET, async (data) => {
-      await this.budgetRepository.updateBudgetProgress(data)
+      try {
+        await this.budgetRepository.updateBudgetProgress(data);
+      } catch (error) {
+        console.error("Error EventBus UPDATED_BUDGET listener:", error);
+        throw new Error("Ha ocurrido un error al actualizar el presupuesto");
+      }
     });
   }
   public async getAll(userId: ObjectId) {
-    return await this.budgetRepository.getAll(userId);
+    try {
+      return await this.budgetRepository.getAll(userId);
+    } catch (error) {
+      console.error("Error en getAll:", error);
+      throw new Error("Ha ocurrido un error al obtener el presupuesto");
+    }
   }
 
   public async save(formData: IBudgetForm, userId: ObjectId) {
-    const newbudget = formToEntityBudget(formData, userId);
-    const budgetId = await this.budgetRepository.save(newbudget);
-    const data = {
-      budgetId: budgetId,
-      userId: userId,
-      categoriesData: {
-        categoriesLimits: formData["category-limit"],
-        categoriesDescriptions: formData["category-description"],
-        categoriesTypes: formData["category-type"],
-        categoriesColor: formData["category-color"],
-      },
-    };
-
+    let data;
+    try {
+      const newbudget = formToEntityBudget(formData, userId);
+      const budgetId = await this.budgetRepository.save(newbudget);
+      data = {
+        budgetId: budgetId,
+        userId: userId,
+        categoriesData: {
+          categoriesLimits: formData["category-limit"],
+          categoriesDescriptions: formData["category-description"],
+          categoriesTypes: formData["category-type"],
+          categoriesColor: formData["category-color"],
+        },
+      };
+    } catch (error) {
+      console.error("Error en save:", error);
+      throw new Error("Ha ocurrido un error al guardar el presupuesto");
+    }
     EventBus.emit(EventTypes.CREATE_CATEGORY, data);
   }
 }

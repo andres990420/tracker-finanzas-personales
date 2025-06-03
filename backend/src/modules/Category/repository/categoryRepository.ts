@@ -15,57 +15,119 @@ export default class CategoryRepository {
   }
 
   public async findAll() {
-    const categories = await this.CategoryModel.find();
-    return categories;
+    try {
+      const categories = await this.CategoryModel.find();
+      if (!categories) {
+        throw new Error("Categorias no encontradas");
+      }
+      return categories;
+    } catch (error) {
+      console.error("Error en findAll:", error);
+      throw new Event("Ha ocurrido un error al recuperar las categorias");
+    }
   }
 
   public async getbyTransactionIdPopulated(transactionId: ObjectId) {
-    const category = await this.CategoryModel.findOne({
-      transactions: transactionId,
-    })
-      .populate("Transaction")
-      .exec();
+    try {
+      const category = await this.CategoryModel.findOne({
+        transactions: transactionId,
+      })
+        .populate("Transaction")
+        .exec();
 
-    return modelToEntityCategoryPopulated(category as ICategoryPopulated);
+      if (!category) {
+        throw new Error(
+          `No se ha encontrado la categoria con transaccion de id: ${transactionId}`
+        );
+      }
+
+      return modelToEntityCategoryPopulated(category as ICategoryPopulated);
+    } catch (error) {
+      console.error("Error en getbyTransactionIdPopulated:", error);
+      throw new Error("Error al buscar la categoria en la base de datos");
+    }
   }
 
   public async save(categories: Array<ICategory>) {
-    const categoriesSaved = await this.CategoryModel.insertMany(categories);
-    const categoriesIDs = categoriesSaved.map((category) => category.id);
-    return categoriesIDs as ObjectId[];
+    try {
+      const categoriesSaved = await this.CategoryModel.insertMany(categories);
+      const categoriesIDs = categoriesSaved.map((category) => category.id);
+      return categoriesIDs as ObjectId[];
+    } catch (error) {
+      console.error("Error en save:", error);
+      throw new Error("Ha ocurrido un error al guardar las categorias");
+    }
   }
 
   public async addCategoryTransaction(data: AddMovementIntoCategoryPayloads) {
-    const category = await this.CategoryModel.findById(data.categoryId);
-    if (!category) {
-      throw new Error(`Category with id ${data.categoryId} not found`);
+    let category;
+    try {
+      category = await this.CategoryModel.findById(data.categoryId);
+      if (!category) {
+        throw new Error(`Categoria con id ${data.categoryId} no encontrado`);
+      }
+    } catch (error) {
+      console.error("Error en addCategoryTransaction:", error);
+      throw new Error(
+        "Ha ocurrido un error al encontrar categoria en la base de datos"
+      );
     }
     const newCurrentAmount = data.amount + (category.currentAmount as number);
     const totalTransactions = [...category.transactions, data.transactionId];
-    await this.CategoryModel.findByIdAndUpdate(category.id, {
-      currentAmount: newCurrentAmount,
-      transactions: totalTransactions,
-    });
+    try {
+      await this.CategoryModel.findByIdAndUpdate(category.id, {
+        currentAmount: newCurrentAmount,
+        transactions: totalTransactions,
+      });
+    } catch (error) {
+      console.error("Error en addCategoryTransaction:", error);
+      throw new Error(
+        "Ha ocurrido un error al intentar actualizar la categoria en la base datos"
+      );
+    }
   }
 
   public async updatedCategoryTransaction(
     categoryId: ObjectId,
     newAmount: number
   ) {
-    await this.CategoryModel.findByIdAndUpdate(categoryId, {
-      currentAmount: newAmount,
-    });
+    try {
+      await this.CategoryModel.findByIdAndUpdate(categoryId, {
+        currentAmount: newAmount,
+      });
+    } catch (error) {
+      console.error("Error en updatedCategoryTransaction:", error);
+      throw new Event("No se ha podido actualizaar la categoria");
+    }
   }
 
   public async getByTransactionId(transactionId: ObjectId) {
-    const category = await this.CategoryModel.findOne({transactions: transactionId as ObjectId});
-    if (!category){
-      throw new Error('No se ha encontrado la categoria')
+    try {
+      const category = await this.CategoryModel.findOne({
+        transactions: transactionId as ObjectId,
+      });
+      if (!category) {
+        throw new Error(
+          `No se ha encontrado la categoria con transaccion de id ${transactionId}`
+        );
+      }
+      return modelToEntityCategory(category as unknown as ICategoryModel);
+    } catch (error) {
+      console.error("Error getByTransactionId:", error);
+      throw new Error(
+        "Ha ocurrido un error al recuperar la categoria en la base de datos"
+      );
     }
-    return modelToEntityCategory(category as unknown as ICategoryModel)
   }
 
-  public async updateCategory(category : Category){
-    await this.CategoryModel.findByIdAndUpdate(category.id, category)
+  public async updateCategory(category: Category) {
+    try {
+      await this.CategoryModel.findByIdAndUpdate(category.id, category);
+    } catch (error) {
+      console.error('Error en updateCategory:',error);
+      throw new Error(
+        "Ha ocurrido un error al intentar actualizar la categoria"
+      );
+    }
   }
 }

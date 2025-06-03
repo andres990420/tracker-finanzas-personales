@@ -3,7 +3,6 @@ import BudgetService from "../service/BudgetService.ts";
 import { ObjectId } from "mongoose";
 import { validateUser } from "../../User/auth/userAuth.ts";
 
-
 export default class BudgetsController {
   private readonly ROUTE_BASE: string = "/budgets";
   private budgetService: BudgetService;
@@ -12,29 +11,31 @@ export default class BudgetsController {
     this.budgetService = budgetService;
   }
 
-  configureRoutes(app: Application) : void{
+  configureRoutes(app: Application): void {
     const ROUTE = this.ROUTE_BASE;
 
-    app.get(`${ROUTE}`,
-      validateUser,
-      this.index.bind(this));
-    app.post(`${ROUTE}/create`,
-      validateUser,
-      this.saveBudget.bind(this));
+    app.get(`${ROUTE}`, validateUser, this.index.bind(this));
+    app.post(`${ROUTE}/create`, validateUser, this.saveBudget.bind(this));
   }
 
-  async index(req: Request, res: Response){  
-    const allBudgets = await this.budgetService.getAll(req.user as ObjectId);
-    res.send(allBudgets);
+  async index(req: Request, res: Response) {
+    try {
+      const allBudgets = await this.budgetService.getAll(req.user as ObjectId);
+      res.send(allBudgets);
+    } catch (error) {
+      res.status(400).json({message: 'Ha ocurrido un error al recuperar los presupuestos'})
+      console.error(error)
+    }
   }
 
-  async saveBudget(req: Request, res: Response){
-    console.log(typeof req.user)
-    try{
-      await this.budgetService.save(req.body, req.user as ObjectId)
-      res.status(204).json('Presupuesto creado con exito')
-    } catch(err){
-      res.status(400)
+  async saveBudget(req: Request, res: Response) {
+    console.log(typeof req.user);
+    try {
+      await this.budgetService.save(req.body, req.user as ObjectId);
+      res.status(204).json("Presupuesto creado con exito");
+    } catch (error) {
+      res.status(400).json({message: 'Ha ocurrido un error al crear el nuevo presupuesto'});
+      console.error(error)
     }
   }
 }

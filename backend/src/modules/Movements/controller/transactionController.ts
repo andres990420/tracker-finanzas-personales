@@ -23,21 +23,49 @@ export default class TransactionController {
       validateUser,
       this.saveTransaction.bind(this)
     );
-    app.get(`${this.TRANSACTION_ROUTE}/:id`, validateUser, this.getTransactionById.bind(this))
-    app.post(`${this.TRANSACTION_ROUTE}/:id`, validateUser, this.updateTransaction.bind(this))
-    app.post(`${this.TRANSACTION_ROUTE}/:id/delete`, validateUser, this.deleteTransaction.bind(this))
+    app.get(
+      `${this.TRANSACTION_ROUTE}/:id`,
+      validateUser,
+      this.getTransactionById.bind(this)
+    );
+    app.post(
+      `${this.TRANSACTION_ROUTE}/:id`,
+      validateUser,
+      this.updateTransaction.bind(this)
+    );
+    app.post(
+      `${this.TRANSACTION_ROUTE}/:id/delete`,
+      validateUser,
+      this.deleteTransaction.bind(this)
+    );
   }
 
   public async getAllTransactions(req: Request, res: Response) {
-    const transactions = await this.transactionService.getAll(
-      req.user as ObjectId
-    );
-    res.send(transactions);
+    try {
+      const transactions = await this.transactionService.getAll(
+        req.user as ObjectId
+      );
+      res.status(200).send(transactions);
+    } catch (error) {
+      console.error("Error en getAllTransactions:", error);
+      res
+        .status(400)
+        .json({ error: "Ha ocurrido un erro al recuperar las transacciones" });
+    }
   }
 
-  public async getTransactionById(req: Request, res: Response){
-    const transaction = await this.transactionService.getTransactionById(req.params.id as unknown as ObjectId)
-    res.send(transaction)
+  public async getTransactionById(req: Request, res: Response) {
+    try {
+      const transaction = await this.transactionService.getTransactionById(
+        req.params.id as unknown as ObjectId
+      );
+      res.status(200).send(transaction);
+    } catch (error) {
+      console.error("Error en getTransactionById:", error);
+      res
+        .status(400)
+        .json({ error: "Ha ocurrido un erro al recuperar la transaction" });
+    }
   }
 
   public async saveTransaction(req: Request, res: Response) {
@@ -63,27 +91,53 @@ export default class TransactionController {
         );
       }
       res.status(204).json({ message: "Transaction guardada con exito" });
-    } catch (err) {
-      res.status(400).json({ error: err });
+    } catch (error) {
+      console.error("Error en saveTransaction: ", error);
+      res
+        .status(400)
+        .json({ error: "Ha ocurrido un erro al guardar la transaccion" });
     }
   }
 
-  public async updateTransaction(req: Request, res: Response){
-    const transactionToEdit = formToEntityTransaction(req.body, req.user as ObjectId);
-    transactionToEdit.id = req.params.id as unknown as ObjectId
-    if(!transactionToEdit){
-      res.status(404).json({message: 'Transaccion no encontrada'})
+  public async updateTransaction(req: Request, res: Response) {
+    try {
+      const transactionToEdit = formToEntityTransaction(
+        req.body,
+        req.user as ObjectId
+      );
+      transactionToEdit.id = req.params.id as unknown as ObjectId;
+      if (!transactionToEdit) {
+        res.status(404).json({ error: "Transaccion no encontrada" });
+      }
+
+      await this.transactionService.updateTransaction(transactionToEdit);
+      res
+        .status(200)
+        .json({ message: "Transaccion actualizada correctamente" });
+    } catch (error) {
+      console.error("Error en updateTransaction:", error);
+      res.status(400).json({ error: "Error al actualizar la transaccion" });
     }
-    await this.transactionService.updateTransaction(transactionToEdit)
-    res.status(200)
   }
 
-  public async deleteTransaction(req: Request, res: Response){
-    if(req.body.categoryId){
-      await this.transactionService.deleteTransaction(req.params.id as unknown as ObjectId, req.body.categoryId)
-      res.status(200)
+  public async deleteTransaction(req: Request, res: Response) {
+    try {
+      if (req.body.categoryId) {
+        await this.transactionService.deleteTransaction(
+          req.params.id as unknown as ObjectId,
+          req.body.categoryId
+        );
+        res.status(200).json({ error: "Transaccion eliminada con exito" });
+      }
+      await this.transactionService.deleteTransaction(
+        req.params.id as unknown as ObjectId
+      );
+      res.status(200);
+    } catch (error) {
+      console.error("Error en deleteTransaction:", error);
+      res
+        .status(400)
+        .json({ error: "Ha ocurrido un error al eliminar la transaccion" });
     }
-    await this.transactionService.deleteTransaction(req.params.id as unknown as ObjectId)
-    res.status(200)
   }
 }

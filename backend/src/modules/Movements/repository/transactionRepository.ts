@@ -17,7 +17,8 @@ export default class TransactionRepository {
       });
       return allTransactions.map((transaction) => modelToEntity(transaction));
     } catch (error) {
-      throw error;
+      console.error('Error en getAll:',error);
+      throw Error("Ha ocurrido un error al recuperar las transacciones");
     }
   }
 
@@ -28,7 +29,8 @@ export default class TransactionRepository {
       )) as ITransaccionModel;
       return modelToEntity(transaction);
     } catch (error) {
-      throw error;
+      console.error('Error en getTransactionById:',error);
+      throw new Error("Ha ocurrido un error al recuperar la transaccion");
     }
   }
 
@@ -44,7 +46,8 @@ export default class TransactionRepository {
       newTransaction.save();
       return modelToEntity(newTransaction);
     } catch (error) {
-      throw error;
+      console.error('Error en saveTransaction:',error);
+      throw new Error("Ha ocurrido un error al guardar la transaccion");
     }
   }
 
@@ -58,7 +61,8 @@ export default class TransactionRepository {
       });
       return transaction;
     } catch (error) {
-      throw error;
+      console.error('Error en updateTransaction:',error);
+      throw new Event("Ha ocurrido un error al actualizar la transaccion");
     }
   }
 
@@ -66,7 +70,8 @@ export default class TransactionRepository {
     try {
       await this.transactionModel.deleteOne({ _id: transactionId });
     } catch (error) {
-      throw error;
+      console.error('Error en deleteTransaction:',error);
+      throw new Event("Ha ocurrido un error al eliminar la transaccion");
     }
   }
 }

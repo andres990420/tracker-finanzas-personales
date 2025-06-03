@@ -11,18 +11,33 @@ export default class TransactionService {
   }
 
   public async getAll(userId: ObjectId) {
-    return await this.transactionRepository.getAll(userId);
+    try {
+      return await this.transactionRepository.getAll(userId);
+    } catch (error) {
+      console.error("Error en getAll:", error);
+      throw new Error("Ha ocurrido un error al recuperar las transacciones");
+    }
   }
 
   public async getTransactionById(transactionId: ObjectId) {
-    return await this.transactionRepository.getTransactionById(transactionId);
+    try {
+      return await this.transactionRepository.getTransactionById(transactionId);
+    } catch (error) {
+      console.error("Error en getTransactionById:", error);
+      throw new Error("Ha ocurrido un error al recuperar la transaccion");
+    }
   }
 
   public async save(transaction: Transaction, userId: ObjectId) {
-    return await this.transactionRepository.saveTransaction(
-      transaction,
-      userId
-    );
+    try {
+      return await this.transactionRepository.saveTransaction(
+        transaction,
+        userId
+      );
+    } catch (error) {
+      console.error("Error en save:", error);
+      throw new Error("Ha ocurrido un error al guardar la transaccion");
+    }
   }
 
   public async saveTransactionIntoCategory(
@@ -30,29 +45,40 @@ export default class TransactionService {
     categoryId: ObjectId,
     userId: ObjectId
   ) {
-    const newTransaction = await this.transactionRepository.saveTransaction(
-      transaction,
-      userId
-    );
-    const data = {
-      categoryId: categoryId,
-      userId: userId,
-      amount: newTransaction.amount,
-      transactionId: newTransaction.id,
-    };
-    EventBus.emit(EventTypes.ADD_TRANSACTION_INTO_CATEGORY, data);
+    let newTransaction;
+    try {
+      newTransaction = await this.transactionRepository.saveTransaction(
+        transaction,
+        userId
+      );
+      const data = {
+        categoryId: categoryId,
+        userId: userId,
+        amount: newTransaction.amount,
+        transactionId: newTransaction.id,
+      };
+      EventBus.emit(EventTypes.ADD_TRANSACTION_INTO_CATEGORY, data);
+    } catch (error) {
+      console.error("Error en saveTransactionIntoCategory:", error);
+      throw new Error("Ha ocurrido un error al guardar la transaccion");
+    }
   }
 
   public async updateTransaction(transaction: Transaction) {
-    const updatedTransaction =
-      await this.transactionRepository.updateTransaction(transaction);
-    const data = {
-      transactionAmount: updatedTransaction.amount,
-      transactionId: updatedTransaction.id,
-      userId: transaction.user,
-    };
+    try {
+      const updatedTransaction =
+        await this.transactionRepository.updateTransaction(transaction);
+      const data = {
+        transactionAmount: updatedTransaction.amount,
+        transactionId: updatedTransaction.id,
+        userId: transaction.user,
+      };
 
-    EventBus.emit(EventTypes.UPDATE_CATEGORY, data);
+      EventBus.emit(EventTypes.UPDATE_CATEGORY, data);
+    } catch (error) {
+      console.error("Error en updateTransaction:", error);
+      throw new Error("Ha ocurrido un error a actulizar la transaccion");
+    }
   }
 
   public async deleteTransaction(
@@ -63,6 +89,9 @@ export default class TransactionService {
       const transaction = await this.transactionRepository.getTransactionById(
         transactionId
       );
+      if (!transaction) {
+        throw new Error("No se ha econtrado la transaccion");
+      }
       await this.transactionRepository.deleteTransaction(transactionId);
       if (categoryId) {
         EventBus.emit(EventTypes.DELETE_TRANSACTION_FROM_CATEGORY, {
@@ -71,7 +100,8 @@ export default class TransactionService {
         });
       }
     } catch (error) {
-      throw error;
+      console.error("Error en deleteTransaction:", error);
+      throw new Error("Ha ocurrido un error al eliminar una transaccion");
     }
   }
 }
