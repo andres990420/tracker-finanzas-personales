@@ -1,6 +1,6 @@
 import { FaBan } from "react-icons/fa";
 import Button from "../../UI/Button";
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "../../UI/ColorPicker";
 import CategorySelector from "./CategorySelector";
 import { useState } from "react";
 import { ColorSelector } from "../../../utils/utils";
@@ -22,12 +22,15 @@ export default function BudgetFormCategory(promps: Promps) {
     >
       <div className="h-15 p-1 border-gray-800 border-b flex justify-between">
         <h3 className="text-xl text-gray-800 font-bold">Nueva Categoria</h3>
-      <Button color="red" icon={<FaBan />} type="button" onClick={onClick}></Button>
+        <Button
+          color="red"
+          icon={<FaBan />}
+          type="button"
+          onClick={onClick}
+        ></Button>
       </div>
 
-      <div
-        className={`m-1 text-center text-gray-800 p-1`}
-      >
+      <div className={`m-1 text-center text-gray-800 p-1`}>
         <div className="flex justify-between gap-1">
           <CategorySelector />
           <ColorPicker colorSelected={bgColor} onChange={handleOnSelect} />

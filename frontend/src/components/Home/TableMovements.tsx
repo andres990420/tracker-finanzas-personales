@@ -2,8 +2,8 @@ import data from "../../assets/data.json";
 
 export default function TableMovements() {
   
-    const stylesIncomes = "font-bold border text-center bg-green-100 text-green-800 border-green-300 hover:bg-green-200"
-    const stylesExpensive = "font-bold border text-center bg-red-100/20 text-red-800 border-red-300 hover:bg-red-200"
+    const stylesIncomes = "font-bold border text-center bg-green-100 text-green-800 border-green-300 hover:bg-green-400/80"
+    const stylesExpensive = "font-bold border text-center bg-red-100/20 text-red-800 border-red-300 hover:bg-red-400/80"
     return (
     <table className="table-auto w-full border-collapse border">
       <thead className="bg-gray-800 text-white border-b font-bold text-xl border-gray-600">
@@ -12,6 +12,7 @@ export default function TableMovements() {
           <th className="px-4 py-2">Descripcion</th>
           <th className="px-4 py-2">Monto</th>
           <th className="px-4 py-2">Fecha</th>
+          <th className="px-4 py-2">Presupuesto</th>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,9 @@ export default function TableMovements() {
               {elements.amount} $
             </td>
             <td key={`${elements.id}-createdAt"`} className="border px-2 py-1">
+              {elements.created_at}
+            </td>
+            <td key={`${elements.id}-Budget"`} className="border px-2 py-1">
               {elements.created_at}
             </td>
           </tr>
