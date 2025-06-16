@@ -59,7 +59,7 @@ export default function Login(promps: Promps) {
           </p>
         )}
       </a>
-      <div className="justify-items-center justify-self-center h-15 py-2 w-100 relative">
+      <div className="justify-items-center justify-self-center h-15 mt-5 py-2 w-100 relative">
         <Button type="submit" color="blue" icon={<FaCheckCircle />}>
           {isRegistration ? "Registrar" : "Iniciar sesion"}
         </Button>

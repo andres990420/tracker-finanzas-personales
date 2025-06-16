@@ -11,23 +11,30 @@ export default function ColorPicker(promps: Promps) {
   const colors = ColorsList;
   return (
     <>
-      <label className="p-2">Color de la categoria</label>
-      <select
-        value={colorSelected}
-        onChange={onChange}
-        name={"category-color"}
-        className={"w-[50%] text-center  border-white text-black rounded-2xl border z-10"}
-      >
-        <option unselectable="on">Selecciona un color</option>
-        {colors.map((color) => (
-          <option key={color}
-            className={`text-bold text-black ${ColorSelector(color).colorContainer}`}
-            value={color}
-          >
-            {ColorSelector(color).colorName}
-          </option>
-        ))}
-      </select>
+      <div className="p-1">
+        <label className="p-2 font-bold">Color de categoria</label>
+        <select
+          value={colorSelected}
+          onChange={onChange}
+          name={"category-color"}
+          className={
+            "text-center rounded-2xl border z-10 border-black"
+          }
+        >
+          <option unselectable="on">Selecciona un color</option>
+          {colors.map((color) => (
+            <option
+              key={color}
+              className={`text-bold ${
+                ColorSelector(color).colorContainer
+              }`}
+              value={color}
+            >
+              {ColorSelector(color).colorName}
+            </option>
+          ))}
+        </select>
+      </div>
     </>
   );
 }

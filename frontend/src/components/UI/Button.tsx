@@ -23,11 +23,12 @@ export default function Button(promps: Promps) {
       break;
   }
 
-  const style = `flex justify-center m-2 w-auto min-h-fit p-1 gap-2 text-2xs rounded-xl shadow-xl text-white font-bold ${fondo} ${hover}`;
+  const style = `flex justify-center m-1 items-center min-w-fit min-h-fit p-1 gap-1 text-2xs rounded-xl shadow-xl text-white font-bold ${fondo} ${hover}`;
   return (
     <button className={style} {...promps}>
-      <i className="self-center p-1">{icon}</i>
-      {promps.children}
+      <i className="p-1">{icon}</i>
+      {promps.children && <p className="p-1">{promps.children}</p>}
+      
     </button>
   );
 }
