@@ -14,6 +14,7 @@ export default function ColorPicker(promps: Promps) {
       <div className="p-1">
         <label className="p-2 font-bold">Color de categoria</label>
         <select
+          required
           value={colorSelected}
           onChange={onChange}
           name={"category-color"}

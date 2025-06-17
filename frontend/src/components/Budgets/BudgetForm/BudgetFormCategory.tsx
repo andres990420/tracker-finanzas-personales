@@ -7,10 +7,11 @@ import { ColorSelector } from "../../../utils/utils";
 
 interface Promps {
   onClick: (event: any) => void;
+  id: number;
 }
 
 export default function BudgetFormCategory(promps: Promps) {
-  const { onClick } = promps;
+  const { onClick, id: key } = promps;
   const [bgColor, setBgColor] = useState("white");
   let colors = ColorSelector(bgColor);
   function handleOnSelect(event: any) {
@@ -22,12 +23,16 @@ export default function BudgetFormCategory(promps: Promps) {
     >
       <div className="h-15 p-1 border-gray-800 border-b flex justify-between">
         <h3 className="text-xl text-gray-800 font-bold">Nueva Categoria</h3>
-        <Button
-          color="red"
-          icon={<FaBan />}
-          type="button"
-          onClick={onClick}
-        ></Button>
+        {key === 0 ? (
+          ""
+        ) : (
+          <Button
+            color="red"
+            icon={<FaBan />}
+            type="button"
+            onClick={onClick}
+          ></Button>
+        )}
       </div>
 
       <div className={`m-1 text-center text-gray-800 p-1`}>
@@ -37,6 +42,7 @@ export default function BudgetFormCategory(promps: Promps) {
           <div className="text-gray-800 p-1">
             <label className="font-bold">Monto $</label>
             <input
+              required
               type="number"
               name="category-limit"
               className="border rounded-md text-center w-[80%] h-6 p-2"
@@ -48,12 +54,11 @@ export default function BudgetFormCategory(promps: Promps) {
 
         <div className="p-2 grid text-gray-800">
           <label className="font-bold">Descripcion de la categoria</label>
-          <input
-            type="text"
+          <textarea
             name="category-description"
-            className="border rounded-md p-2"
-            maxLength={100}
-          ></input>
+            className="border rounded-md p-2 h-25"
+            maxLength={150}
+          ></textarea>
         </div>
       </div>
     </div>

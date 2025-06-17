@@ -69,7 +69,7 @@ export default function Budgets() {
         </div>
         
       </section>
-      <Modal isActive={isModalActive} setIsActive={setIsModalActive} >
+      <Modal isActive={isModalActive} setIsActive={setIsModalActive} title="Nuevo Presupuesto">
         <BudgetForm cancelForm={cancelForm}/>
       </Modal>
       <section>
