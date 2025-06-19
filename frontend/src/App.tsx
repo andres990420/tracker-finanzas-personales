@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import SideMenu from "./components/SideMenu/SideMenu";
 import Budgets from "./pages/Budgets";
 import { createBrowserRouter, RouterProvider } from "react-router";
+import ProtectedRoutes from "./pages/ProtectedRoutes";
 
 function App() {
   return (
@@ -25,8 +26,12 @@ const router = createBrowserRouter([
     Component: Home,
   },
   {
-    path: "/budgets",
-    Component: Budgets
+    path: "/",
+    Component: ProtectedRoutes, 
+    children: [{
+      path: "/budgets",
+      Component: Budgets
+    }]
   },
   {
     path: "goals",

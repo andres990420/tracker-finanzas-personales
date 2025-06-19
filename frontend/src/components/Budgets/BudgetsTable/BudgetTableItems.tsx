@@ -26,7 +26,7 @@ export default function BudgetsTableItems(promps: Propms) {
       <div className="relative w-[55%] px-2 py-2 m-3">
         <div className="relative w-[100%] h-6 bg-gray-200 border border-gray-400 rounded-2xl overflow-hidden">
           <div
-            className={`absolute w-[${currentProgress}%] h-[100%]  shadow-2xl  rounded-2xl overflow-hidden  ${colors.colorProgressBar}`}
+            className={`absolute w-[${0}%] h-[100%]  shadow-2xl  rounded-2xl overflow-hidden  ${colors.colorProgressBar}`}
           ></div>
         </div>
         <p className="text-xl">

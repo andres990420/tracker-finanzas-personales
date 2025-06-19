@@ -2,6 +2,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import Button from "../../UI/Button";
 import BudgetsTableItems from "./BudgetTableItems";
 import { useState } from "react";
+import { CalculateProgress } from "../../../utils/utils";
 
 interface Promps {
   limitValue: number;
@@ -23,7 +24,6 @@ interface Promps {
 export default function BudgetsTable(promps: Promps) {
   const { limitValue, currentValue, percentage, budgetName, childrensTables } =
     promps;
-
   const [hidden, setHidden] = useState(true);
   const [buttonIcon, setButtonIcon] = useState(<FaPlus className="h-4 w-4" />);
   function handleClick() {
@@ -32,7 +32,8 @@ export default function BudgetsTable(promps: Promps) {
       : setButtonIcon(<FaPlus className="h-4 w-4" />);
     setHidden(!hidden);
   }
-  const progressBar = `w-[${percentage}%]`;
+  const style = `w-[${CalculateProgress(currentValue, limitValue)}%]`;
+
   return (
     <div className="border border-gray-200 rounded-2xl p-2 font-bold bg-gray-300/60 m-5">
       <div className="flex  border-gray-300 justify-between p-5 rounded-xl border bg-gray-800 shadow-xl">
@@ -43,7 +44,7 @@ export default function BudgetsTable(promps: Promps) {
         <div className="relative w-[55%] p-2  text-white text-center">
           <div className="relative w-[100%] h-6 bg-gray-200 border border-gray-400 rounded-2xl overflow-hidden">
             <div
-              className={`absolute ${progressBar} h-[100%] bg-amber-500/80 shadow-2xl  rounded-2xl overflow-hidden text-start text-black`}
+              className={`absolute w-[${20}%] h-[100%] bg-amber-500/80 shadow-2xl  rounded-2xl overflow-hidden text-start text-black`}
             ></div>
           </div>
           <p className="text-xl p-1">

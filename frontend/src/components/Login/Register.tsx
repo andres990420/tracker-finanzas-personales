@@ -10,19 +10,20 @@ interface Promps {
   setModalActive: (modal: string) => void;
   switchModal: (modalToActive: string) => void;
 }
-
-export default function Login(promps: Promps) {
-  const { setModalActive, switchModal } = promps;
+export default function Register(promps: Promps) {
+  const { setModalActive, switchModal: swicthModal } = promps;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const { login } = useAuth();
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const { login, signup } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      await signup(email, password, confirmPassword);
       await login(email, password);
-      console.log("Login correcto");
-      setModalActive("login");
+      console.log("Registro completado");
+      setModalActive("register");
       window.location.href = "/";
     } catch (error) {
       console.error(error);
@@ -48,14 +49,26 @@ export default function Login(promps: Promps) {
         name="password"
         onChange={(e) => setPassword(e.target.value)}
       />
-      <a onClick={() => switchModal("register")} className="text-blue-800">
+
+      <>
+        <Label>Confirma la Contraseña</Label>
+        <Input
+          type="password"
+          name="confirmPassword"
+          placeholder="Repita la contraseña"
+          required
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </>
+
+      <a className="text-blue-800" onClick={() => swicthModal("login")}>
         <p>
-          No tienes una cuenta? <strong>Registrate Aqui</strong>
+          Ya estas registrado? <strong>Inicia sesion</strong>
         </p>
       </a>
       <div className="justify-items-center justify-self-center h-15 mt-5 py-2 w-100 relative">
         <Button type="submit" color="blue" icon={<FaCheckCircle />}>
-          Iniciar sesion
+          Registrar
         </Button>
       </div>
     </form>

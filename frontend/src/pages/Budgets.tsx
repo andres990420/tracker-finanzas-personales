@@ -4,6 +4,9 @@ import BudgetsTable from "../components/Budgets/BudgetsTable/BudgetsTable";
 import Button from "../components/UI/Button";
 import { FaPlusCircle } from "react-icons/fa";
 import Modal from "../components/Modal/Modal";
+import { useAuth } from "../auth/AuthProvider";
+import { useNavigate } from "react-router";
+import { CalculateProgress } from "../utils/utils";
 
 interface IBudgets {
   id: string;
@@ -13,6 +16,7 @@ interface IBudgets {
   maxAmount: number;
   categories: [
     {
+      id: string;
       type: string;
       color: string;
       description: string;
@@ -26,21 +30,28 @@ interface IBudgets {
 
 export default function Budgets() {
   const [isModalActive, setIsModalActive] = useState(false);
-
   const [budgets, setBudgets] = useState(Array<IBudgets>);
-  useEffect(() => {
-    async function fetchApiBudgets() {
-      try {
-        const response = await fetch("http://localhost:4000/budgets");
-        const data = await response.json();
-        setBudgets(data);
-      } catch (error) {
-        console.error(error)
-      }
+  const { isAuthenticated } = useAuth();
+  const goTo = useNavigate();
+
+  // if (!isAuthenticated) {
+  //     goTo("/");
+  //   }
+
+  async function fetchApiBudgets() {
+    try {
+      const response = await fetch("http://localhost:4000/budgets", {
+        credentials: "include",
+      });
+      const data = await response.json();
+      setBudgets(data);
+    } catch (error) {
+      console.error(error);
     }
+  }
+  useEffect(() => {
     fetchApiBudgets();
   }, []);
-  let percentage;
 
   function cancelForm() {
     setIsModalActive(!isModalActive);
@@ -61,21 +72,19 @@ export default function Budgets() {
           </Button>
         </div>
         <div className="items-center">
-          {budgets.map(
-            (budget) => (
-              (percentage = budget.currentAmount / budget.maxAmount),
-              (
-                <BudgetsTable
-                  key={budget.id}
-                  budgetName={budget.name}
-                  limitValue={budget.maxAmount}
-                  currentValue={budget.currentAmount}
-                  percentage={percentage}
-                  // childrensTables={budget.categories}
-                />
-              )
-            )
-          )}
+          {budgets.map((budget) => (
+            <BudgetsTable
+              key={budget.id}
+              budgetName={budget.name}
+              limitValue={budget.maxAmount}
+              currentValue={budget.currentAmount}
+              percentage={CalculateProgress(
+                budget.currentAmount,
+                budget.maxAmount
+              )}
+              childrensTables={budget.categories}
+            />
+          ))}
           <BudgetsTable
             limitValue={20000}
             currentValue={10000}
