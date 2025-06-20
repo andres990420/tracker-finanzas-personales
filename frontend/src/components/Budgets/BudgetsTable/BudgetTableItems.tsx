@@ -1,4 +1,5 @@
 import { ColorSelector } from "../../../utils/utils";
+import ProgressBar from "./ProgressBar";
 
 interface Propms {
   color: string;
@@ -23,16 +24,12 @@ export default function BudgetsTableItems(promps: Propms) {
           {categoryDescription}
         </p>
       </div>
-      <div className="relative w-[55%] px-2 py-2 m-3">
-        <div className="relative w-[100%] h-6 bg-gray-200 border border-gray-400 rounded-2xl overflow-hidden">
-          <div
-            className={`absolute w-[${0}%] h-[100%]  shadow-2xl  rounded-2xl overflow-hidden  ${colors.colorProgressBar}`}
-          ></div>
-        </div>
-        <p className="text-xl">
-          {currentValue}$/{limitValue}$
-        </p>
-      </div>
+      <ProgressBar
+        percentage={currentProgress}
+        limitValue={limitValue}
+        currentValue={currentValue}
+        color={colors.colorProgressBar}
+      />
       <span className="p-2 text-xl">{currentProgress}%</span>
     </div>
   );

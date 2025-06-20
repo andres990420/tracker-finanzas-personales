@@ -2,7 +2,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import Button from "../../UI/Button";
 import BudgetsTableItems from "./BudgetTableItems";
 import { useState } from "react";
-import { CalculateProgress } from "../../../utils/utils";
+import ProgressBar from "./ProgressBar";
 
 interface Promps {
   limitValue: number;
@@ -32,7 +32,6 @@ export default function BudgetsTable(promps: Promps) {
       : setButtonIcon(<FaPlus className="h-4 w-4" />);
     setHidden(!hidden);
   }
-  const style = `w-[${CalculateProgress(currentValue, limitValue)}%]`;
 
   return (
     <div className="border border-gray-200 rounded-2xl p-2 font-bold bg-gray-300/60 m-5">
@@ -40,17 +39,7 @@ export default function BudgetsTable(promps: Promps) {
         <div className="text-center min-h-fit p-3 text-white">
           <h2 className="text-2xl">{budgetName}</h2>
         </div>
-
-        <div className="relative w-[55%] p-2  text-white text-center">
-          <div className="relative w-[100%] h-6 bg-gray-200 border border-gray-400 rounded-2xl overflow-hidden">
-            <div
-              className={`absolute w-[${20}%] h-[100%] bg-amber-500/80 shadow-2xl  rounded-2xl overflow-hidden text-start text-black`}
-            ></div>
-          </div>
-          <p className="text-xl p-1">
-            {currentValue}$/ {limitValue}$
-          </p>
-        </div>
+        <ProgressBar percentage={percentage} limitValue={limitValue} currentValue={currentValue}/>
         <div>
           <p className="text-2xl mt-1 text-white">{percentage}%</p>
           {childrensTables && (

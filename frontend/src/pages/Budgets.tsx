@@ -34,13 +34,14 @@ export default function Budgets() {
   const { isAuthenticated } = useAuth();
   const goTo = useNavigate();
 
-  // if (!isAuthenticated) {
-  //     goTo("/");
-  //   }
+  if (!isAuthenticated) {
+      goTo("/");
+    }
 
   async function fetchApiBudgets() {
     try {
       const response = await fetch("http://localhost:4000/budgets", {
+        method:"GET",
         credentials: "include",
       });
       const data = await response.json();
