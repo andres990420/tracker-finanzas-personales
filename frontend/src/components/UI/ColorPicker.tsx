@@ -3,6 +3,7 @@ import { ColorSelector, ColorsList } from "../../utils/utils";
 interface Promps {
   onChange: (event: any) => void;
   colorSelected: string;
+
 }
 
 export default function ColorPicker(promps: Promps) {
@@ -20,7 +21,7 @@ export default function ColorPicker(promps: Promps) {
           name={"category-color"}
           className={"text-center rounded-2xl border z-10 border-black"}
         >
-          <option unselectable="on">Selecciona un color</option>
+          <option defaultValue={'bg-white'}>Selecciona un color</option>
           {colors.map((color) => (
             <option
               key={color}

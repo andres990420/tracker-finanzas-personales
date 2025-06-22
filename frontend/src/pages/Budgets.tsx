@@ -35,13 +35,13 @@ export default function Budgets() {
   const goTo = useNavigate();
 
   if (!isAuthenticated) {
-      goTo("/");
-    }
+    goTo("/");
+  }
 
   async function fetchApiBudgets() {
     try {
       const response = await fetch("http://localhost:4000/budgets", {
-        method:"GET",
+        method: "GET",
         credentials: "include",
       });
       const data = await response.json();
@@ -54,7 +54,7 @@ export default function Budgets() {
     fetchApiBudgets();
   }, []);
 
-  function cancelForm() {
+  function closeForm() {
     setIsModalActive(!isModalActive);
   }
 
@@ -86,12 +86,6 @@ export default function Budgets() {
               childrensTables={budget.categories}
             />
           ))}
-          <BudgetsTable
-            limitValue={20000}
-            currentValue={10000}
-            percentage={50}
-            budgetName="Nombre del presupuesto"
-          />
         </div>
       </section>
       <Modal
@@ -99,7 +93,7 @@ export default function Budgets() {
         setIsActive={setIsModalActive}
         title="Nuevo Presupuesto"
       >
-        <BudgetForm cancelForm={cancelForm} />
+        <BudgetForm closeForm={closeForm} />
       </Modal>
       <section></section>
     </main>

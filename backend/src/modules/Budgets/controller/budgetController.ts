@@ -29,7 +29,6 @@ export default class BudgetsController {
   }
 
   async saveBudget(req: Request, res: Response) {
-    console.log(typeof req.user);
     try {
       await this.budgetService.save(req.body, req.user as ObjectId);
       res.status(204).json("Presupuesto creado con exito");

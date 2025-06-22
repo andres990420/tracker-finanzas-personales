@@ -1,21 +1,25 @@
 import { FaBan } from "react-icons/fa";
 import Button from "../../UI/Button";
 import ColorPicker from "../../UI/ColorPicker";
-import CategorySelector from "./CategorySelector";
 import { useState } from "react";
 import { ColorSelector } from "../../../utils/utils";
 
 interface Promps {
   onClick: (event: any) => void;
   id: number;
+  setCategoryLimit: (event: any, id:number)=> void
+  setCategoryColor: (event: any, id:number)=> void
+  setCategoryDescription: (event: any, id:number)=> void
+  categorySelector: React.ReactNode
 }
 
 export default function BudgetFormCategory(promps: Promps) {
-  const { onClick, id: key } = promps;
+  const { onClick, id, setCategoryColor, setCategoryLimit, setCategoryDescription, categorySelector } = promps;
   const [bgColor, setBgColor] = useState("white");
   let colors = ColorSelector(bgColor);
   function handleOnSelect(event: any) {
     setBgColor(event.target.value);
+    setCategoryColor(event, id)
   }
   return (
     <div
@@ -23,7 +27,7 @@ export default function BudgetFormCategory(promps: Promps) {
     >
       <div className="h-15 p-1 border-gray-800 border-b flex justify-between">
         <h3 className="text-xl text-gray-800 font-bold">Nueva Categoria</h3>
-        {key === 0 ? (
+        {id === 0 ? (
           ""
         ) : (
           <Button
@@ -37,7 +41,7 @@ export default function BudgetFormCategory(promps: Promps) {
 
       <div className={`m-1 text-center text-gray-800 p-1`}>
         <div className="flex justify-between gap-1">
-          <CategorySelector />
+          {categorySelector}
           <ColorPicker colorSelected={bgColor} onChange={handleOnSelect} />
           <div className="text-gray-800 p-1">
             <label className="font-bold">Monto $</label>
@@ -48,6 +52,7 @@ export default function BudgetFormCategory(promps: Promps) {
               className="border rounded-md text-center w-[80%] h-6 p-2"
               max={9999999}
               maxLength={6}
+              onChange={(e)=>setCategoryLimit(e, id)}
             ></input>
           </div>
         </div>
@@ -58,6 +63,8 @@ export default function BudgetFormCategory(promps: Promps) {
             name="category-description"
             className="border rounded-md p-2 h-25"
             maxLength={150}
+            onChange={(e)=>setCategoryDescription(e, id)}
+            defaultValue={''}
           ></textarea>
         </div>
       </div>
