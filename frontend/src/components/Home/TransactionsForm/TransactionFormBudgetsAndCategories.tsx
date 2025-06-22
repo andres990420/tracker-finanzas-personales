@@ -1,15 +1,19 @@
-import { useState, type ReactNode } from "react";
+import {  useState, type ReactNode } from "react";
+import type { IBudgets } from "../../../types/models";
 
-export default function TransactionFormBudgetsAndCategories() {
-  const [categories, setCategories] = useState(Array);
+interface Promps{
+  budgets: IBudgets[]
+  setCategoryId:(id: string) => void
+}
+
+export default function TransactionFormBudgetsAndCategories(promps: Promps) {
+  const {budgets, setCategoryId} = promps
+  const [categories, setCategories] = useState<React.ReactNode[] | React.ReactNode>();
   const [haveCategories, setHaveCategories] = useState(false);
 
-  function selectBudget() {
-    const select = document.getElementById(
-      "select-budgets"
-    ) as HTMLSelectElement;
+  function selectBudget(e : any) {
     const budgetCategories = searchCategoriesOfBudget(
-      select.selectedOptions[0].value
+      e.target.value
     );
     if (budgetCategories) {
       setCategories(budgetCategories);
@@ -18,14 +22,26 @@ export default function TransactionFormBudgetsAndCategories() {
       setHaveCategories(false);
     }
   }
-  function searchCategoriesOfBudget(budgetId: string) {
-    const data = [1, 2, 3, 4, 5];
-    return data.map((element) => (
-      <option value="element">
-        categoria {element} de {budgetId}
-      </option>
-    ));
+  function searchCategoriesOfBudget(id: string) {
+    const budget = budgets.find((budget) => 
+      budget.id === id
+    );
+    if (budget) {
+      const categories = budget.categories;
+      if (categories) {
+        return categories.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.type} {category.color}
+          </option>
+        ));
+      }
+    }
   }
+
+  function handleCategoryChange(e:any){
+    setCategoryId(e.target.value)
+  }
+
   return (
     <div className="grid gap-1  border-gray-400 border-t border-b py-4 px-3  m-1  transition-all duration-300 ">
       <label className="font-bold text-lg">Presupuesto</label>
@@ -33,13 +49,16 @@ export default function TransactionFormBudgetsAndCategories() {
         required
         className="border border-gray-800 rounded-2xl p-1 text-center"
         id="select-budgets"
-        onChange={() => selectBudget()}
+        onChange={(e) => selectBudget(e)}
       >
         <option value={""} selected disabled>
           Seleccione un presupuesto
         </option>
-        <option value={1}>Presupuesto 1</option>
-        <option value={2}>Presupuesto 2</option>
+        {budgets.map((budget) => (
+          <option key={budget.id} value={budget.id}>
+            {budget.name}
+          </option>
+        ))}
       </select>
 
       {haveCategories && (
@@ -49,6 +68,7 @@ export default function TransactionFormBudgetsAndCategories() {
             required
             className="border border-gray-800 rounded-2xl p-1 text-center"
             name="categoryId"
+            onChange={(e)=>handleCategoryChange(e)}
           >
             {categories as ReactNode}
           </select>

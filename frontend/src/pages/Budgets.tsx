@@ -7,26 +7,9 @@ import Modal from "../components/Modal/Modal";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router";
 import { CalculateProgress } from "../utils/utils";
+import type { IBudgets } from "../types/models";
+import { fetchApiBudgets } from "../Service/api";
 
-interface IBudgets {
-  id: string;
-  user: string;
-  name: string;
-  currentAmount: number;
-  maxAmount: number;
-  categories: [
-    {
-      id: string;
-      type: string;
-      color: string;
-      description: string;
-      currentAmount: number;
-      maxAmount: number;
-    }
-  ];
-  createdAt: Date;
-  updtedAt: Date;
-}
 
 export default function Budgets() {
   const [isModalActive, setIsModalActive] = useState(false);
@@ -38,20 +21,16 @@ export default function Budgets() {
     goTo("/");
   }
 
-  async function fetchApiBudgets() {
+  async function recoverBudgets() {
     try {
-      const response = await fetch("http://localhost:4000/budgets", {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await response.json();
+      const data = await fetchApiBudgets()
       setBudgets(data);
     } catch (error) {
-      console.error(error);
+      throw console.error(error);
     }
   }
   useEffect(() => {
-    fetchApiBudgets();
+    recoverBudgets();
   }, []);
 
   function closeForm() {

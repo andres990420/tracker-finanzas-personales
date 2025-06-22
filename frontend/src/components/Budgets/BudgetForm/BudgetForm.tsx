@@ -3,6 +3,7 @@ import Button from "../../UI/Button";
 import BudgetFormCategory from "./BudgetFormCategory";
 import { useState } from "react";
 import CategorySelector from "./CategorySelector";
+import { sendBudgetForm } from "../../../Service/api";
 
 interface Promps {
   closeForm: () => void;
@@ -113,18 +114,8 @@ export default function BudgetForm(promps: Promps) {
       })
     );
     try {
-      await fetch("http://localhost:4000/budgets/create", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          "budget-name": budgetName,
-          "category-type": categoryType,
-          "category-limit": categoryLimit,
-          "category-color": categoryColor,
-          "category-description": categoryDescription,
-        }),
-      });
+      await sendBudgetForm(budgetName, categoryType, categoryLimit, categoryColor, categoryDescription);
+      
     } catch (error) {
       throw console.error(error);
     }
