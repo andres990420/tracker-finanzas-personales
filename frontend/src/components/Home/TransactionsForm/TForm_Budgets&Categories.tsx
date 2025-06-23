@@ -1,12 +1,14 @@
 import { useState, type ReactNode } from "react";
 import type { IBudgets } from "../../../types/models";
+import TooltipButton from "../../UI/TooltipButton";
+import { tooltipsInfo } from "../../../assets/tooltipsInfo";
 
 interface Promps {
   budgets: IBudgets[];
   setCategoryId: (id: string) => void;
 }
 
-export default function TransactionFormBudgetsAndCategories(promps: Promps) {
+export default function TForm_BudgetsAndCategories(promps: Promps) {
   const { budgets, setCategoryId } = promps;
   const [categories, setCategories] = useState<
     React.ReactNode[] | React.ReactNode
@@ -42,7 +44,16 @@ export default function TransactionFormBudgetsAndCategories(promps: Promps) {
 
   return (
     <div className="grid gap-1  border-gray-400 border-t border-b py-4 px-3  m-1  transition-all duration-300 ">
-      <label className="font-bold text-lg">Presupuesto</label>
+      <label className="font-bold text-lg flex justify-between">
+        Presupuesto
+        {
+          <TooltipButton
+            tooltipVariant="info"
+            tooltipId="form"
+            tooltipContent={tooltipsInfo.TRANSACTION_FORM_BUDGET}
+          />
+        }
+      </label>
       <select
         required
         className="border border-gray-800 rounded-2xl p-1 text-center"
@@ -61,7 +72,15 @@ export default function TransactionFormBudgetsAndCategories(promps: Promps) {
 
       {haveCategories && (
         <div className="grid gap-1">
-          <label className="font-bold text-lg">Categoria</label>
+          <label className="font-bold text-lg flex justify-between">Categoria
+            {
+          <TooltipButton
+            tooltipVariant="info"
+            tooltipId="form"
+            tooltipContent={tooltipsInfo.TRANSACTION_FORM_BUDGET_CATEGORY}
+          />
+        }
+          </label>
           <select
             required
             className="border border-gray-800 rounded-2xl p-1 text-center"

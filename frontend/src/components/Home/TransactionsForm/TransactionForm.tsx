@@ -2,13 +2,17 @@ import { FaBan, FaCheckCircle } from "react-icons/fa";
 import Button from "../../UI/Button";
 import { useState, useEffect } from "react";
 import SwitchButton from "../../UI/SwitchButton";
-import TransactionFormBudgetsAndCategories from "./TransactionFormBudgetsAndCategories";
+import TForm_BudgetsAndCategories from "./TForm_Budgets&Categories.tsx";
 import type { IBudgets } from "../../../types/models";
 import { fetchApiBudgets, sendTransactionsForm } from "../../../Service/api";
-import {
-  transactionsExpensivesCategories,
-  transactionsIncomesCategories,
-} from "../../../assets/categories";
+import TooltipButton from "../../UI/TooltipButton.tsx";
+import { tooltipsInfo } from "../../../assets/tooltipsInfo";
+import { Tooltip } from "react-tooltip";
+import TForm_Type from "./TForm_Type.tsx";
+import TForm_Date from "./TForm_Date.tsx";
+import TForm_amount from "./TForm_amount.tsx";
+import TForm_Category from "./TForm_category.tsx";
+import TForm_description from "./TForm_description.tsx";
 
 interface Promps {
   cancelForm: () => void;
@@ -16,8 +20,7 @@ interface Promps {
 
 export default function TransactionForm(promps: Promps) {
   const { cancelForm } = promps;
-  const incomesCategories = transactionsIncomesCategories;
-  const expensivesCategories = transactionsExpensivesCategories;
+  const tooltipInfo = tooltipsInfo;
 
   const [haveBudget, setHaveBudget] = useState(false);
   const [budgets, setBudgets] = useState<IBudgets[]>();
@@ -83,103 +86,31 @@ export default function TransactionForm(promps: Promps) {
   return (
     <form method="POST" className="m-1" onSubmit={handlerSubmit}>
       <div className="grid gap-2 p-1 m-1">
-        <label className="font-bold text-xl">Tipo de transaccion</label>
-        <select
-          required
-          name="type"
-          id="select-type-transaction"
-          className={`border font-bold rounded-2xl p-1 text-center ${
-            transactionType === "Income"
-              ? "bg-green-200/40 text-green-800 border-green-600"
-              : transactionType === "Expensive"
-              ? "bg-red-200/50 text-red-800 border-red-600"
-              : "bg-white"
-          }`}
-          onChange={(e) => selectTypeTransaction(e)}
-        >
-          <option className="bg-white" disabled value={""} selected>
-            Selecciona el tipo de transaccion
-          </option>
-          <option
-            className="bg-green-600/40 text-green-800 selection:bg-blue-20"
-            value={"Income"}
-          >
-            Ingreso
-          </option>
-          <option className="bg-red-400/50 text-red-800" value={"Expensive"}>
-            Gasto
-          </option>
-        </select>
+        <TForm_Type
+          handleSelect={selectTypeTransaction}
+          transactionType={transactionType}
+        />
 
-        <div className={transactionType !== "" ? " grid gap-2 p-1" : "hidden"}>
-          <label className="font-bold text-xl p-1">
-            Fecha de la transaccion
-          </label>
-          <input
-            type="date"
-            name="date"
-            className="border border-gray-800 rounded-2xl p-1 justify-items-center font-bold"
-            required
-            onChange={(e) => setDate(e.target.value)}
-          ></input>
-          <label className="font-bold text-xl p-1">Monto</label>
-          <input
-            required
-            name="amount"
-            type="number"
-            className="border border-gray-800 rounded-2xl p-1 text-center font-bold"
-            placeholder="Ingrese el monto de la transaccion"
-            onChange={(e) => setAmount(e.target.value)}
-          ></input>
-          <label className="font-bold text-xl p-1">Categoria</label>
-          <select
-            required
-            className={`border border-gray-800 rounded-2xl p-1 text-center font-bold ${
-              transactionType === "Income"
-                ? "bg-green-200/40 text-green-800 border-green-600"
-                : transactionType === "Expensive"
-                ? "bg-red-200/50 text-red-800 border-red-600"
-                : "bg-white"
-            }`}
-            name="category"
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {transactionType === "Income" ? (
-              <>
-                <option selected disabled value={""} className="bg-white">
-                  Categorias de ingresos
-                </option>
-                {incomesCategories.map((category) => (
-                  <option value={category[1]}>{category[0]}</option>
-                ))}
-              </>
-            ) : transactionType === "Expensive" ? (
-              <>
-                <option selected disabled value={""} className="bg-white">
-                  Categoria de gastos
-                </option>
-                {expensivesCategories.map((category) => (
-                  <option value={category[1]}>{category[0]}</option>
-                ))}
-              </>
-            ) : (
-              <option>Seleccione el tipo de transaccion</option>
-            )}
-          </select>
+        <div className={transactionType !== "" ? " grid gap-2" : "hidden"}>
+          <TForm_Date setDate={setDate} />
+          <TForm_amount setAmount={setAmount} />
+          <TForm_Category
+            setCategory={setCategory}
+            transactionType={transactionType}
+          />
+          <TForm_description setDescription={setDescription} />
 
-          <label className="font-bold text-xl p-1">
-            Descripcion de la transacion
-          </label>
-          <textarea
-            name="description"
-            className="border border-gray-800 rounded-xl p-2 h-25"
-            maxLength={150}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
           {budgets && (
             <div className={`flex justify-between m-1 p-1`}>
-              <label className="font-bold text-lg p-1 text-blue-500">
+              <label className="font-bold text-lg p-1 text-blue-500 flex gap-2">
                 Agregar a un presupuesto?
+                {
+                  <TooltipButton
+                    tooltipVariant="info"
+                    tooltipId="form"
+                    tooltipContent={tooltipInfo.TRANSACTION_FORM_ADD_BUDGET}
+                  />
+                }
               </label>
               <SwitchButton
                 eventTrigger={activeBudget}
@@ -189,7 +120,7 @@ export default function TransactionForm(promps: Promps) {
             </div>
           )}
           {haveBudget && budgets && (
-            <TransactionFormBudgetsAndCategories
+            <TForm_BudgetsAndCategories
               budgets={budgets}
               setCategoryId={setCategoryId}
             />
@@ -205,6 +136,7 @@ export default function TransactionForm(promps: Promps) {
           Cancelar
         </Button>
       </div>
+      <Tooltip id={"form"} place="top" style={{ width: 250 }} />
     </form>
   );
 }
