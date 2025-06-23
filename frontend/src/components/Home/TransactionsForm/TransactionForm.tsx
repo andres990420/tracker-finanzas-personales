@@ -5,6 +5,10 @@ import SwitchButton from "../../UI/SwitchButton";
 import TransactionFormBudgetsAndCategories from "./TransactionFormBudgetsAndCategories";
 import type { IBudgets } from "../../../types/models";
 import { fetchApiBudgets, sendTransactionsForm } from "../../../Service/api";
+import {
+  transactionsExpensivesCategories,
+  transactionsIncomesCategories,
+} from "../../../assets/categories";
 
 interface Promps {
   cancelForm: () => void;
@@ -12,6 +16,8 @@ interface Promps {
 
 export default function TransactionForm(promps: Promps) {
   const { cancelForm } = promps;
+  const incomesCategories = transactionsIncomesCategories;
+  const expensivesCategories = transactionsExpensivesCategories;
 
   const [haveBudget, setHaveBudget] = useState(false);
   const [budgets, setBudgets] = useState<IBudgets[]>();
@@ -83,9 +89,9 @@ export default function TransactionForm(promps: Promps) {
           name="type"
           id="select-type-transaction"
           className={`border font-bold rounded-2xl p-1 text-center ${
-            transactionType === "income"
+            transactionType === "Income"
               ? "bg-green-200/40 text-green-800 border-green-600"
-              : transactionType === "expensive"
+              : transactionType === "Expensive"
               ? "bg-red-200/50 text-red-800 border-red-600"
               : "bg-white"
           }`}
@@ -112,7 +118,7 @@ export default function TransactionForm(promps: Promps) {
           <input
             type="date"
             name="date"
-            className="border border-gray-800 rounded-2xl p-1 text-center"
+            className="border border-gray-800 rounded-2xl p-1 justify-items-center font-bold"
             required
             onChange={(e) => setDate(e.target.value)}
           ></input>
@@ -121,26 +127,40 @@ export default function TransactionForm(promps: Promps) {
             required
             name="amount"
             type="number"
-            className="border border-gray-800 rounded-2xl p-1 text-center"
+            className="border border-gray-800 rounded-2xl p-1 text-center font-bold"
             placeholder="Ingrese el monto de la transaccion"
             onChange={(e) => setAmount(e.target.value)}
           ></input>
           <label className="font-bold text-xl p-1">Categoria</label>
           <select
             required
-            className="border border-gray-800 rounded-2xl p-1 text-center"
+            className={`border border-gray-800 rounded-2xl p-1 text-center font-bold ${
+              transactionType === "Income"
+                ? "bg-green-200/40 text-green-800 border-green-600"
+                : transactionType === "Expensive"
+                ? "bg-red-200/50 text-red-800 border-red-600"
+                : "bg-white"
+            }`}
             name="category"
             onChange={(e) => setCategory(e.target.value)}
           >
             {transactionType === "Income" ? (
               <>
-                <option>Categorias de ingresos</option>
-                <option value={"option 1"}>1</option>
+                <option selected disabled value={""} className="bg-white">
+                  Categorias de ingresos
+                </option>
+                {incomesCategories.map((category) => (
+                  <option value={category[1]}>{category[0]}</option>
+                ))}
               </>
             ) : transactionType === "Expensive" ? (
               <>
-                <option>Categoria de gastos</option>
-                <option value={"option 1"}>1</option>
+                <option selected disabled value={""} className="bg-white">
+                  Categoria de gastos
+                </option>
+                {expensivesCategories.map((category) => (
+                  <option value={category[1]}>{category[0]}</option>
+                ))}
               </>
             ) : (
               <option>Seleccione el tipo de transaccion</option>

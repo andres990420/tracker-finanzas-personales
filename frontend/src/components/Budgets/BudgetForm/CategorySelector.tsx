@@ -1,9 +1,12 @@
-interface Promps{
-  onChangeHandle : (event: any)=> void
+import { budgetsCategories } from "../../../assets/categories";
+
+interface Promps {
+  onChangeHandle: (event: any) => void;
 }
 
 export default function CategorySelector(promps: Promps) {
-  const { onChangeHandle} = promps
+  const { onChangeHandle } = promps;
+  const budgetCategories = budgetsCategories;
 
   return (
     <div className="gap-3 p-1">
@@ -14,9 +17,12 @@ export default function CategorySelector(promps: Promps) {
         required
         onChange={onChangeHandle}
       >
-        <option selected disabled value={''} >Selecciona una categoria</option>
-        <option value={"food"}>Comida</option>
-        <option value={"transportation"}>Trasnporte</option>
+        <option selected disabled value={""}>
+          Selecciona una categoria
+        </option>
+        {budgetCategories.map((category) => (
+          <option value={category[1]}>{category[0]}</option>
+        ))}
       </select>
     </div>
   );

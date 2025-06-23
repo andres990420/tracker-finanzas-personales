@@ -1,20 +1,20 @@
-import {  useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import type { IBudgets } from "../../../types/models";
 
-interface Promps{
-  budgets: IBudgets[]
-  setCategoryId:(id: string) => void
+interface Promps {
+  budgets: IBudgets[];
+  setCategoryId: (id: string) => void;
 }
 
 export default function TransactionFormBudgetsAndCategories(promps: Promps) {
-  const {budgets, setCategoryId} = promps
-  const [categories, setCategories] = useState<React.ReactNode[] | React.ReactNode>();
+  const { budgets, setCategoryId } = promps;
+  const [categories, setCategories] = useState<
+    React.ReactNode[] | React.ReactNode
+  >();
   const [haveCategories, setHaveCategories] = useState(false);
 
-  function selectBudget(e : any) {
-    const budgetCategories = searchCategoriesOfBudget(
-      e.target.value
-    );
+  function selectBudget(e: any) {
+    const budgetCategories = searchCategoriesOfBudget(e.target.value);
     if (budgetCategories) {
       setCategories(budgetCategories);
       setHaveCategories(true);
@@ -23,23 +23,21 @@ export default function TransactionFormBudgetsAndCategories(promps: Promps) {
     }
   }
   function searchCategoriesOfBudget(id: string) {
-    const budget = budgets.find((budget) => 
-      budget.id === id
-    );
+    const budget = budgets.find((budget) => budget.id === id);
     if (budget) {
       const categories = budget.categories;
       if (categories) {
         return categories.map((category) => (
           <option key={category.id} value={category.id}>
-            {category.type} {category.color}
+            {category.type}
           </option>
         ));
       }
     }
   }
 
-  function handleCategoryChange(e:any){
-    setCategoryId(e.target.value)
+  function handleCategoryChange(e: any) {
+    setCategoryId(e.target.value);
   }
 
   return (
@@ -68,7 +66,7 @@ export default function TransactionFormBudgetsAndCategories(promps: Promps) {
             required
             className="border border-gray-800 rounded-2xl p-1 text-center"
             name="categoryId"
-            onChange={(e)=>handleCategoryChange(e)}
+            onChange={(e) => handleCategoryChange(e)}
           >
             {categories as ReactNode}
           </select>
