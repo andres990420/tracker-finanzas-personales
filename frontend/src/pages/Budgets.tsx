@@ -9,11 +9,13 @@ import { useNavigate } from "react-router";
 import { CalculateProgress } from "../utils/utils";
 import type { IBudgets } from "../types/models";
 import { fetchApiBudgets } from "../Service/api";
+import Loader from "../components/UI/Loader";
 
 
 export default function Budgets() {
   const [isModalActive, setIsModalActive] = useState(false);
   const [budgets, setBudgets] = useState(Array<IBudgets>);
+  const [loader, setLoader] = useState<boolean>(true);
   const { isAuthenticated } = useAuth();
   const goTo = useNavigate();
 
@@ -22,11 +24,14 @@ export default function Budgets() {
   }
 
   async function recoverBudgets() {
+    setLoader(true);
     try {
       const data = await fetchApiBudgets()
       setBudgets(data);
     } catch (error) {
       throw console.error(error);
+    } finally{
+      setLoader(false);
     }
   }
   useEffect(() => {
@@ -51,7 +56,8 @@ export default function Budgets() {
             Agregar un nuevo presupuesto
           </Button>
         </div>
-        <div className="items-center">
+        <Loader isActive={loader}/>
+        {budgets && <div className="items-center">
           {budgets.map((budget) => (
             <BudgetsTable
               key={budget.id}
@@ -65,7 +71,7 @@ export default function Budgets() {
               childrensTables={budget.categories}
             />
           ))}
-        </div>
+        </div>}
       </section>
       <Modal
         isActive={isModalActive}

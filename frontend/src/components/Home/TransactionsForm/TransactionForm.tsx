@@ -13,6 +13,7 @@ import TForm_Date from "./TForm_Date.tsx";
 import TForm_amount from "./TForm_amount.tsx";
 import TForm_Category from "./TForm_category.tsx";
 import TForm_description from "./TForm_description.tsx";
+import { useNavigate } from "react-router";
 
 interface Promps {
   cancelForm: () => void;
@@ -21,6 +22,7 @@ interface Promps {
 export default function TransactionForm(promps: Promps) {
   const { cancelForm } = promps;
   const tooltipInfo = tooltipsInfo;
+  const goTo = useNavigate();
 
   const [haveBudget, setHaveBudget] = useState(false);
   const [budgets, setBudgets] = useState<IBudgets[]>();
@@ -70,7 +72,7 @@ export default function TransactionForm(promps: Promps) {
       })
     );
     try {
-      sendTransactionsForm(
+      await sendTransactionsForm(
         transactionType,
         date,
         category,
@@ -79,12 +81,14 @@ export default function TransactionForm(promps: Promps) {
         categoryId
       );
     } catch (error) {
-      console.error(error);
+      throw console.error(error);
     }
+    cancelForm()
+    goTo('/')
   }
 
   return (
-    <form method="POST" className="m-1" onSubmit={handlerSubmit}>
+    <form className="m-1" onSubmit={handlerSubmit}>
       <div className="grid gap-2 p-1 m-1">
         <TForm_Type
           handleSelect={selectTypeTransaction}

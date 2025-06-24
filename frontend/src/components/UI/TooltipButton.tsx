@@ -14,7 +14,7 @@ export default function TooltipButton(promps: Promps) {
   return (
     <>
       <i
-        className="p-1 text-lg text-black"
+        className="p-1 text-lg"
         data-tooltip-content={tooltipContent}
         data-tooltip-id={tooltipId}
         data-tooltip-variant={tooltipVariant}

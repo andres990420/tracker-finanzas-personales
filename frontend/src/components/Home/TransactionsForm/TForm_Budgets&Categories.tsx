@@ -15,9 +15,9 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
   >();
   const [haveCategories, setHaveCategories] = useState(false);
 
-  function selectBudget(e: any) {
-    const budgetCategories = searchCategoriesOfBudget(e.target.value);
-    if (budgetCategories) {
+  function selectBudget(id: string) {
+    const budgetCategories = searchCategoriesOfBudget(id);
+    if (budgetCategories && budgetCategories?.length>0 ) {
       setCategories(budgetCategories);
       setHaveCategories(true);
     } else {
@@ -58,7 +58,7 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
         required
         className="border border-gray-800 rounded-2xl p-1 text-center"
         id="select-budgets"
-        onChange={(e) => selectBudget(e)}
+        onChange={(e) => selectBudget(e.target.value)}
       >
         <option value={""} selected disabled>
           Seleccione un presupuesto

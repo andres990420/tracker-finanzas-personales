@@ -3,22 +3,14 @@ import Button from "../../UI/Button";
 import BudgetsTableItems from "./BudgetTableItems";
 import { useState } from "react";
 import ProgressBar from "./ProgressBar";
+import type { ICategory } from "../../../types/models";
 
 interface Promps {
   limitValue: number;
   currentValue: number;
   percentage: number;
   budgetName: string;
-  childrensTables?: [
-    {
-      id: string;
-      type: string;
-      color: string;
-      description: string;
-      currentAmount: number;
-      maxAmount: number;
-    }
-  ];
+  childrensTables?: ICategory[]
 }
 
 export default function BudgetsTable(promps: Promps) {
