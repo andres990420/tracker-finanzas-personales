@@ -83,8 +83,8 @@ export default function TransactionForm(promps: Promps) {
     } catch (error) {
       throw console.error(error);
     }
-    cancelForm()
     goTo('/')
+    cancelForm()
   }
 
   return (

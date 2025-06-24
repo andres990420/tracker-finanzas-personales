@@ -17,7 +17,7 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
 
   function selectBudget(id: string) {
     const budgetCategories = searchCategoriesOfBudget(id);
-    if (budgetCategories && budgetCategories?.length>0 ) {
+    if (budgetCategories && budgetCategories?.length > 0) {
       setCategories(budgetCategories);
       setHaveCategories(true);
     } else {
@@ -31,7 +31,9 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
       if (categories) {
         return categories.map((category) => (
           <option key={category.id} value={category.id}>
-            {category.type}
+            {category.type} (
+            {Intl.NumberFormat().format(category.currentAmount)}$/
+            {Intl.NumberFormat().format(category.maxAmount)}$)
           </option>
         ));
       }
@@ -72,14 +74,15 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
 
       {haveCategories && (
         <div className="grid gap-1">
-          <label className="font-bold text-lg flex justify-between">Categoria
+          <label className="font-bold text-lg flex justify-between">
+            Categoria
             {
-          <TooltipButton
-            tooltipVariant="info"
-            tooltipId="form"
-            tooltipContent={tooltipsInfo.TRANSACTION_FORM_BUDGET_CATEGORY}
-          />
-        }
+              <TooltipButton
+                tooltipVariant="info"
+                tooltipId="form"
+                tooltipContent={tooltipsInfo.TRANSACTION_FORM_BUDGET_CATEGORY}
+              />
+            }
           </label>
           <select
             required
@@ -87,6 +90,7 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
             name="categoryId"
             onChange={(e) => handleCategoryChange(e)}
           >
+            <option value={""} selected disabled>Selecciona una categoria</option>
             {categories as ReactNode}
           </select>
         </div>

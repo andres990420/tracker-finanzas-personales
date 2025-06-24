@@ -1,5 +1,3 @@
-import type { ITransactions } from "../types/models";
-
 export async function sendBudgetForm(
   budgetName: string,
   categoryType: string[],

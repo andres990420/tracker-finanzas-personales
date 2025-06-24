@@ -30,7 +30,7 @@ export default function BudgetsTableItems(promps: Propms) {
         currentValue={currentValue}
         color={colors.colorProgressBar}
       />
-      <span className="p-2 text-xl">{currentProgress}%</span>
+      <span className="p-2 text-xl">{currentProgress.toPrecision(4)}%</span>
     </div>
   );
 }

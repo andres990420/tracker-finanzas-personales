@@ -21,7 +21,7 @@ export default function CategorySelector(promps: Promps) {
           Selecciona una categoria
         </option>
         {budgetCategories.map((category) => (
-          <option value={category[1]}>{category[0]}</option>
+          <option key={category[1]} value={category[1]}>{category[0]}</option>
         ))}
       </select>
     </div>
