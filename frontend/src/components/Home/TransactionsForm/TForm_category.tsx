@@ -35,7 +35,7 @@ export default function TForm_Category(promps: Promps) {
               Categorias de ingresos
             </option>
             {incomesCategories.map((category) => (
-              <option key={category[1]} className="font-bold" value={category[1]}>
+              <option key={category[0]} className="font-bold" value={category[0]}>
                 {category[0]}
               </option>
             ))}
@@ -46,7 +46,7 @@ export default function TForm_Category(promps: Promps) {
               Categoria de gastos
             </option>
             {expensivesCategories.map((category) => (
-              <option key={category[1]} className="font-bold" value={category[1]}>
+              <option key={category[0]} className="font-bold" value={category[0]}>
                 {category[0]}
               </option>
             ))}

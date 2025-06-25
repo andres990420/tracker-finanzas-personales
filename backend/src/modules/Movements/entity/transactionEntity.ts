@@ -4,7 +4,7 @@ export interface ITransaction {
   type: string;
   amount: number;
   category: string;
-  description: string;
+  description?: string;
   user: ObjectId;
   id?: ObjectId;
   createdAt?: Date;
@@ -15,7 +15,7 @@ export default class Transaction {
   public type: string;
   public amount: number;
   public category: string;
-  public description: string;
+  public description?: string;
   public user: ObjectId;
   public id?: ObjectId;
   public createdAt?: Date;
@@ -25,8 +25,8 @@ export default class Transaction {
     type: string,
     amount: number,
     category: string,
-    description: string,
     user: ObjectId,
+    description?: string,
     id?: ObjectId,
     createdAt?: Date,
     updatedAt?: Date

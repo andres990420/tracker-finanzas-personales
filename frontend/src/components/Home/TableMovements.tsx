@@ -6,7 +6,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 interface Promps {
   transactions: ITransactions[];
-  budgets: IBudgets[];
+  budgets: IBudgets[] | undefined;
   handleDeleteTransaction: (transactionId: string, categoryId: string) => void;
 }
 
@@ -25,10 +25,10 @@ export default function TableMovements(promps: Promps) {
     );
     if (budget) {
       return (
-        <p>
+        <>
           {budget.name} ({Intl.NumberFormat().format(budget.currentAmount)}$/
           {Intl.NumberFormat().format(budget.maxAmount)}$)
-        </p>
+        </>
       );
     } else {
       return "";
@@ -40,7 +40,7 @@ export default function TableMovements(promps: Promps) {
       budget.categories.map((category) => category)
     );
 
-    const categories = listBudgets.find((categories) =>
+    const categories = listBudgets?.find((categories) =>
       categories.find((category) =>
         category.transactions.find((transaction) => transaction === id)
       )
@@ -68,7 +68,7 @@ export default function TableMovements(promps: Promps) {
               </p>
             </th>
             <th className="px-4 py-2 ">
-              <p className="flex justify-center">
+              <p className="flex justify-center ">
                 Descripcion
                 {
                   <TooltipButton
@@ -129,7 +129,7 @@ export default function TableMovements(promps: Promps) {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="h-24]">
           {transactions &&
             transactions.map((transaction) => (
               <tr
@@ -142,37 +142,39 @@ export default function TableMovements(promps: Promps) {
               >
                 <td
                   key={`${transaction.id}category"`}
-                  className="border px-2 py-1"
+                  className="border p-1 "
                 >
-                  {transaction.category}
+                  <p>{transaction.category}</p>
                 </td>
                 <td
-                  key={`${transaction.id}-descrption"`}
-                  className="border px-2 py-1"
+                  key={`${transaction.id}-description"`}
+                  className="border p-1 overflow-hidden"
+                  data-tooltip-content={transaction.description}
+                  data-tooltip-id="transactionDescription"
                 >
-                  {transaction.description}
+                  <p className="line-clamp-3">{transaction.description}</p>
                 </td>
                 <td
                   key={`${transaction.id}-amount"`}
-                  className="border px-2 py-1"
+                  className="border p-1 "
                 >
-                  {transaction.amount} $
+                  <p>{transaction.amount} $</p>
                 </td>
                 <td
                   key={`${transaction.id}-date"`}
-                  className="border px-2 py-1"
+                  className="border p-1"
                 >
-                  {transaction.date}
+                  <p>{transaction.date}</p>
                 </td>
                 <td
                   key={`${transaction.id}-Budget"`}
-                  className="border px-2 py-1"
+                  className="border p-1 "
                 >
-                  {findAttachedBudget(transaction.id)}
+                  <p>{findAttachedBudget(transaction.id)}</p>
                 </td>
                 <td
                   key={`${transaction.id}-action"`}
-                  className="border px-2 py-1"
+                  className="border p-1 "
                 >
                   <div className="flex justify-center">
                     {<Button color="blue" icon={<FaEdit />} />}
@@ -195,6 +197,7 @@ export default function TableMovements(promps: Promps) {
         </tbody>
       </table>
       <Tooltip id="transactionsTable" />
+      <Tooltip id="transactionDescription" variant="dark" place="top" style={{maxWidth:250, maxHeight:130, borderRadius:20}} />
     </>
   );
 }

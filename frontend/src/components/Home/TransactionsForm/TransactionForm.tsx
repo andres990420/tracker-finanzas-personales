@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import SwitchButton from "../../UI/SwitchButton";
 import TForm_BudgetsAndCategories from "./TForm_Budgets&Categories.tsx";
 import type { IBudgets } from "../../../types/models";
-import { fetchApiBudgets, sendTransactionsForm } from "../../../Service/api";
+import { fetchApiBudgets} from "../../../Service/api";
 import TooltipButton from "../../UI/TooltipButton.tsx";
 import { tooltipsInfo } from "../../../assets/tooltipsInfo";
 import { Tooltip } from "react-tooltip";
@@ -13,26 +13,33 @@ import TForm_Date from "./TForm_Date.tsx";
 import TForm_amount from "./TForm_amount.tsx";
 import TForm_Category from "./TForm_category.tsx";
 import TForm_description from "./TForm_description.tsx";
-import { useNavigate } from "react-router";
 
 interface Promps {
   cancelForm: () => void;
+  handlerSubmit: (
+    event: any,
+    transactionType: string,
+    amount: string,
+    category: string,
+    description: string,
+    date: string,
+    categoryId: string | null
+  )=> void
 }
 
 export default function TransactionForm(promps: Promps) {
-  const { cancelForm } = promps;
+  const { cancelForm, handlerSubmit } = promps;
   const tooltipInfo = tooltipsInfo;
-  const goTo = useNavigate();
 
   const [haveBudget, setHaveBudget] = useState(false);
   const [budgets, setBudgets] = useState<IBudgets[]>();
 
   const [transactionType, setTransactionType] = useState<string>("");
-  const [amount, setAmount] = useState<string>();
-  const [category, setCategory] = useState<string>();
-  const [description, setDescription] = useState<string>();
-  const [categoryId, setCategoryId] = useState<string>();
-  const [date, setDate] = useState<string>();
+  const [amount, setAmount] = useState<string>(' ');
+  const [category, setCategory] = useState<string>(' ');
+  const [description, setDescription] = useState<string>(' ');
+  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [date, setDate] = useState<string>(' ');
 
   function activeBudget() {
     setHaveBudget(!haveBudget);
@@ -59,36 +66,9 @@ export default function TransactionForm(promps: Promps) {
     }
   }
 
-  async function handlerSubmit(e: any) {
-    e.preventDefault();
-    console.log(
-      JSON.stringify({
-        type: transactionType,
-        date: date,
-        category: category,
-        amount: amount,
-        description: description,
-        categoryId: categoryId,
-      })
-    );
-    try {
-      await sendTransactionsForm(
-        transactionType,
-        date,
-        category,
-        amount,
-        description,
-        categoryId
-      );
-    } catch (error) {
-      throw console.error(error);
-    }
-    goTo('/')
-    cancelForm()
-  }
 
   return (
-    <form className="m-1" onSubmit={handlerSubmit}>
+    <form className="m-1" onSubmit={(e)=>handlerSubmit(e,transactionType,amount,category,description,date,categoryId)}>
       <div className="grid gap-2 p-1 m-1">
         <TForm_Type
           handleSelect={selectTypeTransaction}

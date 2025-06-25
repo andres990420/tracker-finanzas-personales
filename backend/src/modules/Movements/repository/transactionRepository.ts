@@ -17,19 +17,25 @@ export default class TransactionRepository {
       });
       return allTransactions.map((transaction) => modelToEntity(transaction));
     } catch (error) {
-      console.error('Error en getAll:',error);
+      console.error("Error en getAll:", error);
       throw Error("Ha ocurrido un error al recuperar las transacciones");
     }
   }
 
   public async getTransactionById(transactionId: ObjectId) {
     try {
-      const transaction = (await this.transactionModel.findById(
-        transactionId
-      )) as ITransaccionModel;
-      return modelToEntity(transaction);
+      const response = await this.transactionModel.findById(transactionId);
+      const transaction = {
+        user: response?.user,
+        id: response?.id,
+        description: response?.description,
+        amount: response?.amount,
+        type: response?.type,
+        category: response?.category,
+      };
+      return modelToEntity(transaction as ITransaccionModel);
     } catch (error) {
-      console.error('Error en getTransactionById:',error);
+      console.error("Error en getTransactionById:", error);
       throw new Error("Ha ocurrido un error al recuperar la transaccion");
     }
   }
@@ -46,7 +52,7 @@ export default class TransactionRepository {
       newTransaction.save();
       return modelToEntity(newTransaction);
     } catch (error) {
-      console.error('Error en saveTransaction:',error);
+      console.error("Error en saveTransaction:", error);
       throw new Error("Ha ocurrido un error al guardar la transaccion");
     }
   }
@@ -61,7 +67,7 @@ export default class TransactionRepository {
       });
       return transaction;
     } catch (error) {
-      console.error('Error en updateTransaction:',error);
+      console.error("Error en updateTransaction:", error);
       throw new Event("Ha ocurrido un error al actualizar la transaccion");
     }
   }
@@ -70,7 +76,7 @@ export default class TransactionRepository {
     try {
       await this.transactionModel.deleteOne({ _id: transactionId });
     } catch (error) {
-      console.error('Error en deleteTransaction:',error);
+      console.error("Error en deleteTransaction:", error);
       throw new Event("Ha ocurrido un error al eliminar la transaccion");
     }
   }

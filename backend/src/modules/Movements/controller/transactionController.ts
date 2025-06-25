@@ -128,11 +128,12 @@ export default class TransactionController {
           req.body.categoryId
         );
         res.status(200).json({ error: "Transaccion eliminada con exito" });
+      } else {
+        await this.transactionService.deleteTransaction(
+          req.params.id as unknown as ObjectId
+        );
+        res.status(200).json({ error: "Transaccion eliminada con exito" });
       }
-      await this.transactionService.deleteTransaction(
-        req.params.id as unknown as ObjectId
-      );
-      res.status(200);
     } catch (error) {
       console.error("Error en deleteTransaction:", error);
       res

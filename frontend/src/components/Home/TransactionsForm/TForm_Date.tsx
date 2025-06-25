@@ -7,6 +7,14 @@ interface Promps {
 
 export default function TForm_Date(promps: Promps) {
   const { setDate } = promps;
+  function todayDate() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    const formattedToday = yyyy + "-" + mm + "-" + dd;
+    return formattedToday;
+  }
   return (
     <>
       <label className="font-bold text-xl flex justify-between">
@@ -24,6 +32,7 @@ export default function TForm_Date(promps: Promps) {
         name="date"
         className="border border-gray-800 rounded-2xl p-1 justify-items-center font-bold"
         required
+        max={todayDate()}
         onChange={(e) => setDate(e.target.value)}
       ></input>
     </>

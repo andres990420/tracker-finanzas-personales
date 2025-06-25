@@ -17,8 +17,8 @@ export function formToEntityTransaction(
     data.type,
     data.amount,
     data.category,
+    userId,
     data.description,
-    userId
   );
   return newTransaction;
 }
@@ -28,8 +28,8 @@ export function modelToEntity(data: ITransaccionModel) {
     data.type,
     data.amount,
     data.category,
-    data.description,
     data.user,
+    data.description,
     data.id,
     
   );

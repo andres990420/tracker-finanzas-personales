@@ -6,7 +6,7 @@ export async function sendBudgetForm(
   categoryDescription: string[]
 ) {
   try {
-    await fetch("http://localhost:4000/budgets/create", {
+    const response = await fetch("http://localhost:4000/budgets/create", {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -18,6 +18,7 @@ export async function sendBudgetForm(
         "category-description": categoryDescription,
       }),
     });
+    return response
   } catch (error) {
     throw console.error(error);
   }
@@ -29,22 +30,36 @@ export async function sendTransactionsForm(
   category: string | undefined,
   amount: string | undefined,
   description: string | undefined,
-  categoryId: string | undefined
+  categoryId?: string | null
 ) {
-  try {
-    await fetch("http://localhost:4000/transactions/create", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
+  let body;
+  if (categoryId) {
+    body = JSON.stringify({
+      type: transactionType,
+      date: date,
+      category: category,
+      amount: amount,
+      description: description,
+      categoryId: categoryId,
+    });
+  } else {
+    body = JSON.stringify({
         type: transactionType,
         date: date,
         category: category,
         amount: amount,
-        description: description,
-        categoryId: categoryId,
-      }),
+        description: description
+      })
+  }
+
+  try {
+    const response = await fetch("http://localhost:4000/transactions/create", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-type": "application/json" },
+      body: body,
     });
+    return response
   } catch (error) {
     throw console.error(error);
   }
@@ -78,20 +93,24 @@ export async function fetchApiTransactions() {
 
 export async function deleteTransaction(
   transactionId: string,
-  categoryId: string
+  categoryId?: string
 ) {
+  let body
+  if(categoryId){
+    body = JSON.stringify({
+        categoryId: categoryId,
+      })
+  } else {
+    body = ''
+  }
   try {
-      await fetch(
-        `http://localhost:4000/transactions/${transactionId}/delete`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({
-            "categoryId": categoryId,
-          }),
-        }
-      );
+    const response = await fetch(`http://localhost:4000/transactions/${transactionId}/delete`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-type": "application/json" },
+      body: body,
+    });
+    return response
   } catch (error) {
     throw new Error(`Ha ocurrido un error: ${error}`);
   }
