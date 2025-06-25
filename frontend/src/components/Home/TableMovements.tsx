@@ -13,9 +13,9 @@ interface Promps {
 export default function TableMovements(promps: Promps) {
   const { transactions, budgets, handleDeleteTransaction } = promps;
   const stylesIncomes =
-    "font-bold border text-center bg-green-100 text-green-800 border-green-300 hover:bg-green-400/80";
+    "font-bold border text-center  text-green-800/80  hover:bg-green-100";
   const stylesExpensive =
-    "font-bold border text-center bg-red-100/20 text-red-800 border-red-300 hover:bg-red-400/80";
+    "font-bold border text-center  text-red-600  hover:bg-red-100";
 
   function findAttachedBudget(id: string) {
     const budget = budgets?.find((budget) =>
@@ -23,7 +23,16 @@ export default function TableMovements(promps: Promps) {
         category.transactions.find((transaction) => transaction === id)
       )
     );
-    return budget ? budget.name : "";
+    if (budget) {
+      return (
+        <p>
+          {budget.name} ({Intl.NumberFormat().format(budget.currentAmount)}$/
+          {Intl.NumberFormat().format(budget.maxAmount)}$)
+        </p>
+      );
+    } else {
+      return "";
+    }
   }
 
   function findCategoryId(id: string) {
@@ -36,8 +45,10 @@ export default function TableMovements(promps: Promps) {
         category.transactions.find((transaction) => transaction === id)
       )
     );
-    const category = categories?.find(category=>category.transactions.find(transaction=>transaction === id))
-    return category ? category.id : ''
+    const category = categories?.find((category) =>
+      category.transactions.find((transaction) => transaction === id)
+    );
+    return category ? category.id : "";
   }
   return (
     <>
@@ -161,16 +172,23 @@ export default function TableMovements(promps: Promps) {
                 </td>
                 <td
                   key={`${transaction.id}-action"`}
-                  className="border px-2 py-1 flex justify-center"
+                  className="border px-2 py-1"
                 >
-                  {<Button color="blue" icon={<FaEdit />} />}
-                  {
-                    <Button
-                      color="red"
-                      onClick={() => handleDeleteTransaction(transaction.id, findCategoryId(transaction.id))}
-                      icon={<FaTrashAlt />}
-                    />
-                  }
+                  <div className="flex justify-center">
+                    {<Button color="blue" icon={<FaEdit />} />}
+                    {
+                      <Button
+                        color="red"
+                        onClick={() =>
+                          handleDeleteTransaction(
+                            transaction.id,
+                            findCategoryId(transaction.id)
+                          )
+                        }
+                        icon={<FaTrashAlt />}
+                      />
+                    }
+                  </div>
                 </td>
               </tr>
             ))}
