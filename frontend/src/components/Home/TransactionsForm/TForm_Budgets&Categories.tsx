@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import type { IBudgets } from "../../../types/models";
 import TooltipButton from "../../UI/TooltipButton";
-import { tooltipsInfo } from "../../../assets/tooltipsInfo";
+import { tooltipsInfo } from "../../../utils/tooltipsInfo";
 
 interface Promps {
   budgets: IBudgets[];
@@ -90,7 +90,9 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
             name="categoryId"
             onChange={(e) => handleCategoryChange(e)}
           >
-            <option value={""} selected disabled>Selecciona una categoria</option>
+            <option value={""} selected disabled>
+              Selecciona una categoria
+            </option>
             {categories as ReactNode}
           </select>
         </div>

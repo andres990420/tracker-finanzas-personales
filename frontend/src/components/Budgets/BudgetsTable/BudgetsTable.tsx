@@ -1,6 +1,6 @@
 import { FaMinus, FaPlus } from "react-icons/fa";
 import Button from "../../UI/Button";
-import BudgetsTableItems from "./BudgetTableItems";
+import CategoriesTable from "./CategoriesTable";
 import { useState } from "react";
 import ProgressBar from "./ProgressBar";
 import type { ICategory } from "../../../types/models";
@@ -10,7 +10,7 @@ interface Promps {
   currentValue: number;
   percentage: number;
   budgetName: string;
-  childrensTables?: ICategory[]
+  childrensTables?: ICategory[];
 }
 
 export default function BudgetsTable(promps: Promps) {
@@ -31,7 +31,11 @@ export default function BudgetsTable(promps: Promps) {
         <div className="text-center min-h-fit p-3 text-white">
           <h2 className="text-2xl">{budgetName}</h2>
         </div>
-        <ProgressBar percentage={percentage} limitValue={limitValue} currentValue={currentValue}/>
+        <ProgressBar
+          percentage={percentage}
+          limitValue={limitValue}
+          currentValue={currentValue}
+        />
         <div>
           <p className="text-2xl mt-1 text-white">{percentage}%</p>
           {childrensTables && (
@@ -41,7 +45,7 @@ export default function BudgetsTable(promps: Promps) {
       </div>
       <div className={`${hidden ? "hidden" : ""}`}>
         {childrensTables?.map((category) => (
-          <BudgetsTableItems
+          <CategoriesTable
             key={category.id}
             color={category.color}
             categoryName={category.type}

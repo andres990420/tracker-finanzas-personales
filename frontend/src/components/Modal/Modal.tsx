@@ -16,7 +16,7 @@ export default function Modal(promps: Promps) {
       {isActive && (
         <div className="h-[100vh] w-[100vw] bg-black/30 fixed top-0 left-0 align-middle justify-center flex overflow-x-hidden">
           {/* Overlay */}
-          <div className="w-150 border h-fit border-white/50 shadow-2xl rounded-3xl p-10 m-8 relative bg-white">
+          <div className="w-150 border h-fit border-white/50 shadow-2xl rounded-3xl p-4 m-4 relative bg-white">
             {/* Contenedor */}
             {title && (
               <div className=" w-full h-15 border-b border-gray-200 p-5 text-2xl text-gray-800 font-bold">
@@ -31,7 +31,7 @@ export default function Modal(promps: Promps) {
               {/* Boton cerrar */}
               <FaX />
             </button>
-            <div className="bg-amber-200/2 h-fit wrap-normal w-auto p-5 ">
+            <div className="bg-amber-200/2 h-fit wrap-normal w-auto p-2 ">
               {/* Contenido */}
               {children}
             </div>

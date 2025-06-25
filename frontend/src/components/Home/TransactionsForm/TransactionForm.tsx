@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import SwitchButton from "../../UI/SwitchButton";
 import TForm_BudgetsAndCategories from "./TForm_Budgets&Categories.tsx";
 import type { IBudgets } from "../../../types/models";
-import { fetchApiBudgets} from "../../../Service/api";
+import { fetchApiBudgets } from "../../../Service/api";
 import TooltipButton from "../../UI/TooltipButton.tsx";
-import { tooltipsInfo } from "../../../assets/tooltipsInfo";
+import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo.ts";
 import { Tooltip } from "react-tooltip";
 import TForm_Type from "./TForm_Type.tsx";
 import TForm_Date from "./TForm_Date.tsx";
@@ -24,22 +24,22 @@ interface Promps {
     description: string,
     date: string,
     categoryId: string | null
-  )=> void
+  ) => void;
 }
 
 export default function TransactionForm(promps: Promps) {
   const { cancelForm, handlerSubmit } = promps;
-  const tooltipInfo = tooltipsInfo;
+  const tooltipInfo = tooltipsInfoTransactionForm;
 
   const [haveBudget, setHaveBudget] = useState(false);
   const [budgets, setBudgets] = useState<IBudgets[]>();
 
   const [transactionType, setTransactionType] = useState<string>("");
-  const [amount, setAmount] = useState<string>(' ');
-  const [category, setCategory] = useState<string>(' ');
-  const [description, setDescription] = useState<string>(' ');
+  const [amount, setAmount] = useState<string>(" ");
+  const [category, setCategory] = useState<string>(" ");
+  const [description, setDescription] = useState<string>(" ");
   const [categoryId, setCategoryId] = useState<string | null>(null);
-  const [date, setDate] = useState<string>(' ');
+  const [date, setDate] = useState<string>(" ");
 
   function activeBudget() {
     setHaveBudget(!haveBudget);
@@ -66,9 +66,21 @@ export default function TransactionForm(promps: Promps) {
     }
   }
 
-
   return (
-    <form className="m-1" onSubmit={(e)=>handlerSubmit(e,transactionType,amount,category,description,date,categoryId)}>
+    <form
+      className="m-1"
+      onSubmit={(e) =>
+        handlerSubmit(
+          e,
+          transactionType,
+          amount,
+          category,
+          description,
+          date,
+          categoryId
+        )
+      }
+    >
       <div className="grid gap-2 p-1 m-1">
         <TForm_Type
           handleSelect={selectTypeTransaction}

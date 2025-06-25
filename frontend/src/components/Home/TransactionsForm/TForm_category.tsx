@@ -1,16 +1,19 @@
-import { transactionsExpensivesCategories, transactionsIncomesCategories } from "../../../assets/categories";
-import { tooltipsInfo } from "../../../assets/tooltipsInfo";
+import {
+  transactionsExpensivesCategories,
+  transactionsIncomesCategories,
+} from "../../../utils/categories";
+import { tooltipsInfo } from "../../../utils/tooltipsInfo";
 import TooltipButton from "../../UI/TooltipButton";
 
 interface Promps {
   setCategory: (value: string) => void;
-  transactionType: string
+  transactionType: string;
 }
 
 export default function TForm_Category(promps: Promps) {
-  const { setCategory, transactionType} = promps;
-  const incomesCategories = transactionsIncomesCategories
-  const expensivesCategories = transactionsExpensivesCategories
+  const { setCategory, transactionType } = promps;
+  const incomesCategories = transactionsIncomesCategories;
+  const expensivesCategories = transactionsExpensivesCategories;
   return (
     <>
       <label className="font-bold text-xl  justify-between flex">
@@ -35,7 +38,11 @@ export default function TForm_Category(promps: Promps) {
               Categorias de ingresos
             </option>
             {incomesCategories.map((category) => (
-              <option key={category[0]} className="font-bold" value={category[0]}>
+              <option
+                key={category[0]}
+                className="font-bold"
+                value={category[0]}
+              >
                 {category[0]}
               </option>
             ))}
@@ -46,7 +53,11 @@ export default function TForm_Category(promps: Promps) {
               Categoria de gastos
             </option>
             {expensivesCategories.map((category) => (
-              <option key={category[0]} className="font-bold" value={category[0]}>
+              <option
+                key={category[0]}
+                className="font-bold"
+                value={category[0]}
+              >
                 {category[0]}
               </option>
             ))}

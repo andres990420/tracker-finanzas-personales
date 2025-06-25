@@ -78,16 +78,6 @@ export default function Home() {
     categoryId?: string | null
   ) {
     e.preventDefault();
-    console.log(
-      JSON.stringify({
-        type: transactionType,
-        date: date,
-        category: category,
-        amount: amount,
-        description: description,
-        categoryId: categoryId,
-      })
-    );
     try {
       const response = await sendTransactionsForm(
         transactionType,
@@ -144,7 +134,7 @@ export default function Home() {
 
   useEffect(() => {
     getTransactions();
-    getBudgets()
+    getBudgets();
   }, [refreshPage]);
 
   return (

@@ -3,10 +3,19 @@ import Button from "../../UI/Button";
 import BudgetFormCategory from "./BudgetFormCategory";
 import { useState } from "react";
 import CategorySelector from "./CategorySelector";
-import { sendBudgetForm } from "../../../Service/api";
+import TooltipButton from "../../UI/TooltipButton";
+import { tooltipsInfoBudgetForm } from "../../../utils/tooltipsInfo";
 
 interface Promps {
   closeForm: () => void;
+  handleSubmit: (
+    event: any,
+    budgetName: string,
+    categoryType: string[],
+    categoryLimit: string[],
+    categoryColor: string[],
+    categoryDescription: string[]
+  ) => void;
 }
 
 interface categoriesList {
@@ -18,18 +27,22 @@ interface categoriesList {
 }
 
 export default function BudgetForm(promps: Promps) {
-  const { closeForm } = promps;
+  const { closeForm, handleSubmit} = promps;
+  const tooltipInfo = tooltipsInfoBudgetForm
   const [budgetName, setBudgetName] = useState<string>("");
   const [categoryType, setCategoryType] = useState<string[]>([]);
   const [categoryLimit, setCategoryLimit] = useState<string[]>([]);
   const [categoryColor, setCategoryColor] = useState<string[]>([]);
   const [categoryDescription, setcategoryDescription] = useState<string[]>([]);
-  const [categoriesList, setCategoriesList] = useState<categoriesList[]>([{ id: 0 }]);
+  const [categoriesList, setCategoriesList] = useState<categoriesList[]>([
+    { id: 0 },
+  ]);
 
   function handleCategoriesInfo(event: any, id: number) {
     const categoryToModified = categoriesList.filter(
       (category) => category.id === id
     )[0];
+
     switch (event.target.name) {
       case "category-type":
         categoryToModified.categoryType = event.target.value;
@@ -44,7 +57,9 @@ export default function BudgetForm(promps: Promps) {
         categoryToModified.categoryDescription = event.target.value;
         break;
     }
+
     const newList = categoriesList.slice();
+
     newList.find((category) => {
       if (category.id === categoryToModified.id) {
         category.categoryColor = categoryToModified.categoryColor;
@@ -70,7 +85,9 @@ export default function BudgetForm(promps: Promps) {
     const categoryDeleted = categoriesList.filter(
       (category) => category.id === id
     )[0];
+
     const newList = categoriesList.filter((category) => category.id !== id);
+
     setCategoriesList(newList);
     setcategoryDescription(
       categoryDescription.filter(
@@ -102,38 +119,37 @@ export default function BudgetForm(promps: Promps) {
     setCategoriesList([...categoriesList, { id: newId }]);
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    console.log(
-      JSON.stringify({
-        "budget-name": budgetName,
-        "category-type": categoryType,
-        "category-limit": categoryLimit,
-        "category-color": categoryColor,
-        "category-description": categoryDescription,
-      })
-    );
-    try {
-      await sendBudgetForm(budgetName, categoryType, categoryLimit, categoryColor, categoryDescription);
-      
-    } catch (error) {
-      throw console.error(error);
-    }
-    closeForm();
-  }
+  
 
   return (
-    <form className="p-1 m-1" onSubmit={handleSubmit}>
-      <div className="text-center text-gray-800 p-1 m-1">
-        <label className="my-2 text-2xl font-bold">
+    <form
+      className="p-1 m-1"
+      onSubmit={(e) =>
+        handleSubmit(
+          e,
+          budgetName,
+          categoryType,
+          categoryLimit,
+          categoryColor,
+          categoryDescription
+        )
+      }
+    >
+      <div className="text-center text-gray-800 p-1 grid justify-center m-1 gap-1">
+        <label className="text-2xl font-bold flex">
           Nombre del Presupuesto
+          <TooltipButton
+            tooltipId="budgetForm"
+            tooltipContent={tooltipInfo.BUDGET_FORM_BUDGET_NAME}
+            tooltipVariant="info"
+          />
         </label>
         <input
           required
           type="text"
           name="budget-name"
-          className="border rounded-md mx-y p-2 h-6 text-center uppercase"
-          maxLength={15}
+          className="bg-gray-400/20 rounded-md p-2 h-6 text-center uppercase w-[100%] font-semibold"
+          maxLength={40}
           onChange={(e) => setBudgetName(e.target.value)}
         ></input>
       </div>

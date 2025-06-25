@@ -1,4 +1,4 @@
-import { tooltipsInfo } from "../../../assets/tooltipsInfo";
+import { tooltipsInfo } from "../../../utils/tooltipsInfo";
 import TooltipButton from "../../UI/TooltipButton";
 
 interface Promps {

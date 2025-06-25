@@ -1,5 +1,5 @@
 import TooltipButton from "../../UI/TooltipButton";
-import { tooltipsInfo } from "../../../assets/tooltipsInfo";
+import { tooltipsInfo } from "../../../utils/tooltipsInfo";
 
 interface Promps {
   setDate: (event: any) => void;
