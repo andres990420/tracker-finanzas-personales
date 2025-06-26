@@ -136,7 +136,7 @@ export default function BudgetForm(promps: Promps) {
       }
     >
       <div className="text-center text-gray-800 p-1 grid justify-center m-1 gap-1">
-        <label className="text-2xl font-bold flex">
+        <label className="text-2xl font-bold flex ">
           Nombre del Presupuesto
           <TooltipButton
             tooltipId="budgetForm"
@@ -148,7 +148,7 @@ export default function BudgetForm(promps: Promps) {
           required
           type="text"
           name="budget-name"
-          className="bg-gray-400/20 rounded-md p-2 h-6 text-center uppercase w-[100%] font-semibold"
+          className="bg-gray-400/20 rounded-md p-2 h-6 text-center w-[100%] font-semibold"
           maxLength={40}
           onChange={(e) => setBudgetName(e.target.value)}
         ></input>
