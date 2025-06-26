@@ -1,4 +1,4 @@
-import { tooltipsInfo } from "../../../utils/tooltipsInfo";
+import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo";
 import TooltipButton from "../../UI/TooltipButton";
 
 interface Promps {
@@ -15,7 +15,7 @@ export default function TForm_description(promps: Promps) {
           <TooltipButton
             tooltipVariant="info"
             tooltipId="form"
-            tooltipContent={tooltipsInfo.TRANSACTION_FORM_DESCRIPTION}
+            tooltipContent={tooltipsInfoTransactionForm.TRANSACTION_FORM_DESCRIPTION}
           />
         }
       </label>

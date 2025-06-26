@@ -1,4 +1,4 @@
-import { tooltipsInfo } from "../../../utils/tooltipsInfo";
+import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo";
 import TooltipButton from "../../UI/TooltipButton";
 
 interface Promps {
@@ -8,7 +8,7 @@ interface Promps {
 
 export default function TForm_Type(promps: Promps) {
   const { transactionType, handleSelect } = promps;
-  const tooltipInfo = tooltipsInfo;
+  const tooltipInfo = tooltipsInfoTransactionForm;
 
   return (
     <>

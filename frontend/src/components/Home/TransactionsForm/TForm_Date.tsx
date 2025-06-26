@@ -1,5 +1,5 @@
 import TooltipButton from "../../UI/TooltipButton";
-import { tooltipsInfo } from "../../../utils/tooltipsInfo";
+import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo";
 
 interface Promps {
   setDate: (event: any) => void;
@@ -23,7 +23,7 @@ export default function TForm_Date(promps: Promps) {
           <TooltipButton
             tooltipVariant="info"
             tooltipId="form"
-            tooltipContent={tooltipsInfo.TRANSACTION_FORM_DATE}
+            tooltipContent={tooltipsInfoTransactionForm.TRANSACTION_FORM_DATE}
           />
         }
       </label>

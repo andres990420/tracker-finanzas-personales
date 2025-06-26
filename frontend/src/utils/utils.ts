@@ -179,3 +179,15 @@ export function CalculateProgress(
   const percentage = (currentAmount / limit) * 100;
   return Number(percentage.toPrecision(4));
 }
+
+export function CalculateDescriptionAreaSize(length: number) {
+  if (length < 11) {
+    return "w-1/6";
+  } else if (10 < length && length < 21) {
+    return "w-2/6";
+  } else if (20 < length && length < 31) {
+    return "w-3/6";
+  } else {
+    return "w-4/6";
+  }
+}

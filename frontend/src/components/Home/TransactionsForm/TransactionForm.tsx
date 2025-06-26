@@ -81,7 +81,7 @@ export default function TransactionForm(promps: Promps) {
         )
       }
     >
-      <div className="grid gap-2 p-1 m-1">
+      <div className="grid gap-2 p-1 m-1 overflow-y-auto">
         <TForm_Type
           handleSelect={selectTypeTransaction}
           transactionType={transactionType}

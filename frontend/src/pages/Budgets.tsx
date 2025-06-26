@@ -19,7 +19,7 @@ export default function Budgets() {
   const [loader, setLoader] = useState<boolean>(true);
   const [refresPage, setRefreshPage] = useState<boolean>(true);
   const [toastMessage, setToastMessage] = useState<string>();
-  const [isToastActive, setIsToastActive] = useState<boolean>(true);
+  const [isToastActive, setIsToastActive] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const { isAuthenticated } = useAuth();
   const goTo = useNavigate();
@@ -70,7 +70,7 @@ export default function Budgets() {
         setError(false);
         setToastMessage("Presupuesto guardado con exito");
         setIsToastActive(true);
-      } else{
+      } else {
         setError(true);
         setToastMessage("Error al guardar el presupuesto");
         setIsToastActive(true);
@@ -139,7 +139,8 @@ export default function Budgets() {
       >
         <BudgetForm closeForm={closeForm} handleSubmit={handleFormSubmit} />
       </Modal>
-      <Tooltip id="budgetForm" style={{maxWidth: 270}}/>
+      <Tooltip id="budgetForm" style={{ maxWidth: 270 }} />
+      <Tooltip id="budgetPage" style={{ maxWidth: 270 }} />
       <Toast
         error={error}
         isActive={isToastActive}

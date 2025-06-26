@@ -2,7 +2,7 @@ import {
   transactionsExpensivesCategories,
   transactionsIncomesCategories,
 } from "../../../utils/categories";
-import { tooltipsInfo } from "../../../utils/tooltipsInfo";
+import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo";
 import TooltipButton from "../../UI/TooltipButton";
 
 interface Promps {
@@ -22,7 +22,7 @@ export default function TForm_Category(promps: Promps) {
           <TooltipButton
             tooltipVariant="info"
             tooltipId="form"
-            tooltipContent={tooltipsInfo.TRANSACTION_FORM_CATEGORY}
+            tooltipContent={tooltipsInfoTransactionForm.TRANSACTION_FORM_CATEGORY}
           />
         }
       </label>

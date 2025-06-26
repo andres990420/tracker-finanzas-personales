@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import type { IBudgets } from "../../../types/models";
 import TooltipButton from "../../UI/TooltipButton";
-import { tooltipsInfo } from "../../../utils/tooltipsInfo";
+import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo";
 
 interface Promps {
   budgets: IBudgets[];
@@ -52,7 +52,7 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
           <TooltipButton
             tooltipVariant="info"
             tooltipId="form"
-            tooltipContent={tooltipsInfo.TRANSACTION_FORM_BUDGET}
+            tooltipContent={tooltipsInfoTransactionForm.TRANSACTION_FORM_BUDGET}
           />
         }
       </label>
@@ -80,7 +80,7 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
               <TooltipButton
                 tooltipVariant="info"
                 tooltipId="form"
-                tooltipContent={tooltipsInfo.TRANSACTION_FORM_BUDGET_CATEGORY}
+                tooltipContent={tooltipsInfoTransactionForm.TRANSACTION_FORM_BUDGET_CATEGORY}
               />
             }
           </label>

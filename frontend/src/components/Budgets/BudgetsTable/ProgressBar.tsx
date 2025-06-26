@@ -8,7 +8,7 @@ interface Promps {
 export default function ProgressBar(promps: Promps) {
   const { percentage, currentValue, limitValue, color } = promps;
   return (
-    <div className="relative w-[55%] p-2 text-center">
+    <div className="relative w-[95%] p-2 text-center">
       <div className="relative w-[100%] h-6 bg-gray-200 border border-gray-400/30 rounded-2xl overflow-hidden">
         <div
           className={`absolute h-[100%]  shadow-2xl  rounded-2xl overflow-hidden text-start text-black ${
@@ -18,6 +18,7 @@ export default function ProgressBar(promps: Promps) {
         ></div>
         <p className="text-xl relative">
           {Intl.NumberFormat().format(currentValue)}$/ {Intl.NumberFormat().format(limitValue)}$
+          {/* {percentage}% */}
         </p>
       </div>
     </div>

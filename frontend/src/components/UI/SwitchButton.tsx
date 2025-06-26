@@ -20,7 +20,7 @@ export default function SwitchButton(promps: Promps) {
     >
       <div
         className={`rounded-full bg-white h-8 w-8 absolute bottom-1 border transition-all duration-500 ${
-          activeState ? "border-blue-500 left-10" : "border-blue-300"
+          activeState ? "border-blue-500 translate-x-10" : "border-blue-300"
         }`}
       ></div>
     </button>
