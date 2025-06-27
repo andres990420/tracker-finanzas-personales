@@ -49,7 +49,7 @@ export default function SideMenu() {
         </div>
         <div className="flex p-2 gap-5">
           {isAuthenticated && <NavBar />}
-          <div className="flex  justify-center items-center">
+          <div className="flex  justify-center items-center gap-2">
             {!isAuthenticated && (
               <>
                 <Button

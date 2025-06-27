@@ -1,5 +1,5 @@
 import { FaPlus } from "react-icons/fa";
-import TableMovements from "../components/Home/TableMovements";
+import MovementsTable from "../components/Home/MovementsTable/TableMovements";
 import Button from "../components/UI/Button";
 import FilterBar from "../components/UI/FiltersBar";
 import { useEffect, useState } from "react";
@@ -145,26 +145,27 @@ export default function Transactions() {
           <div className="flex">
             <div className="p-1">
               <h1 className="text-2xl font-bold">Movimientos</h1>
-              <p className="text-sm font-light">Registro de ingreso y egresos</p>
+              <p className="text-sm font-light">
+                Registro de ingreso y egresos
+              </p>
             </div>
           </div>
-          <div className="flex justify-items-center m-2">
-            <div className="m-1">
+          <div className="flex justify-items-center m-2 gap-2">
+            <div className="place-content-center">
               <Button color="blue" icon={<FaPlus />} onClick={newTransaction}>
-              Nuevo Movimiento
-            </Button>
+                Nuevo Movimiento
+              </Button>
             </div>
             <div className="p-1 justify-center place-content-center">
               <FilterBar />
             </div>
-            
           </div>
         </div>
 
         <div className="h-[60vh] w-[30hv] overflow-y-scroll p-6">
           <Loader isActive={loader} />
           {transactions && (
-            <TableMovements
+            <MovementsTable
               transactions={transactions}
               budgets={budgets}
               handleDeleteTransaction={handleDeleteTransaction}
@@ -190,6 +191,7 @@ export default function Transactions() {
         closeToast={closeToast}
         timeUp={5000}
       />
+      
     </>
   );
 }

@@ -124,7 +124,7 @@ export default function TransactionForm(promps: Promps) {
         </div>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-2">
         <Button color="violet" type="submit" icon={<FaCheckCircle />}>
           Guardar
         </Button>
