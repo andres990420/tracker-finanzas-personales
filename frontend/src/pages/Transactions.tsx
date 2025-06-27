@@ -16,7 +16,7 @@ import Loader from "../components/UI/Loader";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router";
 import Toast from "../components/UI/Toast";
-import SwitchButton from "../components/UI/SwitchButton";
+
 
 export default function Transactions() {
   const [isModalActive, setIsModalActive] = useState(false);

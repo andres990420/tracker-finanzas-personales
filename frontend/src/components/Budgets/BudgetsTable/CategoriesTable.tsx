@@ -16,17 +16,19 @@ export default function CategoriesTable(promps: Propms) {
   const { category, isHidden } = promps;
   const [hidden, setHidden] = useState<boolean>(true);
   const [buttonIcon, setButtonIcon] = useState(
-    <FaChevronDown className="h-4 w-4" />
+    <FaChevronDown className="h-4 w-4 text-black" />
   );
   const currentProgress = (category.currentAmount * 100) / category.maxAmount;
   const colors = ColorSelector(category.color);
   const [haveTransactions, setHaveTransactions] = useState<boolean>(false);
 
   function handleClick() {
-    hidden
-      ? setButtonIcon(<FaChevronUp className="h-4 w-4" />)
-      : setButtonIcon(<FaChevronDown className="h-4 w-4" />);
-    setHidden(!hidden);
+    if (haveTransactions) {
+      hidden
+        ? setButtonIcon(<FaChevronUp className="h-4 w-4 text-black" />)
+        : setButtonIcon(<FaChevronDown className="h-4 w-4 text-black" />);
+      setHidden(!hidden);
+    }
   }
 
   function checkingForTransactions() {
@@ -50,27 +52,27 @@ export default function CategoriesTable(promps: Propms) {
     <div
       className={`text-center shadow-xl rounded-xl m-2 
         ${colors.colorContainer} 
-         ${isHidden && "hidden"}`}
+         ${isHidden && "hidden"} `}
     >
-      <div className="justify-between flex">
-        <div className=" justify-center gap-1 w-1/4 p-3 flex">
-          <h3 className="text-lg">{category.type}</h3>
-          {category.description && (
-            <TooltipButton
-              tooltipId="budgetPage"
-              tooltipVariant="dark"
-              tooltipContent={`${category.description}`}
-            />
-          )}
+      <div
+        className={`justify-between flex ${
+          haveTransactions && `hover:cursor-pointer`
+        }`}
+        onClick={handleClick}
+      >
+        <div className=" justify-center items-center gap-1 w-1/4 flex">
+          <p className="text-pretty">{category.type}</p>
         </div>
-        <div className="w-3/4 flex p-2 justify-items-center">
+        <div className="w-3/4 flex justify-center items-center">
           <ProgressBar
             percentage={currentProgress}
             limitValue={category.maxAmount}
             currentValue={category.currentAmount}
             color={colors.colorProgressBar}
           />
-          <span className="p-2 text-xl">{currentProgress.toPrecision(4)}%</span>
+          <p className="place-content-center text-sm p-1">
+            {currentProgress.toPrecision(4)}%
+          </p>
         </div>
         {category.transactions && haveTransactions && (
           <Button
@@ -78,7 +80,6 @@ export default function CategoriesTable(promps: Propms) {
             icon={buttonIcon}
             transparent={true}
             onClick={handleClick}
-            iconcolor="black"
           />
         )}
       </div>
@@ -88,7 +89,9 @@ export default function CategoriesTable(promps: Propms) {
         } overflow-y-auto transition-all ease-in-out duration-500 `}
       >
         <div
-          className={`rounded-xl shadow-xl bg-slate-200 overflow-y-auto min-h-10 max-h-34 ${hidden ? 'hidden' : ''}`}
+          className={`rounded-xl shadow-xl bg-gray-100 overflow-y-auto min-h-10 max-h-34 ${
+            hidden ? "hidden" : ""
+          }`}
         >
           {category.transactions &&
             category.transactions.map((transactions) => (

@@ -1,4 +1,10 @@
-import { FaChevronDown, FaChevronUp, FaEdit, FaTrash } from "react-icons/fa";
+import {
+  FaArchive,
+  FaChevronDown,
+  FaChevronUp,
+  FaEdit,
+  FaTrash,
+} from "react-icons/fa";
 import Button from "../../UI/Button";
 import CategoriesTable from "./CategoriesTable";
 import { useEffect, useState } from "react";
@@ -20,13 +26,16 @@ export default function BudgetsTable(promps: Promps) {
   const [buttonIcon, setButtonIcon] = useState(
     <FaChevronDown className="h-4 w-4" />
   );
+
   const [haveCategories, setHaveCategories] = useState<boolean>(false);
 
   function handleClick() {
-    hidden
-      ? setButtonIcon(<FaChevronUp className="h-4 w-4" />)
-      : setButtonIcon(<FaChevronDown className="h-4 w-4" />);
-    setHidden(!hidden);
+    if (haveCategories) {
+      hidden
+        ? setButtonIcon(<FaChevronUp className="h-4 w-4" />)
+        : setButtonIcon(<FaChevronDown className="h-4 w-4 " />);
+      setHidden(!hidden);
+    }
   }
 
   function checkingForCategories() {
@@ -47,50 +56,57 @@ export default function BudgetsTable(promps: Promps) {
   }, []);
 
   return (
-    <div className="border border-gray-300/40 rounded-2xl font-bold bg-gray-300/60 m-5 shadow-xl ">
+    <div className="border border-gray-300/40 rounded-2xl font-bold bg-gray-100 m-3 shadow-xl ">
       <div
         className={`flex justify-between ${
-          hidden ? "rounded-2xl" : "rounded-t-xl"
-        } bg-gray-700 border-gray-700/40 borde transition-all duration-300`}
+          hidden ? "rounded-xl" : "rounded-t-xl"
+        } bg-gray-800 border-gray-700/40 borde transition-all duration-300 ${
+          haveCategories && "hover:cursor-pointer"
+        }`}
+        onClick={handleClick}
       >
-        <div className="text-center justify-items-center text-white w-1/4 p-3">
-          <h2 className="text-xl">{budgetName}</h2>
+        <div className="text-center place-content-center text-white w-1/4 p-1">
+          <h2 className="text-lg">{budgetName}</h2>
         </div>
-        <div className="w-3/4 p-2 flex items-center justify-center">
+        <div className="w-3/4 p-1 flex items-center justify-center">
           <ProgressBar
             percentage={percentage}
             limitValue={limitValue}
             currentValue={currentValue}
           />
-          <p className="text-xl p-1 text-white">{percentage}%</p>
+          <p className="text-lg  text-white">{percentage}%</p>
         </div>
-        <div className="flex">
+        <div className="flex items-center justify-center">
           <Button
             color="blue"
-            onClick={()=>console.log('Edit budget')}
+            onClick={() => console.log("Archive budget")}
+            icon={<FaArchive />}
+            transparent={true}
+          />
+          <Button
+            color="blue"
+            onClick={() => console.log("Edit budget")}
             icon={<FaEdit />}
             transparent={true}
           />
           <Button
             color="blue"
-            onClick={()=>console.log('Delete budget')}
+            onClick={() => console.log("Delete budget")}
             icon={<FaTrash />}
             transparent={true}
           />
-          {childrensTables && haveCategories && (
-            <Button
-              color="blue"
-              onClick={handleClick}
-              icon={buttonIcon}
-              transparent={true}
-            />
-          )}
+          {haveCategories &&<Button
+            color="blue"
+            icon={buttonIcon}
+            transparent={true}
+            onClick={handleClick}
+          />}
         </div>
       </div>
       <div
         className={`${
-          hidden ? "max-h-0 opacity-0" : "max-h-70 opacity-100 p-1"
-        } transition-all duration-700 ease-in-out overflow-y-auto`}
+          hidden ? "max-h-0 opacity-0" : "max-h-50 opacity-100"
+        } transition-all duration-500 ease-in-out overflow-y-auto`}
       >
         {childrensTables?.map((category) => (
           <CategoriesTable
