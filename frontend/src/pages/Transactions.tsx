@@ -16,6 +16,7 @@ import Loader from "../components/UI/Loader";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router";
 import Toast from "../components/UI/Toast";
+import SwitchButton from "../components/UI/SwitchButton";
 
 export default function Transactions() {
   const [isModalActive, setIsModalActive] = useState(false);
@@ -139,29 +140,36 @@ export default function Transactions() {
 
   return (
     <>
-      <div className=" m-3">
-        <div className="justify-items-center font-bold">
-          <h1 className="text-4xl text-gray-800">
-            Tracker finanzas personales
-          </h1>
-        </div>
-        <div className="gap-2">
-          <div className="flex justify-between m-2">
-            <Button color="blue" icon={<FaPlus />} onClick={newTransaction}>
+      <div className="bg-gray-200 h-full">
+        <div className="flex justify-between bg-gray-100 p-2 shadow-2xs">
+          <div className="flex">
+            <div className="p-1">
+              <h1 className="text-2xl font-bold">Movimientos</h1>
+              <p className="text-sm font-light">Registro de ingreso y egresos</p>
+            </div>
+          </div>
+          <div className="flex justify-items-center m-2">
+            <div className="m-1">
+              <Button color="blue" icon={<FaPlus />} onClick={newTransaction}>
               Nuevo Movimiento
             </Button>
-            <FilterBar />
+            </div>
+            <div className="p-1 justify-center place-content-center">
+              <FilterBar />
+            </div>
+            
           </div>
-          <div className="h-[60vh] w-[30hv] overflow-y-scroll">
-            <Loader isActive={loader} />
-            {transactions && (
-              <TableMovements
-                transactions={transactions}
-                budgets={budgets}
-                handleDeleteTransaction={handleDeleteTransaction}
-              />
-            )}
-          </div>
+        </div>
+
+        <div className="h-[60vh] w-[30hv] overflow-y-scroll p-6">
+          <Loader isActive={loader} />
+          {transactions && (
+            <TableMovements
+              transactions={transactions}
+              budgets={budgets}
+              handleDeleteTransaction={handleDeleteTransaction}
+            />
+          )}
         </div>
         {/* TODO DASHBOARD AREA */}
       </div>

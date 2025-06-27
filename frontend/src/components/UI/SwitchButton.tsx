@@ -12,14 +12,14 @@ export default function SwitchButton(promps: Promps) {
   }
   return (
     <button
-      className={`rounded-full border h-10 w-20 p-1 relative transition-all duration-500 shadow-xl ${
+      className={`rounded-full border h-10 w-20 p-1 transition-all duration-500 shadow-xl ${
         activeState ? "border-blue-500 bg-blue-600" : "border-blue-300 bg-blue-300"
       }`}
       onClick={onClickEvent}
       type="button"
     >
       <div
-        className={`rounded-full bg-white h-8 w-8 absolute bottom-1 border transition-all duration-500 ${
+        className={`rounded-full bg-white h-[100%] w-[45%]  bottom-1 border transition-all duration-500 ${
           activeState ? "border-blue-500 translate-x-10" : "border-blue-300"
         }`}
       ></div>
