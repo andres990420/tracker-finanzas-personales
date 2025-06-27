@@ -56,7 +56,7 @@ export default function BudgetsTable(promps: Promps) {
         <div className="text-center justify-items-center text-white w-1/4 p-3">
           <h2 className="text-xl">{budgetName}</h2>
         </div>
-        <div className="justify-items-center w-3/4 p-2 flex">
+        <div className="w-3/4 p-2 flex items-center justify-center">
           <ProgressBar
             percentage={percentage}
             limitValue={limitValue}

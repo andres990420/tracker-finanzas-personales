@@ -33,7 +33,7 @@ export default function Button(promps: Promps) {
       break;
   }
 
-  const iconStyleColor = iconColor === "black" ? "text-black" : "";
+  const iconStyleColor = iconColor === "black" ? "text-black" : "text-white";
 
   const style = `flex justify-center m-1 items-center min-w-fit min-h-fit p-1 gap-1 text-2xs rounded-xl  text-white font-bold 
   ${!transparent && fondo} ${!transparent && hover} ${
@@ -41,7 +41,7 @@ export default function Button(promps: Promps) {
   }`;
   return (
     <button className={style} {...promps}>
-      <i className={`p-1 ${iconStyleColor}`}>{icon}</i>
+      {icon && <i className={`p-1 ${iconStyleColor}`}>{icon}</i>}
       {promps.children && <p className="p-1">{promps.children}</p>}
     </button>
   );
