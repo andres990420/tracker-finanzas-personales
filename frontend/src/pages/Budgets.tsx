@@ -21,8 +21,8 @@ export default function Budgets() {
   const [toastMessage, setToastMessage] = useState<string>();
   const [isToastActive, setIsToastActive] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [activesBudgets, setActivesBudgets] = useState<boolean>(true)
-  const [budgetToEdit, setBudgetToEdit] = useState<IBudgets>()
+  const [activesBudgets, setActivesBudgets] = useState<boolean>(true);
+  const [budgetToEdit, setBudgetToEdit] = useState<IBudgets>();
   const { isAuthenticated } = useAuth();
   const goTo = useNavigate();
 
@@ -39,32 +39,32 @@ export default function Budgets() {
   }
 
   function newBudget() {
-    setBudgetToEdit(undefined)
+    setBudgetToEdit(undefined);
     setIsModalActive(true);
   }
 
-  function handleEditBudget(id: string){
-    const budget = budgets.find(budget => budget.id === id)
-    setBudgetToEdit(budget)
-    setIsModalActive(true)
+  function handleEditBudget(id: string) {
+    const budget = budgets.find((budget) => budget.id === id);
+    setBudgetToEdit(budget);
+    setIsModalActive(true);
   }
 
-  async function handleDeleteBudget(budgetId: string){
-    try{
-      const response = await deleteBudget(budgetId)
-      if(response.ok){
-        setError(false)
-        setToastMessage('Presupuesto eliminado con exito')
-        setIsToastActive(true)
-      }  else {
+  async function handleDeleteBudget(budgetId: string) {
+    try {
+      const response = await deleteBudget(budgetId);
+      if (response.ok) {
+        setError(false);
+        setToastMessage("Presupuesto eliminado con exito");
+        setIsToastActive(true);
+      } else {
         setError(true);
         setToastMessage("Ha ocurrido un error al eliminar el Presupuesto");
         setIsToastActive(true);
       }
-    } catch (error){
-      throw console.error(error)
-    } finally{
-      setRefreshPage(!refresPage)
+    } catch (error) {
+      throw console.error(error);
+    } finally {
+      setRefreshPage(!refresPage);
     }
   }
 
@@ -128,21 +128,36 @@ export default function Budgets() {
 
   useEffect(() => {
     recoverBudgets();
-    
   }, [refresPage]);
 
   return (
-    <main className="bg-gray-300  min-h-screen">
-      <header className="flex justify-between font-bold items-center p-2 bg-gray-100 border-b-gray-300 border-b shadow-2xs">
-        <h1 className="text-2xl text-gray-800 p-2">Presupuestos</h1>
-        <div className="flex gap-5 border-b border-b-gray-300">
-          <a className={`p-1 hover:text-blue-500 hover:cursor-pointer ${activesBudgets && 'border-blue-500 border-b text-blue-500'}`} onClick={()=>setActivesBudgets(true)}>Activos</a>
-          <a className={`p-1 hover:text-blue-500 hover:cursor-pointer ${!activesBudgets && 'border-blue-500 border-b text-blue-500'}`} onClick={()=>setActivesBudgets(false)}>Archivados</a>
-        </div>
-        <div className="place-content-center p-2">
-          <Button color="blue" icon={<FaPlusCircle />} onClick={newBudget}>
-            Agregar presupuesto
-          </Button>
+    <main className="bg-gray-300 min-h-screen">
+      <header>
+        <div className="flex justify-between font-bold items-center p-2 bg-gray-100 border-b-gray-300 border-b shadow-2xs">
+          <h1 className="text-2xl text-gray-800 p-2">Presupuestos</h1>
+          <div className="flex gap-5 border-b border-b-gray-300">
+            <a
+              className={`p-1 hover:text-blue-500 hover:cursor-pointer ${
+                activesBudgets && "border-blue-500 border-b text-blue-500"
+              }`}
+              onClick={() => setActivesBudgets(true)}
+            >
+              Activos
+            </a>
+            <a
+              className={`p-1 hover:text-blue-500 hover:cursor-pointer ${
+                !activesBudgets && "border-blue-500 border-b text-blue-500"
+              }`}
+              onClick={() => setActivesBudgets(false)}
+            >
+              Archivados
+            </a>
+          </div>
+          <div className="place-content-center p-2">
+            <Button color="blue" icon={<FaPlusCircle />} onClick={newBudget}>
+              Agregar presupuesto
+            </Button>
+          </div>
         </div>
       </header>
       <section>
@@ -159,7 +174,7 @@ export default function Budgets() {
             ))}
           </div>
         )}
-        {budgets && !activesBudgets &&(
+        {budgets && !activesBudgets && (
           <div className="items-start grid grid-cols-2">
             {/* Budgets archivados */}
           </div>
@@ -170,7 +185,11 @@ export default function Budgets() {
         setIsActive={setIsModalActive}
         title="Nuevo Presupuesto"
       >
-        <BudgetForm closeForm={closeForm} handleSubmit={handleFormSubmit} budgetToEdit={budgetToEdit}/>
+        <BudgetForm
+          closeForm={closeForm}
+          handleSubmit={handleFormSubmit}
+          budgetToEdit={budgetToEdit}
+        />
       </Modal>
       <Tooltip id="budgetForm" style={{ maxWidth: 270 }} />
       <Tooltip id="budgetPage" style={{ maxWidth: 270 }} />

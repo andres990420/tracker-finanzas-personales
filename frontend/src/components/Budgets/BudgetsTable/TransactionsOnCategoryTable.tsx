@@ -1,6 +1,5 @@
 import type { ITransactions } from "../../../types/models";
 import { CalculateDescriptionAreaSize } from "../../../utils/utils";
-import TooltipButton from "../../UI/TooltipButton";
 
 interface Promps {
   transaction: ITransactions;

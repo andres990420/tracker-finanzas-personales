@@ -140,8 +140,8 @@ export default function Transactions() {
 
   return (
     <>
-      <div className="bg-gray-200 h-full">
-        <div className="flex justify-between bg-gray-100 p-2 shadow-2xs">
+      <div className="bg-gray-200 h-max">
+        <div className="flex justify-between bg-gray-100 p-2 shadow-lg">
           <div className="flex">
             <div className="p-1">
               <h1 className="text-2xl font-bold">Movimientos</h1>
@@ -162,7 +162,7 @@ export default function Transactions() {
           </div>
         </div>
 
-        <div className="h-[60vh] w-[30hv] overflow-y-scroll p-6">
+        <div className="h-[77vh] overflow-y-scroll p-6">
           <Loader isActive={loader} />
           {transactions && (
             <MovementsTable

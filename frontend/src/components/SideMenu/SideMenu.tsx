@@ -39,7 +39,7 @@ export default function SideMenu() {
 
   return (
     <>
-      <div className="bg-gray-100 border-b-gray-300 border-b top-0 gap-4 w-[100%] h-full  flex justify-between p-2 max-w-screen ">
+      <div className="bg-gray-100 border-b-gray-300 border-b top-0 gap-4 w-[100%] fixed min-h-max flex justify-between p-2 max-w-screen ">
         <div className=" flex h-auto p-1 gap-5">
           {isAuthenticated && <ProfilePhoto />}
           <div>

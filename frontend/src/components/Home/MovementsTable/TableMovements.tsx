@@ -1,6 +1,5 @@
 import type { IBudgets, ITransactions } from "../../../types/models";
 import { Tooltip } from "react-tooltip";
-import TooltipButton from "../../UI/TooltipButton";
 import Button from "../../UI/Button";
 import { FaEdit, FaInfoCircle, FaTrashAlt } from "react-icons/fa";
 import TableHeader from "./TableHeader";
@@ -14,8 +13,7 @@ interface Promps {
 
 export default function MovementsTable(promps: Promps) {
   const { transactions, budgets, handleDeleteTransaction } = promps;
-  const stylesIncomes = "  ";
-  const stylesExpensive = "  ";
+
 
   function findAttachedBudget(id: string) {
     const budget = budgets?.find((budget) =>

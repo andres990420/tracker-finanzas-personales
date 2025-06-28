@@ -2,7 +2,6 @@ import { FaBan, FaCheckCircle, FaPlus } from "react-icons/fa";
 import Button from "../../UI/Button";
 import BudgetFormCategory from "./BudgetFormCategory";
 import { useState } from "react";
-import CategorySelector from "./CategorySelector";
 import TooltipButton from "../../UI/TooltipButton";
 import { tooltipsInfoBudgetForm } from "../../../utils/tooltipsInfo";
 import type { IBudgets, ICategory } from "../../../types/models";
@@ -20,13 +19,6 @@ interface Promps {
   budgetToEdit?: IBudgets;
 }
 
-interface categoriesList {
-  id: number;
-  categoryType?: string;
-  categoryDescription?: string;
-  categoryColor?: string;
-  categoryLimit?: string;
-}
 
 export default function BudgetForm(promps: Promps) {
   const { closeForm, handleSubmit, budgetToEdit } = promps;
