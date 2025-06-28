@@ -4,7 +4,7 @@ import BudgetFormCategory from "./BudgetFormCategory";
 import { useState } from "react";
 import TooltipButton from "../../UI/TooltipButton";
 import { tooltipsInfoBudgetForm } from "../../../utils/tooltipsInfo";
-import type { IBudgets, ICategory } from "../../../types/models";
+import type { IBudget, ICategory } from "../../../types/models";
 
 interface Promps {
   closeForm: () => void;
@@ -16,9 +16,8 @@ interface Promps {
     categoryColor: string[],
     categoryDescription: string[]
   ) => void;
-  budgetToEdit?: IBudgets;
+  budgetToEdit?: IBudget;
 }
-
 
 export default function BudgetForm(promps: Promps) {
   const { closeForm, handleSubmit, budgetToEdit } = promps;
@@ -109,7 +108,7 @@ export default function BudgetForm(promps: Promps) {
   }
 
   function handleNewCategorie() {
-    const newId = Math.random() * 1000
+    const newId = Math.random() * 1000;
     setCategoriesList([
       ...categoriesList,
       {

@@ -5,10 +5,10 @@ export interface ICategory {
   description: string;
   currentAmount: number;
   maxAmount: number;
-  transactions: string[]
+  transactions: string[];
 }
 
-export interface IBudgets {
+export interface IBudget {
   id: string;
   user: string;
   name: string;
@@ -19,11 +19,11 @@ export interface IBudgets {
   updtedAt: Date;
 }
 
-export interface ITransactions {
+export interface ITransaction {
   id: string;
   type: string;
   amount: string;
   category: string;
-  description: string
-  date: string
+  description: string;
+  date: string;
 }

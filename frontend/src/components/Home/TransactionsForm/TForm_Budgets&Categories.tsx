@@ -1,19 +1,31 @@
-import { useState, type ReactNode } from "react";
-import type { IBudgets } from "../../../types/models";
+import { useEffect, useState, type ReactNode } from "react";
+import type { IBudget } from "../../../types/models";
 import TooltipButton from "../../UI/TooltipButton";
 import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo";
 
 interface Promps {
-  budgets: IBudgets[];
+  budgets: IBudget[];
   setCategoryId: (id: string) => void;
+  categoryId: string;
 }
 
 export default function TForm_BudgetsAndCategories(promps: Promps) {
-  const { budgets, setCategoryId } = promps;
+  const { budgets, setCategoryId, categoryId } = promps;
   const [categories, setCategories] = useState<
     React.ReactNode[] | React.ReactNode
   >();
-  const [haveCategories, setHaveCategories] = useState(false);
+  const [haveCategories, setHaveCategories] = useState(
+    categoryId ? true : false
+  );
+  const budget = budgets.find((budget) =>
+    budget.categories.find((category) => category.id === categoryId)
+  );
+
+  useEffect(() => {
+    if (budget) {
+      selectBudget(budget.id);
+    }
+  }, []);
 
   function selectBudget(id: string) {
     const budgetCategories = searchCategoriesOfBudget(id);
@@ -61,10 +73,9 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
         className="border border-gray-800 rounded-2xl p-1 text-center"
         id="select-budgets"
         onChange={(e) => selectBudget(e.target.value)}
+        value={budget?.id}
       >
-        <option value={""} selected disabled>
-          Seleccione un presupuesto
-        </option>
+        <option value={""}>Seleccione un presupuesto</option>
         {budgets.map((budget) => (
           <option key={budget.id} value={budget.id}>
             {budget.name}
@@ -80,7 +91,9 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
               <TooltipButton
                 tooltipVariant="info"
                 tooltipId="form"
-                tooltipContent={tooltipsInfoTransactionForm.TRANSACTION_FORM_BUDGET_CATEGORY}
+                tooltipContent={
+                  tooltipsInfoTransactionForm.TRANSACTION_FORM_BUDGET_CATEGORY
+                }
               />
             }
           </label>
@@ -89,6 +102,7 @@ export default function TForm_BudgetsAndCategories(promps: Promps) {
             className="border border-gray-800 rounded-2xl p-1 text-center"
             name="categoryId"
             onChange={(e) => handleCategoryChange(e)}
+            value={categoryId}
           >
             <option value={""} selected disabled>
               Selecciona una categoria

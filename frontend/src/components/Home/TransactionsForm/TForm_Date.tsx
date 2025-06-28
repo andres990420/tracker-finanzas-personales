@@ -3,10 +3,11 @@ import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo";
 
 interface Promps {
   setDate: (event: any) => void;
+  transactionToEditInfo?: string
 }
 
 export default function TForm_Date(promps: Promps) {
-  const { setDate } = promps;
+  const { setDate, transactionToEditInfo } = promps;
   function todayDate() {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -33,6 +34,7 @@ export default function TForm_Date(promps: Promps) {
         className="border border-gray-800 rounded-2xl p-1 justify-items-center font-bold"
         required
         defaultValue={todayDate()}
+        value={transactionToEditInfo}
         max={todayDate()}
         onChange={(e) => setDate(e.target.value)}
       ></input>

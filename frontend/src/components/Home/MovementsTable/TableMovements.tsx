@@ -1,19 +1,20 @@
-import type { IBudgets, ITransactions } from "../../../types/models";
+import type { IBudget, ITransaction } from "../../../types/models";
 import { Tooltip } from "react-tooltip";
 import Button from "../../UI/Button";
 import { FaEdit, FaInfoCircle, FaTrashAlt } from "react-icons/fa";
 import TableHeader from "./TableHeader";
 import TableData from "./TableData";
+import { useState } from "react";
 
 interface Promps {
-  transactions: ITransactions[];
-  budgets: IBudgets[] | undefined;
+  transactions: ITransaction[];
+  budgets: IBudget[] | undefined;
   handleDeleteTransaction: (transactionId: string, categoryId: string) => void;
+  handleEditTransaction: (transactionId: string, categoryId?: string, budgetId?: string)=>void
 }
 
 export default function MovementsTable(promps: Promps) {
-  const { transactions, budgets, handleDeleteTransaction } = promps;
-
+  const { transactions, budgets, handleDeleteTransaction, handleEditTransaction } = promps;
 
   function findAttachedBudget(id: string) {
     const budget = budgets?.find((budget) =>
@@ -22,6 +23,7 @@ export default function MovementsTable(promps: Promps) {
       )
     );
     if (budget) {
+      // setBudgetId(budget.id)
       return (
         <>
           {budget.name} ({Intl.NumberFormat().format(budget.currentAmount)}$/
@@ -124,6 +126,7 @@ export default function MovementsTable(promps: Promps) {
                           color="blue"
                           icon={<FaEdit className="text-blue-500" />}
                           transparent={true}
+                          onClick={()=>handleEditTransaction(transaction.id, findCategoryId(transaction.id))}
                         />
                       }
                       {

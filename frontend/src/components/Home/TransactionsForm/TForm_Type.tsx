@@ -4,6 +4,7 @@ import TooltipButton from "../../UI/TooltipButton";
 interface Promps {
   transactionType: string;
   handleSelect: (event: any) => void;
+  transactionToEditInfo?: string
 }
 
 export default function TForm_Type(promps: Promps) {
@@ -28,23 +29,24 @@ export default function TForm_Type(promps: Promps) {
         id="select-type-transaction"
         className={`border font-bold rounded-2xl p-1 text-center ${
           transactionType === "Income"
-            ? "bg-green-200/40 text-green-800 border-green-600"
+            ? " text-green-800 "
             : transactionType === "Expensive"
-            ? "bg-red-200/50 text-red-800 border-red-600"
+            ? " text-red-600 "
             : "bg-white"
         }`}
         onChange={handleSelect}
+        value={transactionType}
       >
-        <option className="bg-white" disabled value={""} selected>
+        <option className="bg-white" value={""} selected>
           Selecciona el tipo de transaccion
         </option>
         <option
-          className="bg-green-600/40 text-green-800 selection:bg-blue-20"
+          className=" text-green-800"
           value={"Income"}
         >
           Ingreso
         </option>
-        <option className="bg-red-400/50 text-red-800" value={"Expensive"}>
+        <option className=" text-red-600" value={"Expensive"}>
           Gasto
         </option>
       </select>

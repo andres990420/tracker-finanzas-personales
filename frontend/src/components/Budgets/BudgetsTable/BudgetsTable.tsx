@@ -9,14 +9,14 @@ import Button from "../../UI/Button";
 import CategoriesTable from "./CategoriesTable";
 import { useEffect, useState } from "react";
 import ProgressBar from "./ProgressBar";
-import type { IBudgets, ITransactions} from "../../../types/models";
+import type { IBudget, ITransaction } from "../../../types/models";
 import { CalculateProgress } from "../../../utils/utils";
 import Toast from "../../UI/Toast";
 
 interface Promps {
-  budget: IBudgets;
-  handleDelete: (budgetId: string)=>void
-  handleEdit: (budgetId: string)=>void
+  budget: IBudget;
+  handleDelete: (budgetId: string) => void;
+  handleEdit: (budgetId: string) => void;
 }
 
 export default function BudgetsTable(promps: Promps) {
@@ -28,10 +28,8 @@ export default function BudgetsTable(promps: Promps) {
 
   const [haveCategories, setHaveCategories] = useState<boolean>(false);
 
-
   const percentage = CalculateProgress(budget.currentAmount, budget.maxAmount);
-  
-  
+
   function handleClick() {
     if (haveCategories) {
       hidden
@@ -53,9 +51,6 @@ export default function BudgetsTable(promps: Promps) {
       setHaveCategories(response.length > 0 && true);
     }
   }
-
-  
-
 
   useEffect(() => {
     checkingForCategories();

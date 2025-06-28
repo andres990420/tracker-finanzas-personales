@@ -1,8 +1,8 @@
-import type { ITransactions } from "../../../types/models";
+import type { ITransaction } from "../../../types/models";
 import { CalculateDescriptionAreaSize } from "../../../utils/utils";
 
 interface Promps {
-  transaction: ITransactions | undefined;
+  transaction: ITransaction | undefined;
 }
 
 export default function TransactionsOnCategoryTable(promps: Promps) {
@@ -21,9 +21,9 @@ export default function TransactionsOnCategoryTable(promps: Promps) {
           {transaction?.category}
         </p>
       </div>
-        <div className="p-1 w-1/6 font-medium flex justify-center items-center">
-          <p className="p-1">{transaction?.date}6/28/2025</p>
-        </div>
+      <div className="p-1 w-1/6 font-medium flex justify-center items-center">
+        <p className="p-1">{transaction?.date}6/28/2025</p>
+      </div>
       <div className="p-1 w-1/6 font-medium flex  justify-center items-center">
         <p
           className={`${

@@ -5,28 +5,31 @@ import FilterBar from "../components/UI/FiltersBar";
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal/Modal";
 import TransactionForm from "../components/Home/TransactionsForm/TransactionForm";
-import type { IBudgets, ITransactions } from "../types/models";
+import type { IBudget, ITransaction } from "../types/models";
 import {
   deleteTransaction,
   fetchApiBudgets,
   fetchApiTransactions,
   sendTransactionsForm,
+  updateTransaction,
 } from "../Service/api";
 import Loader from "../components/UI/Loader";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router";
 import Toast from "../components/UI/Toast";
 
-
 export default function Transactions() {
   const [isModalActive, setIsModalActive] = useState(false);
-  const [transactions, setTransactions] = useState<ITransactions[]>();
-  const [budgets, setBudgets] = useState<IBudgets[]>();
+  const [transactions, setTransactions] = useState<ITransaction[]>();
+  const [budgets, setBudgets] = useState<IBudget[]>();
   const [loader, setLoader] = useState<boolean>(true);
   const [refreshPage, setRefreshPage] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string>();
   const [isToastActive, setIsToastActive] = useState<boolean>(false);
+  const [transactionToEdit, setTransactionToEdit] = useState<ITransaction>();
+  const [transactionToEditCategoryId, setTransactionToEditCategoryId] =
+    useState<string>();
 
   const { isAuthenticated } = useAuth();
 
@@ -44,6 +47,16 @@ export default function Transactions() {
     setIsModalActive(false);
   }
   function newTransaction() {
+    setTransactionToEdit(undefined);
+    setIsModalActive(true);
+  }
+
+  function handleEditTransaction(transactionId: string, categoryId?: string) {
+    const transaction = transactions?.find(
+      (transaction) => transaction.id === transactionId
+    );
+    setTransactionToEditCategoryId(categoryId);
+    setTransactionToEdit(transaction);
     setIsModalActive(true);
   }
 
@@ -79,22 +92,51 @@ export default function Transactions() {
     categoryId?: string | null
   ) {
     e.preventDefault();
+    console.log(
+      JSON.stringify({
+        transactionType: transactionType,
+        amount: amount,
+        category: category,
+        description: description,
+        date: date,
+        categoryId: categoryId,
+        transactionToEdit: transactionToEdit?.id,
+      })
+    );
     try {
-      const response = await sendTransactionsForm(
-        transactionType,
-        date,
-        category,
-        amount,
-        description,
-        categoryId
-      );
+      const response = transactionToEdit
+        ? await updateTransaction(
+            transactionToEdit.id,
+            transactionType,
+            date,
+            category,
+            amount,
+            description,
+            categoryId
+          )
+        : await sendTransactionsForm(
+            transactionType,
+            date,
+            category,
+            amount,
+            description,
+            categoryId
+          );
       if (response.ok) {
         setError(false);
-        setToastMessage("Transaccion Guardada con exito");
+        setToastMessage(
+          transactionToEdit
+            ? "Transaccion actualizada con exito"
+            : "Transaccion Guardada con exito"
+        );
         setIsToastActive(true);
       } else {
         setError(true);
-        setToastMessage("Ha ocurrido un error al guardar la transaccion");
+        setToastMessage(
+          transactionToEdit
+            ? "Ha ocurrido un error al actualizar la transaccion"
+            : "Ha ocurrido un error al guardar la transaccion"
+        );
         setIsToastActive(true);
       }
     } catch (error) {
@@ -169,6 +211,7 @@ export default function Transactions() {
               transactions={transactions}
               budgets={budgets}
               handleDeleteTransaction={handleDeleteTransaction}
+              handleEditTransaction={handleEditTransaction}
             />
           )}
         </div>
@@ -182,6 +225,8 @@ export default function Transactions() {
         <TransactionForm
           cancelForm={cancelForm}
           handlerSubmit={handlerSubmitForm}
+          transactionToEdit={transactionToEdit}
+          transactionToEditCategoryId={transactionToEditCategoryId}
         />
       </Modal>
       <Toast
@@ -191,7 +236,6 @@ export default function Transactions() {
         closeToast={closeToast}
         timeUp={5000}
       />
-      
     </>
   );
 }

@@ -3,7 +3,7 @@ import Button from "../../UI/Button";
 import { useState, useEffect } from "react";
 import SwitchButton from "../../UI/SwitchButton";
 import TForm_BudgetsAndCategories from "./TForm_Budgets&Categories.tsx";
-import type { IBudgets } from "../../../types/models";
+import type { IBudget, ITransaction } from "../../../types/models";
 import { fetchApiBudgets } from "../../../Service/api";
 import TooltipButton from "../../UI/TooltipButton.tsx";
 import { tooltipsInfoTransactionForm } from "../../../utils/tooltipsInfo.ts";
@@ -25,20 +25,23 @@ interface Promps {
     date: string,
     categoryId: string | null
   ) => void;
+  transactionToEdit?: ITransaction;
+  transactionToEditCategoryId?: string
+
 }
 
 export default function TransactionForm(promps: Promps) {
-  const { cancelForm, handlerSubmit } = promps;
+  const { cancelForm, handlerSubmit, transactionToEdit, transactionToEditCategoryId } = promps;
   const tooltipInfo = tooltipsInfoTransactionForm;
 
-  const [haveBudget, setHaveBudget] = useState(false);
-  const [budgets, setBudgets] = useState<IBudgets[]>();
+  const [haveBudget, setHaveBudget] = useState(transactionToEditCategoryId ? true : false);
+  const [budgets, setBudgets] = useState<IBudget[]>();
 
-  const [transactionType, setTransactionType] = useState<string>("");
-  const [amount, setAmount] = useState<string>(" ");
-  const [category, setCategory] = useState<string>(" ");
-  const [description, setDescription] = useState<string>(" ");
-  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [transactionType, setTransactionType] = useState<string>(transactionToEdit ? transactionToEdit.type : '');
+  const [amount, setAmount] = useState<string>(transactionToEdit ? transactionToEdit.amount : '');
+  const [category, setCategory] = useState<string>(transactionToEdit ? transactionToEdit.category : '');
+  const [description, setDescription] = useState<string>(transactionToEdit ? transactionToEdit.description : '');
+  const [categoryId, setCategoryId] = useState<string>(transactionToEditCategoryId ? transactionToEditCategoryId : '');
   const [date, setDate] = useState<string>(" ");
 
   function activeBudget() {
@@ -56,6 +59,7 @@ export default function TransactionForm(promps: Promps) {
 
   useEffect(() => {
     recoverBudgets();
+
   }, []);
 
   function selectTypeTransaction(e: any) {
@@ -88,13 +92,14 @@ export default function TransactionForm(promps: Promps) {
         />
 
         <div className={transactionType !== "" ? " grid gap-2" : "hidden"}>
-          <TForm_Date setDate={setDate} />
-          <TForm_amount setAmount={setAmount} />
+          <TForm_Date setDate={setDate} transactionToEditInfo={date}/>
+          <TForm_amount setAmount={setAmount} transactionToEditInfo={amount}/>
           <TForm_Category
             setCategory={setCategory}
             transactionType={transactionType}
+            transactionToEditInfo={category}
           />
-          <TForm_description setDescription={setDescription} />
+          <TForm_description setDescription={setDescription} transactionToEditInfo={description}/>
 
           {budgets && (
             <div className={`flex justify-between m-1 p-1`}>
@@ -119,6 +124,7 @@ export default function TransactionForm(promps: Promps) {
             <TForm_BudgetsAndCategories
               budgets={budgets}
               setCategoryId={setCategoryId}
+              categoryId={categoryId}
             />
           )}
         </div>

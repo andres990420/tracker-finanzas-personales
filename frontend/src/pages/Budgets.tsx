@@ -6,22 +6,27 @@ import { FaPlusCircle } from "react-icons/fa";
 import Modal from "../components/Modal/Modal";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router";
-import { type ITransactions, type IBudgets } from "../types/models";
-import { deleteBudget, fetchApiBudgets, fetchApiTransactions, sendBudgetForm } from "../Service/api";
+import { type ITransaction, type IBudget } from "../types/models";
+import {
+  deleteBudget,
+  fetchApiBudgets,
+  fetchApiTransactions,
+  sendBudgetForm,
+} from "../Service/api";
 import Loader from "../components/UI/Loader";
 import { Tooltip } from "react-tooltip";
 import Toast from "../components/UI/Toast";
 
 export default function Budgets() {
   const [isModalActive, setIsModalActive] = useState<boolean>(false);
-  const [budgets, setBudgets] = useState(Array<IBudgets>);
+  const [budgets, setBudgets] = useState(Array<IBudget>);
   const [loader, setLoader] = useState<boolean>(true);
   const [refresPage, setRefreshPage] = useState<boolean>(true);
   const [toastMessage, setToastMessage] = useState<string>();
   const [isToastActive, setIsToastActive] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [activesBudgets, setActivesBudgets] = useState<boolean>(true);
-  const [budgetToEdit, setBudgetToEdit] = useState<IBudgets>();
+  const [budgetToEdit, setBudgetToEdit] = useState<IBudget>();
 
   const { isAuthenticated } = useAuth();
   const goTo = useNavigate();
@@ -126,8 +131,6 @@ export default function Budgets() {
     }
   }
 
-  
-
   useEffect(() => {
     recoverBudgets();
   }, [refresPage]);
@@ -172,7 +175,6 @@ export default function Budgets() {
                 budget={budget}
                 handleDelete={handleDeleteBudget}
                 handleEdit={handleEditBudget}
-
               />
             ))}
           </div>

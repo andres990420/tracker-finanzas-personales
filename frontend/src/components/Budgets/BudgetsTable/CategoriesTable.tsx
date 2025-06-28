@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { type ICategory, type ITransactions } from "../../../types/models";
+import { type ICategory, type ITransaction } from "../../../types/models";
 import { ColorSelector } from "../../../utils/utils";
 import Button from "../../UI/Button";
 import ProgressBar from "./ProgressBar";
@@ -26,8 +26,8 @@ export default function CategoriesTable(promps: Propms) {
   const [toastMessage, setToastMessage] = useState<string>();
   const [isToastActive, setIsToastActive] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [transactionsList, setTransactionsList] = useState<ITransactions>();
-  const [transactions, setTransactions] = useState<ITransactions[]>();
+  const [transactionsList, setTransactionsList] = useState<ITransaction>();
+  const [transactions, setTransactions] = useState<ITransaction[]>();
 
   function handleClick() {
     if (haveTransactions) {
@@ -40,8 +40,8 @@ export default function CategoriesTable(promps: Propms) {
   function closeToast() {
     setIsToastActive(!isToastActive);
   }
-  
-   async function recoverTransactions() {
+
+  async function recoverTransactions() {
     try {
       const data = await fetchApiTransactions();
       setTransactions(data);
@@ -55,10 +55,9 @@ export default function CategoriesTable(promps: Propms) {
 
   useEffect(() => {
     recoverTransactions();
-    checkingForTransactions()
+    checkingForTransactions();
   }, []);
 
-  
   function checkingForTransactions() {
     const response = category?.transactions.map((transactionId) => {
       if (transactionId !== "" || undefined) {
@@ -70,12 +69,14 @@ export default function CategoriesTable(promps: Propms) {
     if (response[0] !== "") {
       setHaveTransactions(response.length > 0 && true);
     }
-    return ''
+    return "";
   }
 
-  function getTransaction(id: string){
-    const transaction = transactions?.find((transaction)=>transaction.id === id)
-    return transaction
+  function getTransaction(id: string) {
+    const transaction = transactions?.find(
+      (transaction) => transaction.id === id
+    );
+    return transaction;
   }
 
   return (
@@ -123,7 +124,8 @@ export default function CategoriesTable(promps: Propms) {
             hidden ? "hidden" : ""
           }`}
         >
-          {category.transactions && transactions &&
+          {category.transactions &&
+            transactions &&
             category.transactions.map((transaction) => (
               <TransactionsOnCategoryTable
                 key={transaction}

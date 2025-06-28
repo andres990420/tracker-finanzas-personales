@@ -3,10 +3,11 @@ import TooltipButton from "../../UI/TooltipButton";
 
 interface Promps {
   setDescription: (value: string) => void;
+  transactionToEditInfo?: string
 }
 
 export default function TForm_description(promps: Promps) {
-  const { setDescription } = promps;
+  const { setDescription, transactionToEditInfo } = promps;
   return (
     <>
       <label className="font-bold text-xl  flex justify-between">
@@ -23,6 +24,7 @@ export default function TForm_description(promps: Promps) {
         name="description"
         className="border border-gray-800 rounded-xl p-2 h-25"
         maxLength={150}
+        value={transactionToEditInfo}
         onChange={(e) => setDescription(e.target.value)}
       ></textarea>
     </>

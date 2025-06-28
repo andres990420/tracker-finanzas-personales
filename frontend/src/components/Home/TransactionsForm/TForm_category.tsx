@@ -8,10 +8,11 @@ import TooltipButton from "../../UI/TooltipButton";
 interface Promps {
   setCategory: (value: string) => void;
   transactionType: string;
+  transactionToEditInfo?: string
 }
 
 export default function TForm_Category(promps: Promps) {
-  const { setCategory, transactionType } = promps;
+  const { setCategory, transactionType, transactionToEditInfo } = promps;
   const incomesCategories = transactionsIncomesCategories;
   const expensivesCategories = transactionsExpensivesCategories;
   return (
@@ -31,6 +32,7 @@ export default function TForm_Category(promps: Promps) {
         className={`border border-gray-800 rounded-2xl p-1 text-center font-bold `}
         name="category"
         onChange={(e) => setCategory(e.target.value)}
+        value={transactionToEditInfo}
       >
         {transactionType === "Income" ? (
           <>
