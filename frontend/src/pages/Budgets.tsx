@@ -6,9 +6,8 @@ import { FaPlusCircle } from "react-icons/fa";
 import Modal from "../components/Modal/Modal";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router";
-import { CalculateProgress } from "../utils/utils";
-import type { IBudgets } from "../types/models";
-import { deleteBudget, fetchApiBudgets, sendBudgetForm } from "../Service/api";
+import { type ITransactions, type IBudgets } from "../types/models";
+import { deleteBudget, fetchApiBudgets, fetchApiTransactions, sendBudgetForm } from "../Service/api";
 import Loader from "../components/UI/Loader";
 import { Tooltip } from "react-tooltip";
 import Toast from "../components/UI/Toast";
@@ -23,6 +22,7 @@ export default function Budgets() {
   const [error, setError] = useState<boolean>(false);
   const [activesBudgets, setActivesBudgets] = useState<boolean>(true);
   const [budgetToEdit, setBudgetToEdit] = useState<IBudgets>();
+
   const { isAuthenticated } = useAuth();
   const goTo = useNavigate();
 
@@ -126,6 +126,8 @@ export default function Budgets() {
     }
   }
 
+  
+
   useEffect(() => {
     recoverBudgets();
   }, [refresPage]);
@@ -170,6 +172,7 @@ export default function Budgets() {
                 budget={budget}
                 handleDelete={handleDeleteBudget}
                 handleEdit={handleEditBudget}
+
               />
             ))}
           </div>

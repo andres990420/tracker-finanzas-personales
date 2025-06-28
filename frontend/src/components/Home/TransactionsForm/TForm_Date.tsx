@@ -32,6 +32,7 @@ export default function TForm_Date(promps: Promps) {
         name="date"
         className="border border-gray-800 rounded-2xl p-1 justify-items-center font-bold"
         required
+        defaultValue={todayDate()}
         max={todayDate()}
         onChange={(e) => setDate(e.target.value)}
       ></input>

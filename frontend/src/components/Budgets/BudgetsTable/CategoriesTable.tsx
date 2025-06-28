@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import type { ICategory } from "../../../types/models";
+import { type ICategory, type ITransactions } from "../../../types/models";
 import { ColorSelector } from "../../../utils/utils";
 import Button from "../../UI/Button";
 import ProgressBar from "./ProgressBar";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import TooltipButton from "../../UI/TooltipButton";
 import TransactionsOnCategoryTable from "./TransactionsOnCategoryTable";
+import { fetchApiTransactions } from "../../../Service/api";
+import Toast from "../../UI/Toast";
 
 interface Propms {
   category: ICategory;
@@ -21,6 +23,11 @@ export default function CategoriesTable(promps: Propms) {
   const currentProgress = (category.currentAmount * 100) / category.maxAmount;
   const colors = ColorSelector(category.color);
   const [haveTransactions, setHaveTransactions] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string>();
+  const [isToastActive, setIsToastActive] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [transactionsList, setTransactionsList] = useState<ITransactions>();
+  const [transactions, setTransactions] = useState<ITransactions[]>();
 
   function handleClick() {
     if (haveTransactions) {
@@ -30,23 +37,46 @@ export default function CategoriesTable(promps: Propms) {
       setHidden(!hidden);
     }
   }
-
-  function checkingForTransactions() {
-    const response = category?.transactions.map((e) => {
-      if (e !== "" || undefined) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    if (response) {
-      setHaveTransactions(response.length > 0 && true);
+  function closeToast() {
+    setIsToastActive(!isToastActive);
+  }
+  
+   async function recoverTransactions() {
+    try {
+      const data = await fetchApiTransactions();
+      setTransactions(data);
+    } catch (error) {
+      setError(true);
+      setToastMessage("Error al recuperar las transacciones");
+      setIsToastActive(true);
+      throw console.error(error);
     }
   }
 
   useEffect(() => {
-    checkingForTransactions();
+    recoverTransactions();
+    checkingForTransactions()
   }, []);
+
+  
+  function checkingForTransactions() {
+    const response = category?.transactions.map((transactionId) => {
+      if (transactionId !== "" || undefined) {
+        return transactionId;
+      } else {
+        return "";
+      }
+    });
+    if (response[0] !== "") {
+      setHaveTransactions(response.length > 0 && true);
+    }
+    return ''
+  }
+
+  function getTransaction(id: string){
+    const transaction = transactions?.find((transaction)=>transaction.id === id)
+    return transaction
+  }
 
   return (
     <div
@@ -93,27 +123,22 @@ export default function CategoriesTable(promps: Propms) {
             hidden ? "hidden" : ""
           }`}
         >
-          {category.transactions &&
-            category.transactions.map((transactions) => (
+          {category.transactions && transactions &&
+            category.transactions.map((transaction) => (
               <TransactionsOnCategoryTable
-                key={transactions}
-                transaction={{
-                  amount: "1000",
-                  type: "Expensive",
-                  category: "Sueldo y Salario",
-                  description:
-                    // "holaaa",
-                    // "holaaaaaa!",
-                    // "hollladddddddddddddddddddddddddddddddddd",
-                    // "hollladdddddddddddddddddddddddddddddddddd",
-                    "asda sadas asdada dad dasdsaa dasdad adadadsadada dasdadadasdsadsa adsadsadasda adadsdassdadas adadasda dasdadad dasdadadad dasda adadsad dadasdasdada",
-                  date: "6/12/2025",
-                  id: "6921331",
-                }}
+                key={transaction}
+                transaction={getTransaction(transaction)}
               />
             ))}
         </div>
       </div>
+      <Toast
+        error={error}
+        isActive={isToastActive}
+        message={toastMessage}
+        timeUp={5000}
+        closeToast={closeToast}
+      />
     </div>
   );
 }
