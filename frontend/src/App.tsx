@@ -10,10 +10,10 @@ function App() {
   return (
     <>
       <div className="h-screen">
-        <div className="h-[10%]">
+        <div className="h-[75px]">
           <SideMenu />
         </div>
-        <div className="h-[90%]">
+        <div className="h-full">
           <RouterProvider router={router} />
         </div>
       </div>
