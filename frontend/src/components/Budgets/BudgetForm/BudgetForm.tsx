@@ -5,6 +5,7 @@ import { useState } from "react";
 import CategorySelector from "./CategorySelector";
 import TooltipButton from "../../UI/TooltipButton";
 import { tooltipsInfoBudgetForm } from "../../../utils/tooltipsInfo";
+import type { IBudgets, ICategory } from "../../../types/models";
 
 interface Promps {
   closeForm: () => void;
@@ -16,6 +17,7 @@ interface Promps {
     categoryColor: string[],
     categoryDescription: string[]
   ) => void;
+  budgetToEdit?: IBudgets;
 }
 
 interface categoriesList {
@@ -27,34 +29,47 @@ interface categoriesList {
 }
 
 export default function BudgetForm(promps: Promps) {
-  const { closeForm, handleSubmit} = promps;
-  const tooltipInfo = tooltipsInfoBudgetForm
-  const [budgetName, setBudgetName] = useState<string>("");
+  const { closeForm, handleSubmit, budgetToEdit } = promps;
+  const tooltipInfo = tooltipsInfoBudgetForm;
+  const [budgetName, setBudgetName] = useState<string>(() =>
+    budgetToEdit ? budgetToEdit.name : ""
+  );
   const [categoryType, setCategoryType] = useState<string[]>([]);
   const [categoryLimit, setCategoryLimit] = useState<string[]>([]);
   const [categoryColor, setCategoryColor] = useState<string[]>([]);
   const [categoryDescription, setcategoryDescription] = useState<string[]>([]);
-  const [categoriesList, setCategoriesList] = useState<categoriesList[]>([
-    { id: 0 },
-  ]);
+  const [categoriesList, setCategoriesList] = useState<ICategory[]>(() => {
+    return budgetToEdit
+      ? budgetToEdit.categories
+      : [
+          {
+            id: "0",
+            color: "",
+            currentAmount: 0,
+            description: "",
+            maxAmount: 0,
+            type: " ",
+            transactions: [],
+          },
+        ];
+  });
 
-  function handleCategoriesInfo(event: any, id: number) {
+  function handleCategoriesInfo(value: string, id: string, element: string) {
     const categoryToModified = categoriesList.filter(
       (category) => category.id === id
     )[0];
-
-    switch (event.target.name) {
+    switch (element) {
       case "category-type":
-        categoryToModified.categoryType = event.target.value;
+        categoryToModified.type = value;
         break;
       case "category-limit":
-        categoryToModified.categoryLimit = event.target.value;
+        categoryToModified.maxAmount = Number(value);
         break;
       case "category-color":
-        categoryToModified.categoryColor = event.target.value;
+        categoryToModified.color = value;
         break;
       case "category-description":
-        categoryToModified.categoryDescription = event.target.value;
+        categoryToModified.description = value;
         break;
     }
 
@@ -62,26 +77,20 @@ export default function BudgetForm(promps: Promps) {
 
     newList.find((category) => {
       if (category.id === categoryToModified.id) {
-        category.categoryColor = categoryToModified.categoryColor;
-        category.categoryDescription = categoryToModified.categoryDescription;
-        category.categoryLimit = categoryToModified.categoryLimit;
-        category.categoryType = categoryToModified.categoryType;
+        category.color = categoryToModified.color;
+        category.description = categoryToModified.description;
+        category.maxAmount = categoryToModified.maxAmount;
+        category.type = categoryToModified.type;
       }
     });
     setCategoriesList(newList);
-    setCategoryLimit(
-      newList.map((category) => category.categoryLimit as string)
-    );
-    setCategoryType(newList.map((category) => category.categoryType as string));
-    setCategoryColor(
-      newList.map((category) => category.categoryColor as string)
-    );
-    setcategoryDescription(
-      newList.map((category) => category.categoryDescription as string)
-    );
+    setCategoryLimit(newList.map((category) => String(category.maxAmount)));
+    setCategoryType(newList.map((category) => category.type));
+    setCategoryColor(newList.map((category) => category.color));
+    setcategoryDescription(newList.map((category) => category.description));
   }
 
-  function handleDeleteCategorie(id: number) {
+  function handleDeleteCategorie(id: string) {
     const categoryDeleted = categoriesList.filter(
       (category) => category.id === id
     )[0];
@@ -91,35 +100,37 @@ export default function BudgetForm(promps: Promps) {
     setCategoriesList(newList);
     setcategoryDescription(
       categoryDescription.filter(
-        (category) => category !== categoryDeleted.categoryDescription
+        (category) => category !== categoryDeleted.description
       )
     );
     setCategoryColor(
-      categoryColor.filter(
-        (category) => category !== categoryDeleted.categoryColor
-      )
+      categoryColor.filter((category) => category !== categoryDeleted.color)
     );
     setCategoryLimit(
       categoryLimit.filter(
-        (category) => category !== categoryDeleted.categoryLimit
+        (category) => category !== String(categoryDeleted.maxAmount)
       )
     );
     setCategoryType(
-      categoryType.filter(
-        (category) => category !== categoryDeleted.categoryType
-      )
+      categoryType.filter((category) => category !== categoryDeleted.type)
     );
   }
 
   function handleNewCategorie() {
-    const newId =
-      categoriesList.length > 0
-        ? categoriesList[categoriesList.length - 1].id + 1
-        : 0;
-    setCategoriesList([...categoriesList, { id: newId }]);
+    const newId = Math.random() * 1000
+    setCategoriesList([
+      ...categoriesList,
+      {
+        id: String(newId),
+        color: "",
+        currentAmount: 0,
+        description: "",
+        maxAmount: 0,
+        type: " ",
+        transactions: [],
+      },
+    ]);
   }
-
-  
 
   return (
     <form
@@ -150,6 +161,7 @@ export default function BudgetForm(promps: Promps) {
           name="budget-name"
           className="bg-gray-400/20 rounded-md p-2 h-6 text-center w-[100%] font-semibold"
           maxLength={40}
+          value={budgetToEdit?.name}
           onChange={(e) => setBudgetName(e.target.value)}
         ></input>
       </div>
@@ -160,14 +172,11 @@ export default function BudgetForm(promps: Promps) {
               id={category.id}
               key={category.id}
               onClick={() => handleDeleteCategorie(category.id)}
+              category={category}
               setCategoryDescription={handleCategoriesInfo}
               setCategoryLimit={handleCategoriesInfo}
               setCategoryColor={handleCategoriesInfo}
-              categorySelector={
-                <CategorySelector
-                  onChangeHandle={(e) => handleCategoriesInfo(e, category.id)}
-                />
-              }
+              setCategoryType={handleCategoriesInfo}
             />
           ))}
         </div>

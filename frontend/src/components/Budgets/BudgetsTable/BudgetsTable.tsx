@@ -9,19 +9,17 @@ import Button from "../../UI/Button";
 import CategoriesTable from "./CategoriesTable";
 import { useEffect, useState } from "react";
 import ProgressBar from "./ProgressBar";
-import type { ICategory } from "../../../types/models";
+import type { IBudgets} from "../../../types/models";
+import { CalculateProgress } from "../../../utils/utils";
 
 interface Promps {
-  limitValue: number;
-  currentValue: number;
-  percentage: number;
-  budgetName: string;
-  childrensTables?: ICategory[];
+  budget: IBudgets;
+  handleDelete: (budgetId: string)=>void
+  handleEdit: (budgetId: string)=>void
 }
 
 export default function BudgetsTable(promps: Promps) {
-  const { limitValue, currentValue, percentage, budgetName, childrensTables } =
-    promps;
+  const { budget, handleDelete, handleEdit } = promps;
   const [hidden, setHidden] = useState(true);
   const [buttonIcon, setButtonIcon] = useState(
     <FaChevronDown className="h-4 w-4" />
@@ -29,6 +27,7 @@ export default function BudgetsTable(promps: Promps) {
 
   const [haveCategories, setHaveCategories] = useState<boolean>(false);
 
+  const percentage = CalculateProgress(budget.currentAmount, budget.maxAmount);
   function handleClick() {
     if (haveCategories) {
       hidden
@@ -39,7 +38,7 @@ export default function BudgetsTable(promps: Promps) {
   }
 
   function checkingForCategories() {
-    const response = childrensTables?.map((e) => {
+    const response = budget.categories?.map((e) => {
       if (e.id !== "" || undefined) {
         return true;
       } else {
@@ -60,19 +59,16 @@ export default function BudgetsTable(promps: Promps) {
       <div
         className={`flex justify-between ${
           hidden ? "rounded-xl" : "rounded-t-xl"
-        } bg-gray-800 border-gray-700/40 borde transition-all duration-300 ${
-          haveCategories && "hover:cursor-pointer"
-        }`}
-        onClick={handleClick}
+        } bg-gray-800 border-gray-700/40 borde transition-all duration-300 `}
       >
         <div className="text-center place-content-center text-white w-1/4 p-1">
-          <h2 className="text-lg">{budgetName}</h2>
+          <h2 className="text-lg">{budget.name}</h2>
         </div>
         <div className="w-3/4 p-1 flex items-center justify-center">
           <ProgressBar
             percentage={percentage}
-            limitValue={limitValue}
-            currentValue={currentValue}
+            limitValue={budget.maxAmount}
+            currentValue={budget.currentAmount}
           />
           <p className="text-lg  text-white">{percentage}%</p>
         </div>
@@ -85,22 +81,24 @@ export default function BudgetsTable(promps: Promps) {
           />
           <Button
             color="blue"
-            onClick={() => console.log("Edit budget")}
+            onClick={() => handleEdit(budget.id)}
             icon={<FaEdit />}
             transparent={true}
           />
           <Button
             color="blue"
-            onClick={() => console.log("Delete budget")}
+            onClick={() => handleDelete(budget.id)}
             icon={<FaTrash />}
             transparent={true}
           />
-          {haveCategories &&<Button
-            color="blue"
-            icon={buttonIcon}
-            transparent={true}
-            onClick={handleClick}
-          />}
+          {haveCategories && (
+            <Button
+              color="blue"
+              icon={buttonIcon}
+              transparent={true}
+              onClick={handleClick}
+            />
+          )}
         </div>
       </div>
       <div
@@ -108,7 +106,7 @@ export default function BudgetsTable(promps: Promps) {
           hidden ? "max-h-0 opacity-0" : "max-h-50 opacity-100"
         } transition-all duration-500 ease-in-out overflow-y-auto`}
       >
-        {childrensTables?.map((category) => (
+        {budget.categories?.map((category) => (
           <CategoriesTable
             isHidden={hidden}
             key={category.id}

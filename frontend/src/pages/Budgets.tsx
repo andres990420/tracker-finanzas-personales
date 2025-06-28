@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import BudgetForm from "../components/Budgets/BudgetForm/BudgetForm";
 import BudgetsTable from "../components/Budgets/BudgetsTable/BudgetsTable";
 import Button from "../components/UI/Button";
@@ -8,7 +8,7 @@ import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router";
 import { CalculateProgress } from "../utils/utils";
 import type { IBudgets } from "../types/models";
-import { fetchApiBudgets, sendBudgetForm } from "../Service/api";
+import { deleteBudget, fetchApiBudgets, sendBudgetForm } from "../Service/api";
 import Loader from "../components/UI/Loader";
 import { Tooltip } from "react-tooltip";
 import Toast from "../components/UI/Toast";
@@ -22,6 +22,7 @@ export default function Budgets() {
   const [isToastActive, setIsToastActive] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [activesBudgets, setActivesBudgets] = useState<boolean>(true)
+  const [budgetToEdit, setBudgetToEdit] = useState<IBudgets>()
   const { isAuthenticated } = useAuth();
   const goTo = useNavigate();
 
@@ -38,7 +39,33 @@ export default function Budgets() {
   }
 
   function newBudget() {
+    setBudgetToEdit(undefined)
     setIsModalActive(true);
+  }
+
+  function handleEditBudget(id: string){
+    const budget = budgets.find(budget => budget.id === id)
+    setBudgetToEdit(budget)
+    setIsModalActive(true)
+  }
+
+  async function handleDeleteBudget(budgetId: string){
+    try{
+      const response = await deleteBudget(budgetId)
+      if(response.ok){
+        setError(false)
+        setToastMessage('Presupuesto eliminado con exito')
+        setIsToastActive(true)
+      }  else {
+        setError(true);
+        setToastMessage("Ha ocurrido un error al eliminar el Presupuesto");
+        setIsToastActive(true);
+      }
+    } catch (error){
+      throw console.error(error)
+    } finally{
+      setRefreshPage(!refresPage)
+    }
   }
 
   async function handleFormSubmit(
@@ -59,29 +86,29 @@ export default function Budgets() {
         "category-description": categoryDescription,
       })
     );
-    try {
-      const response = await sendBudgetForm(
-        budgetName,
-        categoryType,
-        categoryLimit,
-        categoryColor,
-        categoryDescription
-      );
-      if (response.ok) {
-        setError(false);
-        setToastMessage("Presupuesto guardado con exito");
-        setIsToastActive(true);
-      } else {
-        setError(true);
-        setToastMessage("Error al guardar el presupuesto");
-        setIsToastActive(true);
-      }
-    } catch (error) {
-      throw console.error(error);
-    } finally {
-      closeForm();
-      setRefreshPage(!refresPage);
-    }
+    // try {
+    //   const response = await sendBudgetForm(
+    //     budgetName,
+    //     categoryType,
+    //     categoryLimit,
+    //     categoryColor,
+    //     categoryDescription
+    //   );
+    //   if (response.ok) {
+    //     setError(false);
+    //     setToastMessage("Presupuesto guardado con exito");
+    //     setIsToastActive(true);
+    //   } else {
+    //     setError(true);
+    //     setToastMessage("Error al guardar el presupuesto");
+    //     setIsToastActive(true);
+    //   }
+    // } catch (error) {
+    //   throw console.error(error);
+    // } finally {
+    //   closeForm();
+    //   setRefreshPage(!refresPage);
+    // }
   }
 
   async function recoverBudgets() {
@@ -101,6 +128,7 @@ export default function Budgets() {
 
   useEffect(() => {
     recoverBudgets();
+    
   }, [refresPage]);
 
   return (
@@ -124,25 +152,16 @@ export default function Budgets() {
             {budgets.map((budget) => (
               <BudgetsTable
                 key={budget.id}
-                budgetName={budget.name}
-                limitValue={budget.maxAmount}
-                currentValue={budget.currentAmount}
-                percentage={CalculateProgress(
-                  budget.currentAmount,
-                  budget.maxAmount
-                )}
-                childrensTables={budget.categories}
+                budget={budget}
+                handleDelete={handleDeleteBudget}
+                handleEdit={handleEditBudget}
               />
             ))}
           </div>
         )}
         {budgets && !activesBudgets &&(
           <div className="items-start grid grid-cols-2">
-            <BudgetsTable budgetName="Presupuesto de prueba" currentValue={4000} limitValue={5000} percentage={90}/>
-            <BudgetsTable budgetName="Presupuesto de prueba" currentValue={4000} limitValue={5000} percentage={90}/>
-            <BudgetsTable budgetName="Presupuesto de prueba" currentValue={4000} limitValue={5000} percentage={90}/>
-            <BudgetsTable budgetName="Presupuesto de prueba" currentValue={4000} limitValue={5000} percentage={90}/>
-            <BudgetsTable budgetName="Presupuesto de prueba" currentValue={4000} limitValue={5000} percentage={90}/>
+            {/* Budgets archivados */}
           </div>
         )}
       </section>
@@ -151,7 +170,7 @@ export default function Budgets() {
         setIsActive={setIsModalActive}
         title="Nuevo Presupuesto"
       >
-        <BudgetForm closeForm={closeForm} handleSubmit={handleFormSubmit} />
+        <BudgetForm closeForm={closeForm} handleSubmit={handleFormSubmit} budgetToEdit={budgetToEdit}/>
       </Modal>
       <Tooltip id="budgetForm" style={{ maxWidth: 270 }} />
       <Tooltip id="budgetPage" style={{ maxWidth: 270 }} />

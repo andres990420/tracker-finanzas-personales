@@ -26,7 +26,7 @@ export default function ColorPicker(promps: Promps) {
         <select
           required
           value={colorSelected}
-          onChange={onChange}
+          onChange={(e)=>onChange(e.target.value)}
           name={"category-color"}
           className={"text-center rounded-2xl border z-10 border-black font-semibold"}
         >

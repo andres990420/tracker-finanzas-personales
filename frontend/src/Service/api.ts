@@ -1,3 +1,19 @@
+// Budgets
+
+export async function fetchApiBudgets() {
+  try {
+    const response = await fetch("http://localhost:4000/budgets", {
+      method: "GET",
+      credentials: "include",
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw console.error(error);
+  }
+}
+
+
 export async function sendBudgetForm(
   budgetName: string,
   categoryType: string[],
@@ -23,6 +39,22 @@ export async function sendBudgetForm(
     throw console.error(error);
   }
 }
+
+export async function deleteBudget(budgetId: string){
+  try{
+    const response = await fetch(`http://localhost:4000/budgets/${budgetId}/delete`, {
+      method:"POST",
+      credentials: "include",
+      headers: { "Content-type": "application/json" },
+      // body:
+    })
+    return response
+  } catch (error){
+    throw console.error(error)
+  }
+}
+
+// Transactions
 
 export async function sendTransactionsForm(
   transactionType: string | undefined,
@@ -65,18 +97,6 @@ export async function sendTransactionsForm(
   }
 }
 
-export async function fetchApiBudgets() {
-  try {
-    const response = await fetch("http://localhost:4000/budgets", {
-      method: "GET",
-      credentials: "include",
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    throw console.error(error);
-  }
-}
 
 export async function fetchApiTransactions() {
   try {
