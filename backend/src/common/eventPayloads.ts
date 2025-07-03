@@ -25,7 +25,7 @@ export interface CreateCategoryPayloads {
 
 export interface UpdateCategoryPayloads {
   transactionAmount: number;
-  transactionId: ObjectId | undefined;
+  transactionId: ObjectId;
   userId: ObjectId;
   categoryId?: ObjectId | undefined
 }

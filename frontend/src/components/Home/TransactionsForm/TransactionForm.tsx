@@ -46,6 +46,10 @@ export default function TransactionForm(promps: Promps) {
 
   function activeBudget() {
     setHaveBudget(!haveBudget);
+    if(haveBudget){
+      setCategoryId('')
+      console.log(categoryId)
+    }
   }
 
   async function recoverBudgets() {
