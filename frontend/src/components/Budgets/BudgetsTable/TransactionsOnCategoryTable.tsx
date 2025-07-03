@@ -22,7 +22,7 @@ export default function TransactionsOnCategoryTable(promps: Promps) {
         </p>
       </div>
       <div className="p-1 w-1/6 font-medium flex justify-center items-center">
-        <p className="p-1">{transaction?.date}6/28/2025</p>
+        <p className="p-1">{transaction?.date}</p>
       </div>
       <div className="p-1 w-1/6 font-medium flex  justify-center items-center">
         <p

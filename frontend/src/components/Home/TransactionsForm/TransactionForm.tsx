@@ -42,7 +42,7 @@ export default function TransactionForm(promps: Promps) {
   const [category, setCategory] = useState<string>(transactionToEdit ? transactionToEdit.category : '');
   const [description, setDescription] = useState<string>(transactionToEdit ? transactionToEdit.description : '');
   const [categoryId, setCategoryId] = useState<string>(transactionToEditCategoryId ? transactionToEditCategoryId : '');
-  const [date, setDate] = useState<string>(" ");
+  const [date, setDate] = useState<string>(transactionToEdit ? transactionToEdit.date : '');
 
   function activeBudget() {
     setHaveBudget(!haveBudget);
