@@ -6,7 +6,7 @@ export interface dataFormTransaction {
   type: string;
   category: string;
   amount: number;
-  description: string;
+  description?: string;
   date: string;
 }
 

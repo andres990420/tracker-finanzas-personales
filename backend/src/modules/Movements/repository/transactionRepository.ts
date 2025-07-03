@@ -65,7 +65,7 @@ export default class TransactionRepository {
         type: transaction.type,
         category: transaction.category,
         amount: transaction.amount,
-        description: transaction.category,
+        description: transaction.description,
         date: transaction.date
       });
       return transaction;
