@@ -64,7 +64,7 @@ export default class TransactionService {
     }
   }
 
-  public async updateTransaction(transaction: Transaction) {
+  public async updateTransaction(transaction: Transaction, categoryId?: ObjectId) {
     try {
       const updatedTransaction =
         await this.transactionRepository.updateTransaction(transaction);
@@ -72,6 +72,7 @@ export default class TransactionService {
         transactionAmount: updatedTransaction.amount,
         transactionId: updatedTransaction.id,
         userId: transaction.user,
+        categoryId : categoryId
       };
 
       EventBus.emit(EventTypes.UPDATE_CATEGORY, data);

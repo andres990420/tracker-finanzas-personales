@@ -32,16 +32,17 @@ export default class CategoryRepository {
       const category = await this.CategoryModel.findOne({
         transactions: transactionId,
       })
-        .populate("Transaction")
+        .populate({path:"transactions", strictPopulate: false})
         .exec();
 
       if (!category) {
-        throw new Error(
+        new Error(
           `No se ha encontrado la categoria con transaccion de id: ${transactionId}`
         );
+        return null;
+      } else {
+        return modelToEntityCategoryPopulated(category as ICategoryPopulated);
       }
-
-      return modelToEntityCategoryPopulated(category as ICategoryPopulated);
     } catch (error) {
       console.error("Error en getbyTransactionIdPopulated:", error);
       throw new Error("Error al buscar la categoria en la base de datos");
@@ -124,7 +125,7 @@ export default class CategoryRepository {
     try {
       await this.CategoryModel.findByIdAndUpdate(category.id, category);
     } catch (error) {
-      console.error('Error en updateCategory:',error);
+      console.error("Error en updateCategory:", error);
       throw new Error(
         "Ha ocurrido un error al intentar actualizar la categoria"
       );

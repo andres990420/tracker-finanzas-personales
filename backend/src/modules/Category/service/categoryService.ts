@@ -64,21 +64,35 @@ export default class CategoryService {
 
       let udpatedAmount: number = 0;
 
-      category.transactions?.map((transaction) => {
-        if (typeof transaction === "object" && "amount" in transaction) {
-          udpatedAmount += (transaction as ITransaccionModel).amount as number;
+      if (category) {
+        category.transactions?.map((transaction) => {
+          if (typeof transaction === "object" && "amount" in transaction) {
+            udpatedAmount += (transaction as ITransaccionModel)
+              .amount as number;
+          }
+        });
+        try {
+          if (category.id) {
+            await this.categoryRepository.updatedCategoryTransaction(
+              category.id,
+              udpatedAmount
+            );
+          }
+        } catch (error) {
+          console.error("Error en EventBus UPDATE_CATEGORY listener:", error);
+          throw new Error("Ha ocurrido un error al actualizar la transaccion");
         }
-      });
-      try {
-        if (category.id) {
-          await this.categoryRepository.updatedCategoryTransaction(
-            category.id,
-            udpatedAmount
-          );
-        }
-      } catch (error) {
-        console.error("Error en EventBus UPDATE_CATEGORY listener:", error);
-        throw new Error("Ha ocurrido un error al actualizar la transaccion");
+      } else {
+        const dataToAddTransaction = {
+          transactionId: data.transactionId,
+          userId: data.userId,
+          amount: data.transactionAmount,
+          categoryId: data.categoryId,
+        };
+        EventBus.emit(
+          EventTypes.ADD_TRANSACTION_INTO_CATEGORY,
+          dataToAddTransaction
+        );
       }
     });
 

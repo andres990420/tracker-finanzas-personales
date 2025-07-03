@@ -5,11 +5,11 @@ export interface AddMovementIntoCategoryPayloads {
   transactionId: ObjectId | undefined;
   userId: ObjectId;
   amount: number;
-  categoryId: ObjectId;
+  categoryId: ObjectId | undefined; 
 }
 
 export interface UpdatedBusgetPayloads {
-  categoryId: ObjectId;
+  categoryId: ObjectId | undefined;
 }
 
 export interface CreateCategoryPayloads {
@@ -27,6 +27,7 @@ export interface UpdateCategoryPayloads {
   transactionAmount: number;
   transactionId: ObjectId | undefined;
   userId: ObjectId;
+  categoryId?: ObjectId | undefined
 }
 
 export interface UpdatedAfterCreateBudgetPayloads {

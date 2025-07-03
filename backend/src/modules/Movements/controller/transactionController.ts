@@ -110,7 +110,7 @@ export default class TransactionController {
         res.status(404).json({ error: "Transaccion no encontrada" });
       }
 
-      await this.transactionService.updateTransaction(transactionToEdit);
+      await this.transactionService.updateTransaction(transactionToEdit, req.body.categoryId);
       res
         .status(200)
         .json({ message: "Transaccion actualizada correctamente" });
