@@ -7,6 +7,7 @@ export interface dataFormTransaction {
   category: string;
   amount: number;
   description: string;
+  date: string;
 }
 
 export function formToEntityTransaction(
@@ -18,7 +19,9 @@ export function formToEntityTransaction(
     data.amount,
     data.category,
     userId,
+    data.date,
     data.description,
+    
   );
   return newTransaction;
 }
@@ -29,6 +32,7 @@ export function modelToEntity(data: ITransaccionModel) {
     data.amount,
     data.category,
     data.user,
+    data.date,
     data.description,
     data.id,
     

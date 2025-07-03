@@ -10,6 +10,7 @@ export default class CategoryService {
   constructor(categoryRepository: CategoryRepository) {
     this.categoryRepository = categoryRepository;
 
+    // AGREGAR TRANSACCION A UNA CATEGORIA
     EventBus.on(EventTypes.ADD_TRANSACTION_INTO_CATEGORY, async (data) => {
       let dataToBudget;
       try {
@@ -27,6 +28,7 @@ export default class CategoryService {
       EventBus.emit(EventTypes.UPDATED_BUDGET, dataToBudget);
     });
 
+    // CREAR UNA NUEVA CATEGORIA
     EventBus.on(EventTypes.CREATE_CATEGORY, async (data) => {
       const categoriesData = data.categoriesData;
       const categoryForm = {
@@ -51,6 +53,7 @@ export default class CategoryService {
       EventBus.emit(EventTypes.UPDATE_AFTER_CREATE_BUDGET, budgetsData);
     });
 
+    // ACTUALIZAR CATEGORIA
     EventBus.on(EventTypes.UPDATE_CATEGORY, async (data) => {
       let category;
       try {
@@ -82,7 +85,7 @@ export default class CategoryService {
           console.error("Error en EventBus UPDATE_CATEGORY listener:", error);
           throw new Error("Ha ocurrido un error al actualizar la transaccion");
         }
-      } else {
+      } else if (data.categoryId) {
         const dataToAddTransaction = {
           transactionId: data.transactionId,
           userId: data.userId,
@@ -96,6 +99,7 @@ export default class CategoryService {
       }
     });
 
+    // ELIMINAR TRANSACCION DE CATEGORIA
     EventBus.on(EventTypes.DELETE_TRANSACTION_FROM_CATEGORY, async (data) => {
       let category;
       try {

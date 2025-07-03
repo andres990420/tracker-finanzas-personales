@@ -109,8 +109,8 @@ export default function MovementsTable(promps: Promps) {
                     </p>
                   </TableData>
                   <TableData id={transaction.id}>
-                    {/* <p>{transaction.date}</p> */}
-                    <p>12/5/2025</p>
+                    <p>{transaction.date}</p>
+                    {/* <p>12/5/2025</p> */}
                   </TableData>
                   <TableData id={transaction.id}>
                     <div className="flex justify-center">

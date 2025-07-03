@@ -7,6 +7,7 @@ export interface ITransaccionModel extends Document {
   amount: number;
   category: string;
   description: string;
+  date: string;
 }
 
 class TransaccionSchema extends Schema {
@@ -18,6 +19,7 @@ class TransaccionSchema extends Schema {
         amount: { type: Number, require: true },
         category: { type: String, require: true },
         description: { type: String, optional : true },
+        date:{type:String, require: true}
       },
       { timestamps: true }
     );

@@ -68,12 +68,24 @@ export default class TransactionService {
     try {
       const updatedTransaction =
         await this.transactionRepository.updateTransaction(transaction);
-      const data = {
+      
+      let data;
+
+      if(categoryId){
+        data = {
         transactionAmount: updatedTransaction.amount,
         transactionId: updatedTransaction.id,
         userId: transaction.user,
         categoryId : categoryId
       };
+      } else {
+        data = {
+        transactionAmount: updatedTransaction.amount,
+        transactionId: updatedTransaction.id,
+        userId: transaction.user,
+      }
+      }
+        
 
       EventBus.emit(EventTypes.UPDATE_CATEGORY, data);
     } catch (error) {

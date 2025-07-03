@@ -32,6 +32,7 @@ export default class TransactionRepository {
         amount: response?.amount,
         type: response?.type,
         category: response?.category,
+        date: response?.date
       };
       return modelToEntity(transaction as ITransaccionModel);
     } catch (error) {
@@ -47,6 +48,7 @@ export default class TransactionRepository {
         category: transaction.category,
         amount: transaction.amount,
         description: transaction.description,
+        date: transaction.date,
         user: userId,
       });
       newTransaction.save();
@@ -64,6 +66,7 @@ export default class TransactionRepository {
         category: transaction.category,
         amount: transaction.amount,
         description: transaction.category,
+        date: transaction.date
       });
       return transaction;
     } catch (error) {
