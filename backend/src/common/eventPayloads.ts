@@ -40,6 +40,10 @@ export interface DeleteTransactionFromCategory {
   amount: number
 }
 
+export interface DeleteCategories{
+  categoriesId: ObjectId[] | ObjectId
+}
+
 export interface EventPayloadMaps {
   [EventTypes.ADD_TRANSACTION_INTO_CATEGORY]: AddMovementIntoCategoryPayloads;
   [EventTypes.UPDATED_BUDGET]: UpdatedBusgetPayloads;
@@ -47,4 +51,5 @@ export interface EventPayloadMaps {
   [EventTypes.UPDATE_AFTER_CREATE_BUDGET]: UpdatedAfterCreateBudgetPayloads;
   [EventTypes.UPDATE_CATEGORY]: UpdateCategoryPayloads;
   [EventTypes.DELETE_TRANSACTION_FROM_CATEGORY]: DeleteTransactionFromCategory;
+  [EventTypes.DELETE_CATEGORIES] : DeleteCategories;
 }

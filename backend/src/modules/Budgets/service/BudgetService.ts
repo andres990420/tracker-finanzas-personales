@@ -60,4 +60,20 @@ export default class BudgetService {
     }
     EventBus.emit(EventTypes.CREATE_CATEGORY, data);
   }
+
+  public async deleteBudget(id: string) {
+    try {
+      const categoriesId = await this.budgetRepository.deleteBudget(id);
+      if (categoriesId) {
+        const data = {
+          categoriesId: categoriesId,
+        };
+        // Delete categories
+        EventBus.emit(EventTypes.DELETE_CATEGORIES, data)
+      } 
+    } catch (error) {
+      console.error("Error en delete:", error);
+      throw new Error("Ha ocurrido un error al eliminar el presupuesto");
+    }
+  }
 }

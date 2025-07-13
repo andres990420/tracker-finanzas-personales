@@ -143,5 +143,14 @@ export default class CategoryService {
         });
       }
     });
+
+    EventBus.on(EventTypes.DELETE_CATEGORIES, async(data)=>{
+      try{
+        await this.categoryRepository.deleteCategory(data.categoriesId)
+      } catch(error){
+        console.error("Error en EventBus DELETE_CATEGORY listener:", error);
+        throw new Error("Ha ocurrido un error al elimnar la transaccion");
+      }
+    })
   }
 }

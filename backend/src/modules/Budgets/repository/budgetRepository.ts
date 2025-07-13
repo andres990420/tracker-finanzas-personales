@@ -86,4 +86,22 @@ export default class BudgetRepository {
       throw new Error("Ha ocurrido un error al actualizar el presupuesto");
     }
   }
+
+  public async deleteBudget(budgetId: string) {
+    try {
+      const budget = await this.BudgetModel.findById(budgetId);
+      if (budget) {
+        await this.BudgetModel.deleteOne({_id: budget.id})
+        if (budget.categories) {
+          return budget.categories;
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    } catch (error) {
+      throw new Error("Ha oucrrido un erro al elimnar el presupueto");
+    }
+  }
 }

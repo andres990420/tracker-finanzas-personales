@@ -131,4 +131,15 @@ export default class CategoryRepository {
       );
     }
   }
+
+  public async deleteCategory(categoryId: ObjectId | ObjectId[]){
+    try{
+      await this.CategoryModel.deleteMany({_id: {$in: categoryId}})
+    } catch (error){
+      console.error("Error en deleteCategory:", error);
+      throw new Error(
+        "Ha ocurrido un error al intentar eliminar la categoria"
+      );
+    }
+  }
 }
