@@ -14,6 +14,7 @@ export interface IBudget {
   name: string;
   currentAmount: number;
   maxAmount: number;
+  isFinish: boolean;
   categories: ICategory[];
   createdAt: Date;
   updtedAt: Date;

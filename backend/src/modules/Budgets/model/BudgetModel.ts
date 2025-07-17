@@ -7,6 +7,7 @@ export interface IBudgetModel extends Document {
   name: string;
   currentAmount: number;
   maxAmount: number;
+  isFinish: boolean;
   categories: Schema.Types.ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
@@ -17,6 +18,7 @@ export interface IBudgetModelPopulated extends Document {
   name: string;
   currentAmount: Number;
   maxAmount: Number;
+  isFinish: boolean;
   categories: Category[];
   createdAt?: Date;
   updatedAt?: Date;
@@ -38,6 +40,10 @@ class BudgetSchema extends Schema<IBudgetModel> {
         maxAmount: {
           type: Number,
           required: true,
+        },
+        isFinish:{
+          type: Boolean,
+          required: true
         },
         categories: [
           {

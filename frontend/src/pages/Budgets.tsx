@@ -12,6 +12,7 @@ import {
   fetchApiBudgets,
   fetchApiTransactions,
   sendBudgetForm,
+  updateStatusBudget,
 } from "../Service/api";
 import Loader from "../components/UI/Loader";
 import { Tooltip } from "react-tooltip";
@@ -54,6 +55,25 @@ export default function Budgets() {
     setIsModalActive(true);
   }
 
+  async function handleArchiveBudget(budgetId: string, budgetStatus: boolean){
+    try{
+      const response = await updateStatusBudget(budgetId, budgetStatus)
+      if (response.ok) {
+        setError(false);
+        setToastMessage(budgetStatus === false ? "Presupuesto archivado con exito" : "Presupuesto activado con exito");
+        setIsToastActive(true);
+      } else {
+        setError(true);
+        setToastMessage("Ha ocurrido un error al archivar el Presupuesto");
+        setIsToastActive(true);
+      }
+    }catch(error){
+      throw console.error(error);
+    } finally {
+      setRefreshPage(!refresPage);
+    }
+  }
+
   async function handleDeleteBudget(budgetId: string) {
     try {
       const response = await deleteBudget(budgetId);
@@ -91,29 +111,29 @@ export default function Budgets() {
         "category-description": categoryDescription,
       })
     );
-    // try {
-    //   const response = await sendBudgetForm(
-    //     budgetName,
-    //     categoryType,
-    //     categoryLimit,
-    //     categoryColor,
-    //     categoryDescription
-    //   );
-    //   if (response.ok) {
-    //     setError(false);
-    //     setToastMessage("Presupuesto guardado con exito");
-    //     setIsToastActive(true);
-    //   } else {
-    //     setError(true);
-    //     setToastMessage("Error al guardar el presupuesto");
-    //     setIsToastActive(true);
-    //   }
-    // } catch (error) {
-    //   throw console.error(error);
-    // } finally {
-    //   closeForm();
-    //   setRefreshPage(!refresPage);
-    // }
+    try {
+      const response = await sendBudgetForm(
+        budgetName,
+        categoryType,
+        categoryLimit,
+        categoryColor,
+        categoryDescription
+      );
+      if (response.ok) {
+        setError(false);
+        setToastMessage("Presupuesto guardado con exito");
+        setIsToastActive(true);
+      } else {
+        setError(true);
+        setToastMessage("Error al guardar el presupuesto");
+        setIsToastActive(true);
+      }
+    } catch (error) {
+      throw console.error(error);
+    } finally {
+      closeForm();
+      setRefreshPage(!refresPage);
+    }
   }
 
   async function recoverBudgets() {
@@ -169,19 +189,28 @@ export default function Budgets() {
         <Loader isActive={loader} />
         {budgets && activesBudgets && (
           <div className="grid grid-cols-2 items-start">
-            {budgets.map((budget) => (
+            {budgets.map((budget) => budget.isFinish === false && (
               <BudgetsTable
                 key={budget.id}
                 budget={budget}
                 handleDelete={handleDeleteBudget}
                 handleEdit={handleEditBudget}
+                handleArchive={handleArchiveBudget}
               />
             ))}
           </div>
         )}
         {budgets && !activesBudgets && (
           <div className="items-start grid grid-cols-2">
-            {/* Budgets archivados */}
+             {budgets.map((budget) => budget.isFinish !== false && (
+              <BudgetsTable
+                key={budget.id}
+                budget={budget}
+                handleDelete={handleDeleteBudget}
+                handleEdit={handleEditBudget}
+                handleArchive={handleArchiveBudget}
+              />
+            ))}
           </div>
         )}
       </section>

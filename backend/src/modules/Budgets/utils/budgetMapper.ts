@@ -14,7 +14,6 @@ export interface IBudgetForm {
   "category-description": Array<string> | string;
 }
 
-
 export function modelToEntityBudget(data: IBudgetModelPopulated): Budget {
   let categories = data.categories.map(
     (category) =>
@@ -28,7 +27,7 @@ export function modelToEntityBudget(data: IBudgetModelPopulated): Budget {
         category.id,
         category.createdAt,
         category.updatedAt,
-        category.transactions,
+        category.transactions
       )
   );
   return new Budget(
@@ -36,11 +35,11 @@ export function modelToEntityBudget(data: IBudgetModelPopulated): Budget {
     data.currentAmount,
     data.maxAmount,
     data.user,
+    data.isFinish,
     categories,
     data.createdAt,
     data.updatedAt,
-    data.id,
-    
+    data.id
   );
 }
 
@@ -55,22 +54,27 @@ export function formToEntityBudget(
     budgetLimit += data["category-limit"];
   }
 
-  return new Budget(data["budget-name"], 0, budgetLimit, userId);
+  return new Budget(data["budget-name"], 0, budgetLimit, userId, false);
 }
 
-export function EntityBudget(
-  data: IBudgetForm,
-  categories: Array<ObjectId>,
-  userId: ObjectId
-): Budget {
-  let budgetLimit: number = 0;
-  if (typeof data["category-limit"] === "object") {
-    data["category-limit"].map((limit) => (budgetLimit += Number(limit)));
-  } else {
-    budgetLimit += data["category-limit"];
-  }
+// export function EntityBudget(
+//   data: IBudgetForm,
+//   categories: Array<ObjectId>,
+//   userId: ObjectId
+// ): Budget {
+//   let budgetLimit: number = 0;
+//   if (typeof data["category-limit"] === "object") {
+//     data["category-limit"].map((limit) => (budgetLimit += Number(limit)));
+//   } else {
+//     budgetLimit += data["category-limit"];
+//   }
 
-  return new Budget(data["budget-name"], 0, budgetLimit,userId ,categories);
-}
-
-
+//   return new Budget(
+//     data["budget-name"],
+//     0,
+//     budgetLimit,
+//     userId,
+//     false,
+//     categories
+//   );
+// }

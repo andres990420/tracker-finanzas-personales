@@ -17,10 +17,11 @@ interface Promps {
   budget: IBudget;
   handleDelete: (budgetId: string) => void;
   handleEdit: (budgetId: string) => void;
+  handleArchive: (budgetId: string, budgetStatus: boolean) => void
 }
 
 export default function BudgetsTable(promps: Promps) {
-  const { budget, handleDelete, handleEdit } = promps;
+  const { budget, handleDelete, handleEdit, handleArchive } = promps;
   const [hidden, setHidden] = useState(true);
   const [buttonIcon, setButtonIcon] = useState(
     <FaChevronDown className="h-4 w-4" />
@@ -77,7 +78,7 @@ export default function BudgetsTable(promps: Promps) {
         <div className="flex items-center justify-center">
           <Button
             color="blue"
-            onClick={() => console.log("Archive budget")}
+            onClick={() => handleArchive(budget.id, budget.isFinish)}
             icon={<FaArchive />}
             transparent={true}
           />

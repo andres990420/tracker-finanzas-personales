@@ -17,6 +17,7 @@ export default class BudgetsController {
     app.get(`${ROUTE}`, validateUser, this.index.bind(this));
     app.post(`${ROUTE}/create`, validateUser, this.saveBudget.bind(this));
     app.post(`${ROUTE}/:id/delete`, validateUser, this.deleteBudget.bind(this));
+    app.post(`${ROUTE}/:id/status`, validateUser, this.updateStatusBudget.bind(this));
   }
 
   async index(req: Request, res: Response) {
@@ -45,6 +46,16 @@ export default class BudgetsController {
       res.status(204).json("Presupuesto eliminado con exito");
     } catch (error){
       res.status(400).json({message: 'Ha ocurrido un error al eliminar el presupuesto'});
+      console.error(error)
+    }
+  }
+
+  async updateStatusBudget(req: Request, res: Response){
+    try{
+      await this.budgetService.updateStatus(req.params.id, req.body.status)
+      res.status(204).json('Actulaizacion del estado del presupuesto exitosa')
+    } catch(error){
+      res.status(400).json({message: 'Ha ocurrido un error al actualizar el status del presupuesto'});
       console.error(error)
     }
   }

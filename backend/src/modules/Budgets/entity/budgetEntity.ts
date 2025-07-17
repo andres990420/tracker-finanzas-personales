@@ -7,6 +7,7 @@ export default class Budget {
   public name: string;
   public currentAmount: Number;
   public maxAmount: Number;
+  public isFinish: boolean;
   public categories?: Array<ObjectId> | Array<Category>;
   public createdAt: Date | undefined;
   public updatedAt: Date | undefined;
@@ -16,6 +17,7 @@ export default class Budget {
     currentAmount: Number,
     maxAmount: Number,
     user: ObjectId,
+    isFinish: boolean,
     categories?: Array<ObjectId> | Array<Category>,
     createAt?: Date,
     updatedAt?: Date,
@@ -27,6 +29,7 @@ export default class Budget {
     this.name = name;
     this.currentAmount = currentAmount;
     this.maxAmount = maxAmount;
+    this.isFinish = isFinish;
     this.categories = categories;
     this.createdAt = createAt;
     this.updatedAt = updatedAt;

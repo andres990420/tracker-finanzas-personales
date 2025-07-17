@@ -6,6 +6,7 @@ import type {
 import Budget from "../entity/budgetEntity.ts";
 import { modelToEntityBudget } from "../utils/budgetMapper.ts";
 import { type UpdatedBusgetPayloads } from "../../../common/eventPayloads.ts";
+import { categoryContainer } from "../../Category/categoryModule.ts";
 
 export default class BudgetRepository {
   private BudgetModel: Model<IBudgetModel>;
@@ -35,6 +36,7 @@ export default class BudgetRepository {
       currentAmount: budget.currentAmount,
       maxAmount: budget.maxAmount,
       user: budget.user,
+      isFinish: budget.isFinish
     });
     try {
       await model.save();
@@ -101,7 +103,17 @@ export default class BudgetRepository {
         return null;
       }
     } catch (error) {
-      throw new Error("Ha oucrrido un erro al elimnar el presupueto");
+      console.error('Error en delete:', error)
+      throw new Error("Ha oucrrido un error al elimnar el presupueto");
+    }
+  }
+
+  public async updateStatus(budgetId: string, budgetStatus: boolean){
+    try{
+      await this.BudgetModel.findByIdAndUpdate(budgetId, {isFinish: budgetStatus})
+    } catch(error){
+      console.error('Error en updateStatus:', error)
+      throw new Error("Ha oucrrido un error al actualizar el estado del presupueto");
     }
   }
 }

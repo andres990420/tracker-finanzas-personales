@@ -47,7 +47,6 @@ export async function deleteBudget(budgetId: string) {
         method: "POST",
         credentials: "include",
         headers: { "Content-type": "application/json" },
-        // body:
       }
     );
     return response;
@@ -55,6 +54,22 @@ export async function deleteBudget(budgetId: string) {
     throw console.error(error);
   }
 }
+
+export async function updateStatusBudget(budgetId: string, budgetStatus: boolean){
+  try{
+    const response = await fetch(`http://localhost:4000/budgets/${budgetId}/status`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({status: !budgetStatus})
+      })
+      return response
+  }catch(error){
+    throw console.error(error)
+  }
+}
+
 
 // Transactions
 

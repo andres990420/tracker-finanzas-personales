@@ -3,6 +3,7 @@ import EventBus from "../../../common/eventBus.ts";
 import { EventTypes } from "../../../common/eventTypes.ts";
 import BudgetRepository from "../repository/budgetRepository.ts";
 import { formToEntityBudget, type IBudgetForm } from "../utils/budgetMapper.ts";
+import { categoryContainer } from "../../Category/categoryModule.ts";
 
 export default class BudgetService {
   private budgetRepository: BudgetRepository;
@@ -74,6 +75,15 @@ export default class BudgetService {
     } catch (error) {
       console.error("Error en delete:", error);
       throw new Error("Ha ocurrido un error al eliminar el presupuesto");
+    }
+  }
+
+  public async updateStatus(budgetId: string, budgetStatus: boolean){
+    try{
+      await this.budgetRepository.updateStatus(budgetId, budgetStatus)
+    } catch(error){
+      console.error("Error en updateStatus:", error);
+      throw new Error("Ha ocurrido un error al actualizar el estado del presupuesto");
     }
   }
 }
